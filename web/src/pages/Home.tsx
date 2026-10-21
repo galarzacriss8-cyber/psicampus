@@ -187,7 +187,7 @@ export function Home() {
           <Reveal delay={100}>
             <div>
               <span className="eyebrow">El programa</span>
-              <h2 className="display" style={{ fontSize: 'clamp(30px,3.6vw,44px)', marginTop: 12 }}>{c.aboutTitle}</h2>
+              <h2 className="display" style={{ fontSize: 'clamp(30px,3.6vw,44px)', marginTop: 12, color: '#171c24' }}>{c.aboutTitle}</h2>
               <p className="lead" style={{ fontSize: 15.5 }}>{c.aboutText}</p>
               <div className="point-list">
                 {c.aboutPoints.map((p: string) => (
