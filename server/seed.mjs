@@ -131,7 +131,7 @@ function addPayment({ appointment, patientId, status, daysAgo = 0 }) {
   });
 }
 
-export function seedDatabase({ force = false } = {}) {
+export function seedDatabase({ force = false, demo = false } = {}) {
   if (isSeeded() && !force) return { skipped: true };
   seedState = 20261018;
   const tables = ['applications', 'session_notes', 'audit', 'notifications', 'surveys', 'payments', 'appointments', 'expenses', 'exceptions', 'availability', 'patients', 'therapists', 'users', 'settings', 'tiers'];
@@ -180,6 +180,11 @@ export function seedDatabase({ force = false } = {}) {
     }
   }
 
+  // Datos reales base: terapeutas, disponibilidad, tarifas, configuración y admin.
+  // Los datos clínicos de demostración (pacientes, citas, pagos) solo con `demo: true`.
+  let patientRecords = [];
+  let appointmentCount = 0;
+  if (demo) {
   // Solicitudes de profesionales (para revisar en administración)
   const APPLICATIONS = [
     {
@@ -223,7 +228,6 @@ export function seedDatabase({ force = false } = {}) {
   }
 
   // Patients
-  const patientRecords = [];
   PATIENTS.forEach((p, i) => {
     const [name, gender, birthdate, university, career, semester, city] = p;
     const id = `pat_${String(i + 1).padStart(3, '0')}`;
@@ -274,7 +278,6 @@ export function seedDatabase({ force = false } = {}) {
   const dormantIds = new Set(patientRecords.filter((_, i) => i % 3 === 0).map((x) => x.id));
   const activePool = patientRecords.filter((x) => !dormantIds.has(x.id));
   const completedByPatient = {};
-  let appointmentCount = 0;
 
   for (const [i, p] of patientRecords.entries()) {
     const dormant = i % 3 === 0;
@@ -486,6 +489,7 @@ export function seedDatabase({ force = false } = {}) {
     id: uid('aud_'), user_id: 'usr_admin', user_name: 'Andrea Salgado', action: 'seed', entity: 'system',
     entity_id: null, detail: 'Carga inicial de datos de demostración', created_at: new Date().toISOString(),
   });
+  } // close if (demo)
 
   return { seeded: true, appointments: appointmentCount, patients: patientRecords.length, therapists: THERAPISTS.length };
 }
