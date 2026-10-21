@@ -6,16 +6,16 @@
   --paper: #ffffff;
   --ink: #12284a;
   --ink-soft: #3a557f;
-  --forest: #1b4d80;
-  --forest-2: #2a6ba8;
-  --forest-3: #3b82c2;
-  --moss: #7aa3c7;
-  --sage: #c2dde8;
-  --sage-soft: #e2f0fa;
+  --forest: #0e6b45;
+  --forest-2: #128a55;
+  --forest-3: #17a765;
+  --moss: #3a8c4a;
+  --sage: #86d98a;
+  --sage-soft: #d9f0d9;
   --sand: #c8d6e3;
-  --clay: #5a87ad;
-  --clay-2: #41709a;
-  --clay-soft: #dde8f0;
+  --clay: #b56a2d;
+  --clay-2: #8b5020;
+  --clay-soft: #f5e6d3;
   --gold: #c09a55;
   --muted: #6a7b8c;
   --line: rgba(20, 35, 31, 0.12);
@@ -250,7 +250,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 24px 0; }
   .panel-body { padding: 16px; }
 }
 /* Modo oscuro estético */
-body.dark-mode { --cream:#0a1120; --cream-2:#121e3a; --paper:#152238; --ink:#dde4ef; --ink-soft:#aab2c4; --forest:#2a6ba8; --forest-2:#3b82c2; --forest-3:#4b9ad1; --moss:#7aa3c7; --sage:#c2dde8; --sage-soft:#dde8f0; --sand:#8896a8; --clay:#5a87ad; --clay-2:#41709a; --clay-soft:#dde8f0; --gold:#cfa855; --muted:#8899aa; --line:rgba(210,220,235,0.10); --line-strong:rgba(210,220,235,0.18); --shadow:0 24px 48px -30px rgba(10,17,32,0.7); --shadow-lg:0 40px 80px -40px rgba(10,17,32,0.7); background:var(--cream); color:var(--ink); }
+body.dark-mode { --cream:#0a1120; --cream-2:#121e3a; --paper:#152238; --ink:#dde4ef; --ink-soft:#aab2c4; --forest:#0e6b45; --forest-2:#128a55; --forest-3:#17a765; --moss:#3a8c4a; --sage:#86d98a; --sage-soft:#d9f0d9; --sand:#8896a8; --clay:#b56a2d; --clay-2:#8b5020; --clay-soft:#f5e6d3; --gold:#cfa855; --muted:#8899aa; --line:rgba(210,220,235,0.10); --line-strong:rgba(210,220,235,0.18); --shadow:0 24px 48px -30px rgba(10,17,32,0.7); --shadow-lg:0 40px 80px -40px rgba(10,17,32,0.7); background:var(--cream); color:var(--ink); }
 body.dark-mode .btn { --btn-bg:var(--forest-2); --btn-fg:var(--cream); --btn-bd:var(--forest-2); }
 body.dark-mode .btn-ghost { --btn-bg:transparent; --btn-fg:var(--sage); --btn-bd:rgba(235,230,210,0.15); }
 body.dark-mode .btn-soft { --btn-bg:#163a5c; --btn-fg:var(--sage); --btn-bd:transparent; }

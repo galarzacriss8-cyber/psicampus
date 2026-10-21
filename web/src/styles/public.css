@@ -403,18 +403,20 @@ section.block.tight { padding: 64px 0; }
   .booking-shell { grid-template-columns: minmax(0, 1fr); }
 }
 /* Modo oscuro elegante */
-body.dark-mode .hero-float { background:rgba(235,230,210,0.06); border:1px solid rgba(235,230,210,0.10); color:#eae6df; }
-body.dark-mode .hero-float span { color:#b8b2a5; }
-body.dark-mode .hero-float .icon-chip { background:#2d4a3e; color:#c7dccf; }
-body.dark-mode .quote-card { background:#161826; border-color:#2e3542; color:#edece3; }
-body.dark-mode .quote-card p { color:#c8c4bb; }
-body.dark-mode .quote-card .who strong { color:#f0ead6; }
-body.dark-mode .quote-card .who span { color:#8a9588; }
-body.dark-mode .stats-band { border-top-color:#2e3542; border-bottom-color:#2e3542; }
-body.dark-mode .stat-item { border-right-color:#2e3542; }
-body.dark-mode .stat-item .v { color:#f0ead6; }
-body.dark-mode .stat-item .l { color:#8a9588; }
-body.dark-mode .badge { background:#2d4a3e; color:#c7dccf; border-color:#2a3e36; }
+body.dark-mode .hero-float { background:rgba(221,228,239,0.07); border:1px solid rgba(221,228,239,0.14); color:#eaf1f8; }
+body.dark-mode .hero-float span { color:#c2cddd; }
+body.dark-mode .hero-float .icon-chip { background:#0e6b45; color:#d9f0d9; }
+body.dark-mode .quote-card { background:#152238; border-color:#24344f; color:#dde4ef; }
+body.dark-mode .quote-card p { color:#c2cddd; }
+body.dark-mode .quote-card .who strong { color:#eaf1f8; }
+body.dark-mode .quote-card .who span { color:#8fa3bd; }
+body.dark-mode .stats-band { border-top-color:#24344f; border-bottom-color:#24344f; }
+body.dark-mode .stat-item { border-right-color:#24344f; }
+body.dark-mode .stat-item .v { color:#eaf1f8; }
+body.dark-mode .stat-item .l { color:#8fa3bd; }
+body.dark-mode .badge { background:#0e6b45; color:#d9f0d9; border-color:#128a55; }
+body.dark-mode .section-head h2, body.dark-mode .step h3, body.dark-mode .program-copy h2 { color:#eaf1f8; }
+body.dark-mode .step p, body.dark-mode .section-head p { color:#a9bad0; }
 
 /* Textos siempre legibles (animación de reveal no debe ocultar contenido) */
 .reveal { opacity: 1 !important; transform: none !important; }
