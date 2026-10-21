@@ -292,7 +292,7 @@ export function MonthNav({ date, onChange }: { date: Date; onChange: (d: Date) =
 export function Brand({ dark = false }: { dark?: boolean }) {
   return (
     <span className="brand" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, color: dark ? '#edece3' : 'var(--ink)' }}>
-      <img src="/img/logo-user.png" alt="Psyconova" style={{ height: 36, width: 36, borderRadius: '50%', objectFit: 'cover', boxShadow: '0 2px 6px rgba(27,77,128,0.18)' }} />
+      <img src="/img/logo-psyconova.png" alt="Psyconova" style={{ height: 36, width: 36, borderRadius: '50%', objectFit: 'cover', boxShadow: '0 2px 6px rgba(27,77,128,0.18)' }} />
       <span style={{ lineHeight: 1.15 }}>
         Psyconova
         <small style={{ display: 'block', fontSize: 11, letterSpacing: 0.08em, color: dark ? '#c2dde8' : '#3a557f' }}>BIENESTAR PSICOLÓGICO</small>
