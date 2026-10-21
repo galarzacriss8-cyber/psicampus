@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { GraduationCap, ImagePlus, Pencil, Plus, Star, Stethoscope, Users, Wallet } from 'lucide-react';
+import { GraduationCap, ImagePlus, Pencil, Plus, Star, Stethoscope, Trash2, Users, Wallet } from 'lucide-react';
 import { api, apiUpload, fileToDataUrl } from '../../lib/api';
 import { AdminPage } from '../../components/AdminLayout';
 import { Avatar, Badge, ErrorState, Field, Loader, Modal, useFetch, useToast } from '../../lib/ui';
@@ -10,6 +10,13 @@ export function AdminTherapists() {
   const { data, loading, error, reload } = useFetch<any[]>(() => api('/admin/therapists'), []);
   const [edit, setEdit] = useState<any>(null);
   const [creating, setCreating] = useState(false);
+
+  const remove = async (t: any) => {
+    if (!window.confirm(`Eliminar a ${t.name} permanentemente?`)) return;
+    await api(`/admin/therapists/${t.id}`, { method: 'DELETE' });
+    toast.success('Terapeuta eliminado');
+    reload();
+  };
 
   if (loading && !data) return <Loader />;
   if (error) return <ErrorState message={error} onRetry={reload} />;
@@ -37,7 +44,10 @@ export function AdminTherapists() {
                   <Badge tone="sage" dot={false}>{t.age} años</Badge>
                 </div>
               </div>
-              <button className="icon-btn" onClick={() => setEdit(t)}><Pencil /></button>
+              <div style={{ display: 'flex', gap: 6 }}>
+                <button className="icon-btn" onClick={() => setEdit(t)} title="Editar"><Pencil /></button>
+                <button className="icon-btn" title="Eliminar" onClick={() => remove(t)} style={{ color: '#c0392b' }}><Trash2 /></button>
+              </div>
             </div>
             <div style={{ padding: '0 16px 14px' }}>
               <div className="tiny muted" style={{ marginBottom: 8, minHeight: 32 }}>{t.university}</div>
