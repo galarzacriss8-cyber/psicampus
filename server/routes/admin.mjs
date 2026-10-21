@@ -561,11 +561,15 @@ adminRouter.put('/settings', wrap((req, res) => {
 adminRouter.put('/tiers', wrap((req, res) => {
   const list = req.body?.tiers;
   if (!Array.isArray(list)) return res.status(400).json({ error: 'Formato inválido' });
+  const minPrice = Number(settings().pricing?.min || 7);
   for (const t of list) {
     if (!t.code) continue;
     const patch = {};
     for (const f of ['name', 'price', 'min_score', 'max_score', 'color', 'description', 'active']) if (t[f] !== undefined) patch[f] = f === 'active' ? (t[f] ? 1 : 0) : t[f];
-    update('tiers', t.code, patch);
+    if (patch.price !== undefined) patch.price = Math.max(minPrice, Number(patch.price) || 0);
+    const keys = Object.keys(patch);
+    if (!keys.length) continue;
+    run(`UPDATE tiers SET ${keys.map(k => `${k} = ?`).join(', ')} WHERE code = ?`, ...keys.map(k => patch[k]), t.code);
   }
   audit(req.user, 'actualizar_tarifas', 'tiers', null, 'Escala de aportes');
   res.json({ ok: true, tiers: tiers(false) });
