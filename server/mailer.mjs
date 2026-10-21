@@ -3,19 +3,28 @@ import { settings } from './db.mjs';
 
 export function smtpConfig() {
   const smtp = settings().smtp || {};
-  const host = smtp.host || process.env.SMTP_HOST || '';
-  const user = smtp.user || process.env.SMTP_USER || '';
-  const pass = smtp.pass || process.env.SMTP_PASS || '';
-  const port = Number(smtp.port || process.env.SMTP_PORT || 465);
+  const envUser = process.env.SMTP_USER || '';
+  const envPass = process.env.SMTP_PASS || '';
+  const envFrom = process.env.SMTP_FROM || '';
+  const envHost = process.env.SMTP_HOST || '';
+  const envPort = process.env.SMTP_PORT || '';
+  const envEnabled = process.env.SMTP_ENABLED || '';
+  // Las variables de entorno tienen prioridad:它们 son la fuente de verdad en produccion
+  const host = envHost || smtp.host || '';
+  const user = envUser || smtp.user || '';
+  const pass = envPass || smtp.pass || '';
+  const port = Number(envPort || smtp.port || 465);
+  const from = envFrom || smtp.from || user;
+  const enabled = envEnabled ? envEnabled !== 'false' : (smtp.enabled !== undefined ? !!smtp.enabled : !!(host && user && pass));
   return {
     host,
     port,
     secure: smtp.secure !== undefined ? !!smtp.secure : port === 465,
     user,
     pass,
-    from: smtp.from || process.env.SMTP_FROM || user,
+    from,
     replyTo: smtp.replyTo || undefined,
-    enabled: smtp.enabled !== undefined ? !!smtp.enabled : !!(host && user && pass),
+    enabled,
   };
 }
 

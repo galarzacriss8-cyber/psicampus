@@ -102,7 +102,7 @@ export const DEFAULT_SETTINGS = {
     surveyNote: 'La encuesta toma menos de 2 minutos y no afecta tu acceso a la atención.',
   },
   smtp: {
-    enabled: false,
+    enabled: true,
     host: 'smtp.gmail.com',
     port: 465,
     secure: true,
