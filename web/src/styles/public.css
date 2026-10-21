@@ -429,3 +429,7 @@ body.dark-mode .step p, body.dark-mode .section-head p { color:#a9bad0; }
 .step p { color: var(--muted); }
 .program-copy h2 { color: var(--ink); }
 
+/* Modo oscuro: pequeños y auxiliares blancos/claros */
+body.dark-mode .badge, body.dark-mode .stepper .st, body.dark-mode .stat-item .l, body.dark-mode .quote-card .who span, body.dark-mode .therapist-body .degree, body.dark-mode .therapist-foot .meta, body.dark-mode .nav-actions a, body.dark-mode .btn-ghost, body.dark-mode .eyebrow, body.dark-mode .badge .dot, body.dark-mode .stepper .st .n { color: #dde4ef !important; }
+body.dark-mode .badge { background: #163a5c; border-color: #2a6ba8; color: #dde4ef; }
+
