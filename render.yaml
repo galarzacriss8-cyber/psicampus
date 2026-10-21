@@ -24,9 +24,9 @@ services:
       - key: SMTP_SECURE
         value: true
       - key: SMTP_USER
-        value: hola@psicampus.ec
+        value: galarzacriss8@gmail.com
       - key: SMTP_FROM
-        value: hola@psicampus.ec
+        value: galarzacriss8@gmail.com
       - key: SMTP_PASS
         sync: false
       - key: GOOGLE_CLIENT_ID
