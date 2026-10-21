@@ -146,7 +146,7 @@ export function seedDatabase({ force = false, demo = false } = {}) {
   const demoHash = hashPassword(PASSWORD);
   insert('users', {
     id: 'usr_admin', email: ADMIN_USER, password_hash: adminHash, role: 'admin',
-    name: 'Andrea Salgado', phone: '+593 99 120 4580', active: 1, created_at: new Date().toISOString(),
+    name: 'Psyconova', phone: '983465028', active: 1, created_at: new Date().toISOString(),
   });
 
   const tierList = tiers(true);
