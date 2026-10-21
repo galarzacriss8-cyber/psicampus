@@ -19,20 +19,6 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'AmieteCrisstequiero1';
 
 const THERAPISTS = [
   {
-    id: 'thr_camila', name: 'Camila Herrera', gender: 'femenino', birthdate: '1996-03-14',
-    university: 'Universidad Central del Ecuador', degree: 'Mgs. en Psicología Clínica',
-    approaches: ['Terapia cognitivo-conductual', 'Terapia de aceptación y compromiso', 'Terapia breve'],
-    description: 'Acompaño procesos de ansiedad, autoestima y transición a la vida universitaria. Mi trabajo combina herramientas cognitivo-conductuales con un espacio cálido y sin juicios, adaptado al ritmo de cada estudiante.',
-    photo: '/img/team/camila.jpg', price_base: 20, modality: 'ambas', license: 'MSP-18452', room: 'Consultorio 3 · Campus Norte', years: 7, featured: 1,
-  },
-  {
-    id: 'thr_mateo', name: 'Mateo Salazar', gender: 'masculino', birthdate: '1993-11-02',
-    university: 'Pontificia Universidad Católica del Ecuador', degree: 'Psicólogo Clínico · Mención en Terapia Humanista',
-    approaches: ['Terapia de aceptación y compromiso', 'Enfoque humanista', 'Mindfulness'],
-    description: 'Trabajo con jóvenes y adultos en duelo, relaciones, identidad y estrés académico. Mi enfoque es humanista y basado en evidencia: entender lo que sientes y construir juntos herramientas que puedas sostener en el tiempo.',
-    photo: '/img/team/mateo.jpg', price_base: 25, modality: 'ambas', license: 'MSP-20118', room: 'Consultorio 1 · Campus Norte', years: 9, featured: 1,
-  },
-  {
     id: 'thr_daniela', name: 'Daniela Paredes', gender: 'femenino', birthdate: '1990-07-21',
     university: 'Universidad de Cuenca', degree: 'Mgs. en Terapia Sistémica Familiar',
     approaches: ['Terapia sistémica', 'Terapia familiar', 'Perspectiva de género'],
