@@ -1,6 +1,7 @@
 import { DEFAULT_SETTINGS } from './defaults.mjs';
 import { all, get, run, settings, setSetting } from './db.mjs';
 import { hashPassword } from './auth.mjs';
+import { uid } from './util.mjs';
 
 /**
  * Migraciones ligeras que se aplican al arrancar.
@@ -104,18 +105,22 @@ export function applyMigrations() {
   const EMAIL_T = 'vamieicruz@gmail.com';
   const PASS_T = process.env.AMIE_LOGIN_PASSWORD || 'Amietequiero1';
   const th = get(`SELECT id FROM therapists WHERE name = 'Amie Ibujes' LIMIT 1`);
-  if (th) {
-    const u = get(`SELECT id FROM users WHERE lower(email) = lower(?)`, EMAIL_T);
-    if (!u) {
-      const uid = 'usr_amie_ibujes';
-      run(`INSERT INTO users (id, email, password_hash, role, name, active, created_at) VALUES (?, ?, ?, 'terapeuta', 'Amie Ibujes', 1, ?)`, uid, EMAIL_T, hashPassword(PASS_T), new Date().toISOString());
-      run(`UPDATE therapists SET user_id = ? WHERE id = ?`, uid, th.id);
-      changes.push('cuenta Amie Ibujes creada');
-    } else {
-      run(`UPDATE users SET password_hash = ?, role = 'terapeuta', active = 1, name = 'Amie Ibujes' WHERE id = ?`, hashPassword(PASS_T), u.id);
-      run(`UPDATE therapists SET user_id = ? WHERE id = ?`, u.id, th.id);
-      changes.push('cuenta Amie Ibujes actualizada');
-    }
+  let thId = th ? th.id : null;
+  if (!thId) {
+    thId = uid('th_');
+    run(`INSERT INTO therapists (id, name, photo, user_id, created_at) VALUES (?, 'Amie Ibujes', '', NULL, ?)`, thId, new Date().toISOString());
+    changes.push('terapeuta Amie Ibujes creada');
+  }
+  const u = get(`SELECT id FROM users WHERE lower(email) = lower(?)`, EMAIL_T);
+  if (!u) {
+    const userId = 'usr_amie_ibujes';
+    run(`INSERT INTO users (id, email, password_hash, role, name, active, created_at) VALUES (?, ?, ?, 'terapeuta', 'Amie Ibujes', 1, ?)`, userId, EMAIL_T, hashPassword(PASS_T), new Date().toISOString());
+    run(`UPDATE therapists SET user_id = ? WHERE id = ?`, userId, thId);
+    changes.push('cuenta Amie Ibujes creada');
+  } else {
+    run(`UPDATE users SET password_hash = ?, role = 'terapeuta', active = 1, name = 'Amie Ibujes' WHERE id = ?`, hashPassword(PASS_T), u.id);
+    run(`UPDATE therapists SET user_id = ? WHERE id = ?`, u.id, thId);
+    changes.push('cuenta Amie Ibujes actualizada');
   }
 
   if (changes.length) console.log('[psicampus] migraciones aplicadas:', changes.join(' | '));
