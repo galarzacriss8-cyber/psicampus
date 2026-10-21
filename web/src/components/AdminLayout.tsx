@@ -201,7 +201,7 @@ export function AdminPage({ title, subtitle, actions, children }: { title: strin
     <div className="page">
       <div className="page-head">
         <div>
-          <h1>{title}</h1>
+          <h1 style={{ color: '#171c24', letterSpacing: '-0.02em' }}>{title}</h1>
           {subtitle && <p>{subtitle}</p>}
         </div>
         {actions && <div className="page-actions">{actions}</div>}

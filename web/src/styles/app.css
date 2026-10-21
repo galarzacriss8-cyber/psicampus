@@ -1,5 +1,5 @@
 /* ============================== portal / admin app ============================= */
-.app-shell { display: grid; grid-template-columns: 258px minmax(0, 1fr); min-height: 100vh; background: #f4f1e9; }
+.app-shell { display: grid; grid-template-columns: 258px minmax(0, 1fr); min-height: 100vh; background: var(--cream); }
 
 /* --------------------------------- sidebar --------------------------------- */
 .sidebar {
