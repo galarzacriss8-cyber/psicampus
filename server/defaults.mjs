@@ -17,7 +17,7 @@ export const DEFAULT_SETTINGS = {
   content: {
     heroBadge: 'Programa de bienestar para todas las personas',
     heroTitle: 'Tu mente también',
-    heroHighlight: 'va a la universidad',
+    heroHighlight: 'merece cuidado',
     heroSubtitle: 'Acompañamiento psicológico para personas de todas las edades y profesiones. Terapia ética, humana y con una tarifa que se adapta a tu realidad económica.',
     heroImage: '/img/team/camila.jpg',
     primaryCta: 'Agendar mi primera sesión',
