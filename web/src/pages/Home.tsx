@@ -130,10 +130,12 @@ export function Home() {
             </div>
             <Link className="btn btn-ghost" to="/terapeutas">Ver los {therapists.length} terapeutas <ArrowRight /></Link>
           </div>
-          <div className="therapist-grid">
-            {team.map((t: any, i: number) => (
-              <Reveal key={t.id} delay={i * 80}><TherapistCard t={t} onOpen={() => setSelected(t)} /></Reveal>
-            ))}
+          <div className="therapist-marquee">
+            <div className="therapist-marquee-track">
+              {[...team, ...team].map((t: any, i: number) => (
+                <Reveal key={`${t.id}-${i}`} className="tm-item" delay={0}><TherapistCard t={t} onOpen={() => setSelected(t)} /></Reveal>
+              ))}
+            </div>
           </div>
         </div>
       </section>
