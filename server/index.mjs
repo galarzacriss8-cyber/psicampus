@@ -8,6 +8,7 @@ import { authRouter } from './routes/auth.mjs';
 import { patientRouter } from './routes/patient.mjs';
 import { publicRouter } from './routes/public.mjs';
 import { seedDatabase } from './seed.mjs';
+import { applyMigrations } from './migrations.mjs';
 import { UPLOAD_DIR, run } from './db.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -24,6 +25,7 @@ try {
 }
 
 seedDatabase();
+applyMigrations();
 
 const app = express();
 app.disable('x-powered-by');

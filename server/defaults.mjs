@@ -91,6 +91,7 @@ export const DEFAULT_SETTINGS = {
   pricing: {
     currency: 'USD',
     symbol: '$',
+    min: 7,
     minVirtual: 7,
     minPresencial: 10,
     max: 40,
@@ -113,7 +114,7 @@ export const DEFAULT_SETTINGS = {
 };
 
 export const DEFAULT_TIERS = [
-  { code: 'A', name: 'Solidaria', price: 5, min_score: 0, max_score: 11, color: '#1f7a5c', description: 'Apoyo máximo para situaciones de emergencia económica.' },
+  { code: 'A', name: 'Solidaria', price: 7, min_score: 0, max_score: 11, color: '#1f7a5c', description: 'Apoyo máximo para situaciones de emergencia económica.' },
   { code: 'B', name: 'Solidaria', price: 7, min_score: 12, max_score: 23, color: '#2b8a68', description: 'Para estudiantes que dependen de un ingreso familiar ajustado.' },
   { code: 'C', name: 'Accesible', price: 10, min_score: 24, max_score: 35, color: '#40916c', description: 'Ingresos bajos o becas parciales.' },
   { code: 'D', name: 'Accesible', price: 15, min_score: 36, max_score: 47, color: '#52896b', description: 'Ingresos medios bajos con gastos de estudio.' },
