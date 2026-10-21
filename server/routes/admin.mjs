@@ -309,8 +309,9 @@ adminRouter.delete('/therapists/:id', wrap((req, res) => {
   if (!t) return res.status(404).json({ error: 'Terapeuta no encontrado' });
   const future = get(`SELECT COUNT(*) AS c FROM appointments WHERE therapist_id = ? AND date >= ? AND status IN ('pendiente','confirmada')`, t.id, todayISO())?.c || 0;
   if (future) return res.status(400).json({ error: `No se puede desactivar: tiene ${future} citas futuras. Reasígnalas primero.` });
-  run('UPDATE therapists SET active = 0 WHERE id = ?', t.id);
-  audit(req.user, 'desactivar_terapeuta', 'therapist', t.id, t.name);
+  run('DELETE FROM therapists WHERE id = ?', t.id);
+  run('DELETE FROM availability WHERE therapist_id = ?', t.id);
+  audit(req.user, 'eliminar_terapeuta', 'therapist', t.id, t.name);
   res.json({ ok: true });
 }));
 
