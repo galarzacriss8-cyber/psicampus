@@ -123,20 +123,19 @@ export function applyMigrations() {
     changes.push('cuenta Amie Ibujes actualizada');
   }
 
-  // 9) Retirar del equipo público los perfiles de demostración (Camila Herrera y Mateo Salazar)
-  const demoNames = ['Camila Herrera', 'Mateo Salazar'];
-  for (const nm of demoNames) {
-    const row = get(`SELECT id FROM therapists WHERE name = ? LIMIT 1`, nm);
-    if (!row) continue;
+  // 9) Dejar solo Amie Ibujes; eliminar/desactivar todos los demás terapeutas de demostración
+  const allTherapists = all(`SELECT id, name FROM therapists`);
+  for (const row of allTherapists) {
+    if (row.name === 'Amie Ibujes') continue;
     const used = get(`SELECT COUNT(*) AS c FROM appointments WHERE therapist_id = ?`, row.id)?.c || 0;
     if (used) {
       run(`UPDATE therapists SET active = 0, featured = 0 WHERE id = ?`, row.id);
-      changes.push(`${nm}: desactivado (tiene ${used} citas)`);
+      changes.push(`${row.name}: desactivado (${used} citas)`);
     } else {
       run(`DELETE FROM availability WHERE therapist_id = ?`, row.id);
       run(`DELETE FROM session_notes WHERE therapist_id = ?`, row.id);
       run(`DELETE FROM therapists WHERE id = ?`, row.id);
-      changes.push(`${nm}: eliminado del equipo`);
+      changes.push(`${row.name}: eliminado`);
     }
   }
 
