@@ -132,8 +132,8 @@ export function Home() {
           </div>
           <div className="therapist-marquee">
             <div className="therapist-marquee-track">
-              {[...team, ...team].map((t: any, i: number) => (
-                <Reveal key={`${t.id}-${i}`} className="tm-item" delay={0}><TherapistCard t={t} onOpen={() => setSelected(t)} /></Reveal>
+              {team.map((t: any) => (
+                <Reveal key={t.id} className="tm-item" delay={0}><TherapistCard t={t} onOpen={() => setSelected(t)} /></Reveal>
               ))}
             </div>
           </div>
