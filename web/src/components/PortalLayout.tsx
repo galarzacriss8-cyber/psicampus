@@ -37,6 +37,9 @@ export function PortalLayout({ children, name, subtitle }: { children: ReactNode
               <Link to="/agendar" className="btn btn-sm btn-cream">Agendar cita <ArrowUpRight /></Link>
               <div className="hstack" style={{ gap: 8 }}>
                 <Avatar name={name} size="sm" />
+                <button className="icon-btn" title="Volver al sitio" onClick={() => { window.location.href = '/'; }} style={{ background: 'rgba(255,255,255,.08)', borderColor: 'transparent', color: '#fff', fontSize: 11, padding: '4px 8px' }}>
+                  ← Volver
+                </button>
                 <button className="icon-btn" title="Cerrar sesión" onClick={logout} style={{ background: 'rgba(255,255,255,.08)', borderColor: 'transparent', color: '#fff' }}>
                   <LogOut />
                 </button>
