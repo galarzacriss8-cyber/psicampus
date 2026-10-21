@@ -6,8 +6,8 @@ export const DEFAULT_SETTINGS = {
     claim: 'Terapia accesible para la comunidad universitaria',
   },
   contact: {
-    phone: '+593 99 120 4580',
-    whatsapp: '593991204580',
+    phone: '983465028',
+    whatsapp: '593983465028',
     email: 'psicoeducativobienestar@gmail.com',
     address: 'Av. Universitaria, Campus Norte · Quito',
     city: 'Quito, Ecuador',
