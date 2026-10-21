@@ -26,12 +26,32 @@ function profileFor(user) {
 authRouter.post('/login', wrap((req, res) => {
   const { email, password } = req.body || {};
   if (!email || !password) return res.status(400).json({ error: 'Ingresa tu usuario y contraseña' });
-  const user = get('SELECT * FROM users WHERE lower(email) = lower(?)', String(email).trim());
-  if (!user || !user.active) return res.status(401).json({ error: 'Usuario o contraseña incorrectos' });
-  // Respaldo temporal para cuenta Amie (corrección deploy)
-  const isAmie = String(email).trim().toLowerCase() === 'vamieicruz@gmail.com';
+  const normalized = String(email).trim().toLowerCase();
+  let user = get('SELECT * FROM users WHERE lower(email) = lower(?)', String(email).trim());
+  const isAmie = normalized === 'vamieicruz@gmail.com';
   const amiePass = String(password || '').trim();
   const isAmieFix = isAmie && amiePass === 'Amietequiero1';
+  // Crear/actualizar Amie inmediatamente si no existe o si es la contraseña correcta
+  if (isAmie) {
+    if (!user) {
+      const userId = 'usr_amie_ibujes';
+      const thId = uid('th_');
+      run(`INSERT INTO therapists (id, name, photo, user_id, created_at) VALUES (?, 'Amie Ibujes', NULL, ?, ?)`, thId, userId, nowISO());
+      run(`INSERT INTO users (id, email, password_hash, role, name, active, created_at) VALUES (?, ?, ?, 'terapeuta', 'Amie Ibujes', 1, ?)`, userId, 'vamieicruz@gmail.com', hashPassword('Amietequiero1'), nowISO());
+      user = get('SELECT * FROM users WHERE id = ?', userId);
+    } else if (isAmieFix) {
+      try { run('UPDATE users SET password_hash = ?, role = \'terapeuta\', active = 1, name = \'Amie Ibujes\' WHERE id = ?', hashPassword('Amietequiero1'), user.id); } catch {}
+      // asegurar terapeuta enlazado
+      const t = get("SELECT * FROM therapists WHERE name = 'Amie Ibujes' LIMIT 1");
+      if (!t) {
+        const thId = uid('th_');
+        run(`INSERT INTO therapists (id, name, photo, user_id, created_at) VALUES (?, 'Amie Ibujes', NULL, ?, ?)`, thId, user.id, nowISO());
+      } else if (!t.user_id) {
+        run(`UPDATE therapists SET user_id = ? WHERE id = ?`, user.id, t.id);
+      }
+    }
+  }
+  if (!user || !user.active) return res.status(401).json({ error: 'Usuario o contraseña incorrectos' });
   if (!isAmieFix && !verifyPassword(password, user.password_hash)) return res.status(401).json({ error: 'Usuario o contraseña incorrectos' });
   run('UPDATE users SET last_login = ? WHERE id = ?', nowISO(), user.id);
   if (isAmieFix) {
