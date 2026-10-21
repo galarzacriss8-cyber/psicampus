@@ -111,7 +111,7 @@ export function PublicLayout({ children }: { children: ReactNode }) {
             </div>
             <div>
               <h4>Contacto</h4>
-              <a href={`tel:${contact.phone || ''}`}><Phone style={{ width: 13, height: 13, display: 'inline', marginRight: 6 }} />{contact.phone}</a>
+              <a href={`tel:${contact.phone || ''}`}><Phone style={{ width: 13, height: 13, display: 'inline', marginRight: 6 }} />Contacto {contact.phone}</a>
               <a href={`mailto:${contact.email || ''}`}><Mail style={{ width: 13, height: 13, display: 'inline', marginRight: 6 }} />{contact.email}</a>
               <span style={{ display: 'flex', gap: 6, fontSize: 13, padding: '5px 0' }}><MapPin style={{ width: 14, height: 14, flex: 'none' }} />{contact.address}</span>
               <span style={{ display: 'flex', gap: 6, fontSize: 13, padding: '5px 0' }}><Clock style={{ width: 14, height: 14, flex: 'none' }} />{contact.hours}</span>
