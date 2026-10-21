@@ -9,7 +9,9 @@ import { patientRouter } from './routes/patient.mjs';
 import { publicRouter } from './routes/public.mjs';
 import { seedDatabase } from './seed.mjs';
 import { applyMigrations } from './migrations.mjs';
-import { UPLOAD_DIR, run } from './db.mjs';
+import { UPLOAD_DIR, run, all } from './db.mjs';
+import { nowISO, todayISO, uid } from './util.mjs';
+import { sendMail } from './mailer.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -73,9 +75,45 @@ setInterval(() => {
   } catch (e) { /* silencioso */ }
 }, 3600_000); // cada 1 hora
 
+// Recordatorios de cita por correo: 15 minutos antes de la sesión
+async function sendUpcomingReminders() {
+  try {
+    const rows = all(
+      `SELECT a.id, a.code, a.date, a.start, a.modality, a.status,
+              p.name AS patient_name, p.email AS patient_email,
+              t.name AS therapist_name
+         FROM appointments a
+         JOIN patients p ON p.id = a.patient_id
+         JOIN therapists t ON t.id = a.therapist_id
+        WHERE a.date = ? AND a.status IN ('confirmada','pendiente')
+          AND a.start >= strftime('%H:%M', 'now', '-5 minutes')
+          AND a.start <= strftime('%H:%M', 'now', '+30 minutes')
+          AND p.email IS NOT NULL AND p.email != ''
+          AND NOT EXISTS (SELECT 1 FROM audit au WHERE au.action = 'recordatorio_cita' AND au.entity_id = a.id)`,
+      todayISO()
+    );
+    for (const r of rows) {
+      try {
+        await sendMail({
+          to: r.patient_email,
+          subject: `Tu cita de Psyconova es en 15 minutos · ${r.start}`,
+          html: `<p>Hola <b>${r.patient_name}</b>,</p><p>Te recordamos que tu cita con <b>${r.therapist_name}</b> es <b>hoy a las ${r.start}</b> (${r.modality}).</p><p>Código: <b>${r.code}</b></p><p>Psicoeducación & Bienestar</p>`,
+          text: `Recordatorio: tu cita con ${r.therapist_name} es hoy a las ${r.start}. Código: ${r.code}`,
+        });
+        run(`INSERT INTO audit (id, user_id, user_name, action, entity, entity_id, detail, created_at)
+             VALUES (?, 'usr_admin', 'Sistema', 'recordatorio_cita', 'appointments', ?, ?, ?)`,
+          uid('aud_'), r.id, `Recordatorio enviado a ${r.patient_email}`, nowISO());
+        console.log(`[psicampus] recordatorio enviado: ${r.patient_email} (${r.date} ${r.start})`);
+      } catch (e) { /* silencioso */ }
+    }
+  } catch (e) { /* silencioso */ }
+}
+setInterval(() => { sendUpcomingReminders(); }, 60_000);
+setTimeout(() => { sendUpcomingReminders(); }, 5_000);
+
 app.listen(PORT, () => {
-  console.log(`\n  Psicampus listo → http://localhost:${PORT}`);
+  console.log(`\n  Psyconova listo → http://localhost:${PORT}`);
   console.log('  Admin: (acceso privado por configuración de seguridad)');
-  console.log(`  Terapeuta: camila@psicampus.ec / Demo1234!`);
-  console.log(`  Paciente: sofia.morales@universidad.edu.ec / Demo1234!\n`);
+  console.log('  Terapeuta: camila@psicampus.ec / Demo1234!');
+  console.log('  Paciente: sofia.morales@universidad.edu.ec / Demo1234!\n');
 });

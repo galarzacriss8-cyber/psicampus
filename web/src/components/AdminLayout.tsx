@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from 'react';
+﻿import { useEffect, useState, type ReactNode } from 'react';
 import {
   LayoutDashboard, CalendarDays, CalendarCheck, Users, Stethoscope, Clock, Wallet, PieChart,
   SlidersHorizontal, LayoutTemplate, Settings, Bell, LogOut, Menu, X, ExternalLink, CheckCheck, ArrowLeft, UserPlus, ShieldCheck, Zap, Sparkles,
@@ -10,7 +10,7 @@ import { api } from '../lib/api';
 import { dateShort } from '../lib/format';
 
 const NAV: { section?: string; to?: string; label?: string; icon?: any; exact?: boolean }[] = [
-  { section: 'Clínica' },
+  { section: 'ClÃ­nica' },
   { to: '/admin', label: 'Panel general', icon: LayoutDashboard, exact: true },
   { to: '/admin/agenda', label: 'Agenda semanal', icon: CalendarDays },
   { to: '/admin/citas', label: 'Citas', icon: CalendarCheck },
@@ -22,12 +22,12 @@ const NAV: { section?: string; to?: string; label?: string; icon?: any; exact?: 
   { section: 'Finanzas' },
   { to: '/admin/pagos', label: 'Pagos y comprobantes', icon: Wallet },
   { to: '/admin/contabilidad', label: 'Contabilidad', icon: PieChart },
-  { section: 'Gestión' },
+  { section: 'GestiÃ³n' },
   { to: '/admin/tarifas', label: 'Tarifas y encuesta', icon: SlidersHorizontal },
   { to: '/admin/contenido', label: 'Contenido del sitio', icon: LayoutTemplate },
   { to: '/admin/centro-control', label: 'Centro de control', icon: Zap },
   { to: '/admin/ia', label: 'Asistente IA', icon: Sparkles },
-  { to: '/admin/configuracion', label: 'Configuración', icon: Settings },
+  { to: '/admin/configuracion', label: 'ConfiguraciÃ³n', icon: Settings },
 ];
 
 const TITLES: Record<string, string> = {
@@ -45,7 +45,7 @@ const TITLES: Record<string, string> = {
   '/admin/contenido': 'Contenido del sitio',
   '/admin/centro-control': 'Centro de control',
   '/admin/ia': 'Asistente IA',
-  '/admin/configuracion': 'Configuración',
+  '/admin/configuracion': 'ConfiguraciÃ³n',
 };
 
 export function AdminLayout({ children }: { children: ReactNode }) {
@@ -62,7 +62,7 @@ export function AdminLayout({ children }: { children: ReactNode }) {
 
   useEffect(() => setOpen(false), [path]);
 
-  const title = TITLES[path.split('?')[0]] || 'Administración';
+  const title = TITLES[path.split('?')[0]] || 'AdministraciÃ³n';
 
   const openBell = async () => {
     setBell(true);
@@ -84,7 +84,7 @@ export function AdminLayout({ children }: { children: ReactNode }) {
               <circle cx="24" cy="24" r="2.6" fill="#F6F1E6" />
               <circle cx="35" cy="14" r="2.2" fill="#C0603C" />
             </svg>
-            <span>Psicampus<small>Panel administrativo</small></span>
+            <span>Psyconova<small>Panel administrativo</small></span>
           </span>
         </Link>
         <nav className="side-nav">
@@ -110,9 +110,9 @@ export function AdminLayout({ children }: { children: ReactNode }) {
             <Avatar name={user?.name} size="sm" />
             <div style={{ minWidth: 0 }}>
               <strong>{user?.name}</strong>
-              <span>Administración</span>
+              <span>AdministraciÃ³n</span>
             </div>
-            <button onClick={logout} title="Cerrar sesión"><LogOut size={16} /></button>
+            <button onClick={logout} title="Cerrar sesiÃ³n"><LogOut size={16} /></button>
           </div>
         </div>
       </aside>
@@ -121,7 +121,7 @@ export function AdminLayout({ children }: { children: ReactNode }) {
         <header className="topbar">
           <div className="topbar-left">
             <button className="icon-btn menu-btn" onClick={() => setOpen(true)}><Menu /></button>
-            <div className="crumb"><span>Administración</span><span>/</span><strong>{title}</strong></div>
+            <div className="crumb"><span>AdministraciÃ³n</span><span>/</span><strong>{title}</strong></div>
           </div>
           <div className="topbar-right">
             <a className="btn btn-sm btn-ghost" href="/" target="_blank" rel="noreferrer" style={{ display: 'inline-flex' }}>
@@ -144,10 +144,10 @@ export function AdminLayout({ children }: { children: ReactNode }) {
                       <div style={{ fontSize: 11, color: 'var(--muted)' }}>{user?.email}</div>
                     </div>
                     <button className="btn btn-sm btn-ghost btn-block" style={{ justifyContent: 'flex-start' }} onClick={() => { setMenu(false); navigate('/admin/configuracion'); }}>
-                      <Settings /> Configuración
+                      <Settings /> ConfiguraciÃ³n
                     </button>
                     <button className="btn btn-sm btn-ghost btn-block" style={{ justifyContent: 'flex-start', marginTop: 4 }} onClick={logout}>
-                      <LogOut /> Cerrar sesión
+                      <LogOut /> Cerrar sesiÃ³n
                     </button>
                   </div>
                 </>
@@ -165,12 +165,12 @@ export function AdminLayout({ children }: { children: ReactNode }) {
             <div className="drawer-head">
               <div>
                 <h3>Notificaciones</h3>
-                <p>{unread ? `${unread} sin leer` : 'Todo al día'}</p>
+                <p>{unread ? `${unread} sin leer` : 'Todo al dÃ­a'}</p>
               </div>
               <button className="close-btn" onClick={() => setBell(false)}><X /></button>
             </div>
             <div className="drawer-body">
-              {(notifs || []).length === 0 && <p className="muted small">No hay notificaciones todavía.</p>}
+              {(notifs || []).length === 0 && <p className="muted small">No hay notificaciones todavÃ­a.</p>}
               <div className="stack-sm">
                 {(notifs || []).map((n) => (
                   <div key={n.id} className="card" style={{ padding: 14, opacity: n.read ? 0.7 : 1 }}>
@@ -214,3 +214,4 @@ export function AdminPage({ title, subtitle, actions, children }: { title: strin
 export function BackLink({ to, label }: { to: string; label: string }) {
   return <Link to={to} className="btn btn-sm btn-ghost"><ArrowLeft /> {label}</Link>;
 }
+

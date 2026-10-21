@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from 'react';
+﻿import { useEffect, useState, type ReactNode } from 'react';
 import { ArrowUpRight, Menu, X, AtSign, Mail, MapPin, Phone, Clock, ShieldCheck } from 'lucide-react';
 import { Link, useRouter } from '../lib/router';
 import { useSite } from '../lib/site';
@@ -40,7 +40,7 @@ export function PublicLayout({ children }: { children: ReactNode }) {
     <>
       <header className={`site-header ${scrolled ? 'scrolled' : ''}`}>
         <div className="container site-nav">
-          <Link to="/" onClick={() => setOpen(false)} aria-label="Psicampus inicio">
+          <Link to="/" onClick={() => setOpen(false)} aria-label="Psyconova inicio">
             <Brand />
           </Link>
           <nav className={`nav-links ${open ? 'open' : ''}`} aria-label="Principal">
@@ -58,7 +58,7 @@ export function PublicLayout({ children }: { children: ReactNode }) {
             <Link className="btn btn-sm" to="/agendar">
               Agendar cita <ArrowUpRight />
             </Link>
-            <button className="icon-btn menu-toggle" onClick={() => setOpen((v) => !v)} aria-label="Menú">
+            <button className="icon-btn menu-toggle" onClick={() => setOpen((v) => !v)} aria-label="MenÃº">
               {open ? <X /> : <Menu />}
             </button>
           </div>
@@ -73,7 +73,7 @@ export function PublicLayout({ children }: { children: ReactNode }) {
             <div>
               <Brand dark />
               <p className="footer-note">
-                Consulta psicológica universitaria con tarifa social. Atención presencial en campus y virtual en todo el país.
+                Consulta psicolÃ³gica universitaria con tarifa social. AtenciÃ³n presencial en campus y virtual en todo el paÃ­s.
               </p>
               <div className="hstack" style={{ marginTop: 16 }}>
                 <span className="badge badge-sage no-dot" style={{ background: 'rgba(255,255,255,.08)', color: '#dce8d6' }}>
@@ -93,7 +93,7 @@ export function PublicLayout({ children }: { children: ReactNode }) {
               <h4>Programa</h4>
               <a href="#tarifas" onClick={(e) => { e.preventDefault(); goSection('tarifas'); }}>Tarifa social</a>
               <a href="#faq" onClick={(e) => { e.preventDefault(); goSection('faq'); }}>Preguntas frecuentes</a>
-              <a href="#programa" onClick={(e) => { e.preventDefault(); goSection('programa'); }}>Cómo funciona</a>
+              <a href="#programa" onClick={(e) => { e.preventDefault(); goSection('programa'); }}>CÃ³mo funciona</a>
               <Link to="/trabaja-con-nosotros">Trabaja con nosotros</Link>
               <Link to="/login">Acceso terapeutas</Link>
               <a href={`https://wa.me/${contact.whatsapp || ''}`} target="_blank" rel="noreferrer">WhatsApp</a>
@@ -108,13 +108,14 @@ export function PublicLayout({ children }: { children: ReactNode }) {
             </div>
           </div>
           <div className="footer-bottom">
-            <span>© {new Date().getFullYear()} Psicampus · Bienestar universitario. Todos los derechos reservados.</span>
-            <span>Hecho para la comunidad universitaria · Quito, Ecuador</span>
+            <span>Â© {new Date().getFullYear()} Psyconova Â· Bienestar universitario. Todos los derechos reservados.</span>
+            <span>Hecho para la comunidad universitaria Â· Quito, Ecuador</span>
           </div>
         </div>
       </footer>
     </>
   );
 }
+
 
 

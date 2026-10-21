@@ -1,4 +1,4 @@
-import { type ReactNode } from 'react';
+﻿import { type ReactNode } from 'react';
 import { Home, CalendarDays, Wallet, ClipboardList, User, LogOut, ArrowUpRight } from 'lucide-react';
 import { Link, useRouter } from '../lib/router';
 import { useAuth } from '../lib/auth';
@@ -30,14 +30,14 @@ export function PortalLayout({ children, name, subtitle }: { children: ReactNode
                   <circle cx="24" cy="24" r="2.6" fill="#F6F1E6" />
                   <circle cx="35" cy="14" r="2.2" fill="#C0603C" />
                 </svg>
-                <span>Psicampus<small style={{ color: 'rgba(255,255,255,.45)' }}>Portal del paciente</small></span>
+                <span>Psyconova<small style={{ color: 'rgba(255,255,255,.45)' }}>Portal del paciente</small></span>
               </span>
             </Link>
             <div className="hstack" style={{ color: 'var(--paper)' }}>
               <Link to="/agendar" className="btn btn-sm btn-cream">Agendar cita <ArrowUpRight /></Link>
               <div className="hstack" style={{ gap: 8 }}>
                 <Avatar name={name} size="sm" />
-                <button className="icon-btn" title="Cerrar sesión" onClick={logout} style={{ background: 'rgba(255,255,255,.08)', borderColor: 'transparent', color: '#fff' }}>
+                <button className="icon-btn" title="Cerrar sesiÃ³n" onClick={logout} style={{ background: 'rgba(255,255,255,.08)', borderColor: 'transparent', color: '#fff' }}>
                   <LogOut />
                 </button>
               </div>
@@ -63,3 +63,4 @@ export function PortalLayout({ children, name, subtitle }: { children: ReactNode
     </div>
   );
 }
+

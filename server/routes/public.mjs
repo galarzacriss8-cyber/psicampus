@@ -7,6 +7,7 @@ import { computeSurvey, validateAnswers } from '../survey.mjs';
 import { bookingCode, nowISO, todayISO, uid } from '../util.mjs';
 import { addDays } from '../util.mjs';
 import { notify, slotsForDate, therapistPublic, appointmentFull, tierForScore } from '../services.mjs';
+import { sendMail } from '../mailer.mjs';
 import { SURVEY_QUESTIONS } from '../defaults.mjs';
 
 export const publicRouter = Router();
@@ -87,7 +88,7 @@ publicRouter.post('/survey', wrap((req, res) => {
   });
 }));
 
-publicRouter.post('/bookings', wrap((req, res) => {
+publicRouter.post('/bookings', wrap(async (req, res) => {
   const b = req.body || {};
   const required = ['therapistId', 'date', 'start', 'name', 'email', 'phone'];
   for (const k of required) if (!b[k]) return res.status(400).json({ error: `Campo obligatorio: ${k}` });
@@ -165,6 +166,16 @@ publicRouter.post('/bookings', wrap((req, res) => {
     body: `${b.name} reservó con ${therapist.name} el ${b.date} a las ${slot.start}.`,
     kind: 'success', link: '/admin/citas',
   });
+
+  try {
+    await sendMail({
+      to: patient.email,
+      subject: `Cita confirmada — ${therapist.name} · ${b.date} ${slot.start}`,
+      html: `<p>Hola <b>${String(patient.name || b.name || '')}</b>,</p><p>Tu cita con <b>${therapist.name}</b> está confirmada para el <b>${b.date} a las ${slot.start}</b>.</p><p>Modalidad: <b>${modalityFinal}</b> · Código: <b>${code}</b></p>`,
+      text: `Tu cita con ${therapist.name} está confirmada para ${b.date} a las ${slot.start}. Código: ${code}`
+    });
+  } catch (e) { /* silencioso */ }
+
   res.status(201).json({
     appointment: appointmentFull(id),
     code,

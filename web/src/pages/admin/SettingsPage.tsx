@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { Building2, Clock, KeyRound, Plus, Save, ShieldCheck, SlidersHorizontal, UserPlus, Users, Sparkles, Zap, Wifi, Activity, BarChart3, Settings, FileText, Lock, Cog, BrainCircuit } from 'lucide-react';
 import { api } from '../../lib/api';
 import { AdminPage } from '../../components/AdminLayout';
@@ -8,8 +8,8 @@ import { dateShort } from '../../lib/format';
 const TABS = [
   ['general', 'General'],
   ['usuarios', 'Usuarios'],
-  ['auditoria', 'Auditoría'],
-  ['policiticas', 'Políticas'],
+  ['auditoria', 'AuditorÃ­a'],
+  ['policiticas', 'PolÃ­ticas'],
   ['automatizaciones', 'Automatizaciones'],
   ['integraciones', 'Integraciones'],
   ['ia', 'Asistente IA'],
@@ -30,13 +30,13 @@ export function AdminSettings() {
 
   const save = async () => {
     await api('/admin/settings', { method: 'PUT', body: { ...s } });
-    toast.success('Configuración guardada'); reload();
+    toast.success('ConfiguraciÃ³n guardada'); reload();
   };
 
   const changePassword = async () => {
-    if (pwd.next.length < 8) return toast.error('La nueva contraseña debe tener al menos 8 caracteres');
+    if (pwd.next.length < 8) return toast.error('La nueva contraseÃ±a debe tener al menos 8 caracteres');
     await api('/auth/change-password', { method: 'POST', body: pwd });
-    toast.success('Contraseña actualizada'); setPwd({ current: '', next: '' });
+    toast.success('ContraseÃ±a actualizada'); setPwd({ current: '', next: '' });
   };
 
   const toggleUser = async (u: any) => {
@@ -47,7 +47,7 @@ export function AdminSettings() {
   if (error || !s) return <ErrorState message={error || ''} onRetry={reload} />;
 
   return (
-    <AdminPage title="Configuración" subtitle="Administración completa de la plataforma Psicampus." actions={<button className="btn btn-sm" onClick={save}><Save /> Guardar cambios</button>}>
+    <AdminPage title="ConfiguraciÃ³n" subtitle="AdministraciÃ³n completa de la plataforma Psyconova." actions={<button className="btn btn-sm" onClick={save}><Save /> Guardar cambios</button>}>
       <div className="tabs-line">{TABS.map(([k, l]) => <button key={k} className={tab === k ? 'on' : ''} onClick={() => setTab(k)}>{l}</button>)}</div>
 
       {tab === 'general' && (
@@ -59,12 +59,12 @@ export function AdminSettings() {
             </div></div></div>
           <div className="panel"><div className="panel-head"><h3><Clock /> Reservas</h3></div>
             <div className="panel-body"><div className="form-grid">
-              <Field label="Duración (min)"><input className="input" type="number" value={s.booking?.slotMinutes || 50}/></Field>
-              <Field label="Anticipación (días)"><input className="input" type="number" value={s.booking?.maxAdvanceDays || 45}/></Field>
+              <Field label="DuraciÃ³n (min)"><input className="input" type="number" value={s.booking?.slotMinutes || 50}/></Field>
+              <Field label="AnticipaciÃ³n (dÃ­as)"><input className="input" type="number" value={s.booking?.maxAdvanceDays || 45}/></Field>
             </div></div></div>
-          <div className="panel"><div className="panel-head"><h3><ShieldCheck /> Políticas generales</h3></div>
-            <div className="panel-body"><p className="small muted">Políticas de cancelación, asistencia y reprogramación.</p></div></div>
-          <div className="panel"><div className="panel-head"><h3><KeyRound /> Mi contraseña</h3></div>
+          <div className="panel"><div className="panel-head"><h3><ShieldCheck /> PolÃ­ticas generales</h3></div>
+            <div className="panel-body"><p className="small muted">PolÃ­ticas de cancelaciÃ³n, asistencia y reprogramaciÃ³n.</p></div></div>
+          <div className="panel"><div className="panel-head"><h3><KeyRound /> Mi contraseÃ±a</h3></div>
             <div className="panel-body">
               <Field label="Actual"><input className="input" type="password" value={pwd.current} onChange={e => setPwd({ ...pwd, current: e.target.value })}/></Field>
               <Field label="Nueva"><input className="input" type="password" value={pwd.next} onChange={e => setPwd({ ...pwd, next: e.target.value })}/></Field>
@@ -94,20 +94,20 @@ export function AdminSettings() {
 
       {tab === 'automatizaciones' && (
         <div className="panel"><div className="panel-head"><h3><Zap /> Automatizaciones</h3></div>
-          <div className="panel-body"><p>Reglas automatizadas para alertas, restricciones y notificaciones. Defina umbrales y acciones automáticas.</p></div>
+          <div className="panel-body"><p>Reglas automatizadas para alertas, restricciones y notificaciones. Defina umbrales y acciones automÃ¡ticas.</p></div>
         </div>
       )}
 
       {tab === 'integraciones' && (
         <div className="panel"><div className="panel-head"><h3><Wifi /> Integraciones</h3></div>
-          <div className="panel-body"><p>Estado de integraciones con servicios externos, verificación de conectividad y diagnóstico de errores.</p></div>
+          <div className="panel-body"><p>Estado de integraciones con servicios externos, verificaciÃ³n de conectividad y diagnÃ³stico de errores.</p></div>
         </div>
       )}
 
       {tab === 'ia' && (
         <div className="panel"><div className="panel-head"><h3><Sparkles /> Asistente IA</h3></div>
-          <div className="panel-body"><p>Asistente administrativo con modos de consulta, diagnóstico y ejecución. Las acciones sensibles requieren confirmación.</p>
-            <div className="notice"><BrainCircuit /><span>Las acciones con impacto en pacientes requieren confirmación y quedan registradas en auditoría.</span></div>
+          <div className="panel-body"><p>Asistente administrativo con modos de consulta, diagnÃ³stico y ejecuciÃ³n. Las acciones sensibles requieren confirmaciÃ³n.</p>
+            <div className="notice"><BrainCircuit /><span>Las acciones con impacto en pacientes requieren confirmaciÃ³n y quedan registradas en auditorÃ­a.</span></div>
           </div>
         </div>
       )}
@@ -116,8 +116,8 @@ export function AdminSettings() {
 
       {tab === 'auditoria' && (
         <div className="panel"><div className="panel-head"><h3><FileText /> Audito</h3></div>
-          <div className="panel-body"><div className="table-wrap"><table className="data"><thead><tr><th>Fecha</th><th>Usuario</th><th>Acción</th></tr></thead>
-          <tbody>{(audit || []).map(a => (<tr key={a.id}><td className="tiny">{dateShort(a.created_at)}</td><td>{a.user_name || '—'}</td><td>{a.action}</td></tr>))}</tbody></table></div></div>
+          <div className="panel-body"><div className="table-wrap"><table className="data"><thead><tr><th>Fecha</th><th>Usuario</th><th>AcciÃ³n</th></tr></thead>
+          <tbody>{(audit || []).map(a => (<tr key={a.id}><td className="tiny">{dateShort(a.created_at)}</td><td>{a.user_name || 'â€”'}</td><td>{a.action}</td></tr>))}</tbody></table></div></div>
         </div>
       )}
 
@@ -131,19 +131,19 @@ function PoliticasTab() {
   const { data: cfgData } = useFetch<any>(() => api('/admin-advanced/attendance/config'), []);
   const [cfg, setCfg] = useState<any>({ alertAfterNoShows: 2, restrictAfterNoShows: 3, reviewAfterNoShows: 3, windowDays: 90, restrictionDays: 30, sendWarning: true, requireReview: true, restrictBookings: true, warnThreshold: 1 });
   useEffect(() => { if (cfgData) setCfg({ ...cfg, ...cfgData }); }, [cfgData]);
-  const saveCfg = async () => { await api('/admin-advanced/attendance/config', { method: 'PUT', body: cfg }); toast.success('Políticas guardadas'); };
+  const saveCfg = async () => { await api('/admin-advanced/attendance/config', { method: 'PUT', body: cfg }); toast.success('PolÃ­ticas guardadas'); };
   return (
-    <div className="panel"><div className="panel-head"><h3><ShieldCheck /> Políticas de asistencia</h3></div>
+    <div className="panel"><div className="panel-head"><h3><ShieldCheck /> PolÃ­ticas de asistencia</h3></div>
       <div className="panel-body">
         <div className="form-grid">
           <Field label="Alertas por inasistencias"><input className="input" type="number" value={cfg.alertAfterNoShows} onChange={e => setCfg({ ...cfg, alertAfterNoShows: Number(e.target.value) })} /></Field>
           <Field label="Restricciones (exceso)"><input className="input" type="number" value={cfg.restrictAfterNoShows} onChange={e => setCfg({ ...cfg, restrictAfterNoShows: Number(e.target.value) })} /></Field>
-          <Field label="Revisión periódica"><input className="input" type="number" value={cfg.reviewAfterNoShows} onChange={e => setCfg({ ...cfg, reviewAfterNoShows: Number(e.target.value) })} /></Field>
-          <Field label="Ventana (días)"><input className="input" type="number" value={cfg.windowDays} onChange={e => setCfg({ ...cfg, windowDays: Number(e.target.value) })} /></Field>
+          <Field label="RevisiÃ³n periÃ³dica"><input className="input" type="number" value={cfg.reviewAfterNoShows} onChange={e => setCfg({ ...cfg, reviewAfterNoShows: Number(e.target.value) })} /></Field>
+          <Field label="Ventana (dÃ­as)"><input className="input" type="number" value={cfg.windowDays} onChange={e => setCfg({ ...cfg, windowDays: Number(e.target.value) })} /></Field>
         </div>
         <label className="check"><input type="checkbox" checked={!!cfg.sendWarning} onChange={e => setCfg({ ...cfg, sendWarning: e.target.checked })} /> Enviar alertas</label>
         <label className="check"><input type="checkbox" checked={!!cfg.restrictBookings} onChange={e => setCfg({ ...cfg, restrictBookings: e.target.checked })} /> Restringir reservas</label>
-        <button className="btn btn-sm" onClick={saveCfg} style={{ marginTop: 12 }}><Save /> Guardar políticas</button>
+        <button className="btn btn-sm" onClick={saveCfg} style={{ marginTop: 12 }}><Save /> Guardar polÃ­ticas</button>
       </div>
     </div>
   );
@@ -157,20 +157,20 @@ function CorreoTab() {
   const saveSmtp = async () => { await api('/admin-advanced/smtp/settings', { method: 'PUT', body: cfg }); toast.success('SMTP guardado'); };
   const testMail = async () => { try { const r = await api('/admin-advanced/smtp/test', { method: 'POST' }); toast.success(r.ok ? 'Correo enviado' : 'Fallo'); } catch { toast.error('No se pudo enviar'); } };
   return (
-    <div className="panel"><div className="panel-head"><h3>Configuración de Correo (Gmail / SMTP)</h3></div>
+    <div className="panel"><div className="panel-head"><h3>ConfiguraciÃ³n de Correo (Gmail / SMTP)</h3></div>
       <div className="panel-body">
         <div className="form-grid">
           <Field label="Host SMTP"><input className="input" value={cfg.host || ''} onChange={e => setCfg({ ...cfg, host: e.target.value })} /></Field>
           <Field label="Puerto"><input className="input" type="number" value={cfg.port || 465} onChange={e => setCfg({ ...cfg, port: Number(e.target.value) })} /></Field>
           <Field label="Usuario (email)"><input className="input" value={cfg.user || ''} onChange={e => setCfg({ ...cfg, user: e.target.value })} /></Field>
-          <Field label="Contraseña / App Password"><input className="input" type="password" value={cfg.pass || ''} onChange={e => setCfg({ ...cfg, pass: e.target.value })} /></Field>
+          <Field label="ContraseÃ±a / App Password"><input className="input" type="password" value={cfg.pass || ''} onChange={e => setCfg({ ...cfg, pass: e.target.value })} /></Field>
         </div>
-        <label className="check"><input type="checkbox" checked={!!cfg.enabled} onChange={e => setCfg({ ...cfg, enabled: e.target.checked })} /> Habilitar envío</label>
+        <label className="check"><input type="checkbox" checked={!!cfg.enabled} onChange={e => setCfg({ ...cfg, enabled: e.target.checked })} /> Habilitar envÃ­o</label>
         <div style={{ marginTop: 12 }}>
           <button className="btn btn-sm" onClick={saveSmtp}>Guardar SMTP</button>
           <button className="btn btn-sm btn-ghost" onClick={testMail} style={{ marginLeft: 8 }}>Enviar prueba</button>
         </div>
-        <div className="notice" style={{ marginTop: 12 }}><span>Para Gmail usa tu App Password, no tu contraseña normal. El correo de invitación a terapeutas se envía automáticamente al aprobar.</span></div>
+        <div className="notice" style={{ marginTop: 12 }}><span>Para Gmail usa tu App Password, no tu contraseÃ±a normal. El correo de invitaciÃ³n a terapeutas se envÃ­a automÃ¡ticamente al aprobar.</span></div>
       </div>
     </div>
   );
@@ -187,3 +187,4 @@ function NewUserModal({ onClose, onSaved }: { onClose: () => void; onSaved: () =
   return <Modal open onClose={onClose} title="Crear usuario" footer={<><button className="btn btn-ghost" onClick={onClose}>Cancelar</button><button className="btn" onClick={save}>Crear</button></>}
     ><div className="form-grid"><Field label="Nombre"><input className="input" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} /></Field><Field label="Correo"><input className="input" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} /></Field></div></Modal>;
 }
+

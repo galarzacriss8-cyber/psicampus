@@ -1,6 +1,6 @@
 export const DEFAULT_SETTINGS = {
   brand: {
-    name: 'Psicampus',
+    name: 'Psyconova',
     tagline: 'Bienestar psicológico universitario',
     monogram: 'P',
     claim: 'Terapia accesible para la comunidad universitaria',
