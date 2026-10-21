@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { CalendarDays, CheckCircle2, Clock, FileText, LogOut, Plus, Users, Video, Wallet, XCircle } from 'lucide-react';
-import { api } from '../../lib/api';
+import { api, fileToDataUrl } from '../../lib/api';
 import { useAuth } from '../../lib/auth';
 import { Link } from '../../lib/router';
 import { Avatar, Badge, Empty, ErrorState, Field, Loader, Modal, StatusBadge, useFetch, useToast } from '../../lib/ui';
@@ -11,6 +11,8 @@ export function TherapistPanel() {
   const toast = useToast();
   const { data, loading, error, reload } = useFetch<any>(() => api('/therapist/overview'), []);
   const [tab, setTab] = useState('hoy');
+  const [profile, setProfile] = useState({ ...t, approaches: Array.isArray(t.approaches) ? t.approaches.join(', ') : t.approaches || '' });
+  const [photo, setPhoto] = useState<string | null>(null);
   const [noteFor, setNoteFor] = useState<any>(null);
 
   if (loading && !data) return <Loader />;
@@ -66,7 +68,7 @@ export function TherapistPanel() {
         </div>
 
         <div className="tabs-line" style={{ marginTop: 20 }}>
-          {[['hoy', `Hoy (${data.today.length})`], ['proximas', `Próximas (${data.upcoming.length})`], ['pacientes', `Pacientes (${data.patients.length})`], ['notas', 'Notas de sesión']].map(([k, l]) => (
+          {[['hoy', `Hoy (${data.today.length})`], ['proximas', `Próximas (${data.upcoming.length})`], ['pacientes', `Pacientes (${data.patients.length})`], ['notas', 'Notas de sesión'], ['perfil', 'Mi perfil']].map(([k, l]) => (
             <button key={k} className={tab === k ? 'on' : ''} onClick={() => setTab(k)}>{l}</button>
           ))}
         </div>
@@ -153,6 +155,36 @@ export function TherapistPanel() {
                   ))}
                 </tbody>
               </table>
+            </div>
+          </div>
+        )}
+
+        {tab === 'perfil' && (
+          <div className="panel" style={{ maxWidth: 520 }}>
+            <div className="panel-head"><h3>Mi perfil</h3><span className="tiny muted">Edita tu información y guarda</span></div>
+            <div className="panel-body" style={{ paddingTop: 8 }}>
+              <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start', marginBottom: 14 }}>
+                <Avatar src={photo || t.photo} name={t.name} size="xl" />
+                <label className="btn btn-sm btn-ghost" style={{ display: 'inline-flex' }}>
+                  <Plus /> Subir foto
+                  <input type="file" accept="image/*" hidden onChange={async (e) => { const f = e.target.files?.[0]; if (!f) return; try { setPhoto(await fileToDataUrl(f)); toast.success('Foto lista'); } catch {} }} />
+                </label>
+              </div>
+              <div className="stack-sm">
+                <Field label="Nombre completo"><input className="input" value={profile.name || ''} onChange={e => setProfile({ ...profile, name: e.target.value })} /></Field>
+                <div className="form-grid">
+                  <Field label="Género"><select className="select" value={profile.gender || 'femenino'} onChange={e => setProfile({ ...profile, gender: e.target.value })}><option>Femenino</option><option>Masculino</option></select></Field>
+                  <Field label="Fecha de nacimiento"><input className="input" type="date" value={profile.birthdate || ''} onChange={e => setProfile({ ...profile, birthdate: e.target.value })} /></Field>
+                </div>
+                <Field label="Universidad"><input className="input" value={profile.university || ''} onChange={e => setProfile({ ...profile, university: e.target.value })} /></Field>
+                <Field label="Título / formación"><input className="input" value={profile.degree || ''} onChange={e => setProfile({ ...profile, degree: e.target.value })} /></Field>
+                <Field label="Registro profesional"><input className="input" value={profile.license || ''} onChange={e => setProfile({ ...profile, license: e.target.value })} placeholder="MSP-00000" /></Field>
+                <Field label="Años de experiencia"><input className="input" type="number" min="0" value={profile.years || 0} onChange={e => setProfile({ ...profile, years: Number(e.target.value) })} /></Field>
+                <Field label="Enfoques (separados por coma)"><input className="input" value={profile.approaches || ''} onChange={e => setProfile({ ...profile, approaches: e.target.value })} /></Field>
+                <Field label="Modalidad"><select className="select" value={profile.modality || 'ambas'} onChange={e => setProfile({ ...profile, modality: e.target.value })}><option>Ambas</option><option>Presencial</option><option>Virtual</option></select></Field>
+                <Field label="Descripción"><textarea className="textarea" rows={3} value={profile.description || ''} onChange={e => setProfile({ ...profile, description: e.target.value })} placeholder="Sobre tu práctica..." /></Field>
+              </div>
+              <button className="btn btn-block" style={{ marginTop: 14 }} onClick={async () => { try { const body: any = { ...profile, approaches: profile.approaches ? profile.approaches.split(',').map((s: string) => s.trim()).filter(Boolean) : [] }; if (photo) body.photo = photo; await api('/therapist/profile', { method: 'PATCH', body }); toast.success('Perfil actualizado'); reload(); } catch (e: any) { toast.error(e.message); } }}>Guardar cambios</button>
             </div>
           </div>
         )}

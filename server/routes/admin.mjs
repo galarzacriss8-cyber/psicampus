@@ -660,6 +660,17 @@ therapistRouter.get('/overview', wrap((req, res) => {
   res.json({ therapist: therapistPublic(t), today: appts.filter((a) => a.date === today), upcoming, patients, month: { completed, income: Number(income) }, notes });
 }));
 
+therapistRouter.patch('/profile', wrap((req, res) => {
+  const t = get('SELECT * FROM therapists WHERE user_id = ?', req.user.id);
+  if (!t) return res.status(404).json({ error: 'Perfil no encontrado' });
+  const allowed = ['name','gender','birthdate','university','degree','description','photo','modality','languages','license','years','approaches'];
+  const patch = {};
+  for (const f of allowed) if (req.body?.[f] !== undefined) patch[f] = req.body[f];
+  if (req.body?.approaches !== undefined) patch.approaches = JSON.stringify(req.body.approaches);
+  if (Object.keys(patch).length) update('therapists', t.id, patch);
+  res.json({ ok: true, therapist: therapistPublic(get('SELECT * FROM therapists WHERE id = ?', t.id)) });
+}));
+
 therapistRouter.get('/appointments', wrap((req, res) => {
   const t = get('SELECT * FROM therapists WHERE user_id = ?', req.user.id);
   res.json(listAppointments({ therapistId: t.id, from: req.query.from, to: req.query.to, limit: 400 }));
