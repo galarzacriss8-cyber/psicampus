@@ -63,7 +63,7 @@ export function invitationEmail({ name, code, expiresAt, link, clinic }) {
 <html lang="es"><body style="margin:0;background:#f6f1e6;font-family:Helvetica,Arial,sans-serif;color:#14231f">
   <div style="max-width:560px;margin:0 auto;padding:28px 18px">
     <div style="background:#0f3b33;border-radius:18px;padding:26px 24px;color:#f6f1e6">
-      <div style="font-family:Georgia,serif;font-size:24px">Psicampus</div>
+      <div style="font-family:Georgia,serif;font-size:24px">Psyconova</div>
       <div style="font-size:11px;letter-spacing:2px;opacity:.6;margin-top:4px">BIENESTAR UNIVERSITARIO</div>
     </div>
     <div style="background:#fffdf8;border:1px solid #e3ddcf;border-radius:18px;padding:28px 24px;margin-top:12px">
@@ -79,9 +79,9 @@ export function invitationEmail({ name, code, expiresAt, link, clinic }) {
         <a href="${link}" style="background:#0f3b33;color:#fffdf8;text-decoration:none;border-radius:40px;padding:13px 24px;font-size:14px;font-weight:bold;display:inline-block">Activar mi cuenta</a>
       </p>
       <p style="font-size:12px;line-height:1.6;color:#64746f">Si el botón no funciona, copia este enlace en tu navegador:<br>${link}</p>
-      <p style="font-size:12px;line-height:1.6;color:#64746f">Si no solicitaste unirte a Psicampus, ignora este correo.</p>
+      <p style="font-size:12px;line-height:1.6;color:#64746f">Si no solicitaste unirte a Psyconova, ignora este correo.</p>
     </div>
-    <p style="text-align:center;font-size:11px;color:#8a948f;margin-top:14px">Psicampus · Bienestar universitario</p>
+    <p style="text-align:center;font-size:11px;color:#8a948f;margin-top:14px">Psyconova · Bienestar universitario</p>
   </div>
 </body></html>`;
 }
