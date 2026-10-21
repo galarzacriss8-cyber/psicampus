@@ -3,6 +3,7 @@ import { get, insert, run } from '../db.mjs';
 import { hashPassword, requireAuth, signToken, verifyPassword } from '../auth.mjs';
 import { nowISO, uid } from '../util.mjs';
 import { notify } from '../services.mjs';
+import { sendMail } from '../mailer.mjs';
 
 import { verifyGoogleToken, provisionGoogleUser, googleEnabled, googleClientId } from '../google-auth.mjs';
 
@@ -33,7 +34,7 @@ authRouter.post('/login', wrap((req, res) => {
   res.json({ token, user: safe, ...profileFor(user) });
 }));
 
-authRouter.post('/register', wrap((req, res) => {
+authRouter.post('/register', wrap(async (req, res) => {
   const { name, email, password, phone, university, career } = req.body || {};
   if (!name || !email || !password) return res.status(400).json({ error: 'Completa nombre, correo y contraseña' });
   if (String(password).length < 8) return res.status(400).json({ error: 'La contraseña debe tener al menos 8 caracteres' });
@@ -63,6 +64,16 @@ authRouter.post('/register', wrap((req, res) => {
     userId, audience: 'user', title: 'Tu cuenta está lista',
     body: 'Ya puedes agendar, ver tus citas y subir comprobantes desde tu portal.', kind: 'success', link: '/portal',
   });
+
+  try {
+    await sendMail({
+      to: normalized,
+      subject: '¡Bienvenido a Psicampus!',
+      html: `<p>Hola <b>${String(name).trim()}</b>,</p><p>Te saludan de <b>Psicampus</b>. Tu registro fue exitoso y ya puedes acceder a tu portal.</p><p>Gracias por confiar en nosotros.</p>`,
+      text: `Hola ${String(name).trim()}, te saludan de Psicampus. Tu registro fue exitoso y ya puedes acceder a tu portal.`
+    });
+  } catch (e) { /* silencioso */ }
+
   const user = get('SELECT id, email, role, name, phone, avatar, active FROM users WHERE id = ?', userId);
   res.status(201).json({ token: signToken(user), user, ...profileFor(user) });
 }));
