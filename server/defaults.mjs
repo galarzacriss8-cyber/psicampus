@@ -1,9 +1,9 @@
 export const DEFAULT_SETTINGS = {
   brand: {
     name: 'Psyconova',
-    tagline: 'Bienestar psicológico universitario',
+    tagline: 'Bienestar psicológico para todas las personas',
     monogram: 'P',
-    claim: 'Terapia accesible para la comunidad universitaria',
+    claim: 'Terapia accesible para la toda la comunidad',
   },
   contact: {
     phone: '983465028',
@@ -15,10 +15,10 @@ export const DEFAULT_SETTINGS = {
     instagram: '@psicampus.ec',
   },
   content: {
-    heroBadge: 'Programa de bienestar universitario',
+    heroBadge: 'Programa de bienestar para todas las personas',
     heroTitle: 'Tu mente también',
     heroHighlight: 'va a la universidad',
-    heroSubtitle: 'Acompañamiento psicológico para estudiantes, docentes y personal universitario. Terapia ética, humana y con una tarifa que se adapta a tu realidad económica.',
+    heroSubtitle: 'Acompañamiento psicológico para personas de todas las edades y profesiones. Terapia ética, humana y con una tarifa que se adapta a tu realidad económica.',
     heroImage: '/img/team/camila.jpg',
     primaryCta: 'Agendar mi primera sesión',
     secondaryCta: 'Conocer al equipo',
@@ -34,8 +34,8 @@ export const DEFAULT_SETTINGS = {
       { title: 'Transfiere y sube tu comprobante', text: 'Puedes pagar por transferencia y adjuntar la foto del comprobante desde tu celular.' },
       { title: 'Confirma y comienza', text: 'Recibes tu código de cita, recordatorios y acceso a tu portal de paciente.' },
     ],
-    aboutTitle: 'Una clínica pensada para la vida universitaria',
-    aboutText: 'Psicampus nace para que ningún estudiante tenga que elegir entre pagar la matrícula y cuidar su salud mental. Trabajamos con terapeutas acreditados, procesos clínicos rigurosos y una escala de aportes solidaria. Atendemos ansiedad, estrés académico, duelo, autoestima, relaciones, orientación vocacional y más.',
+    aboutTitle: 'Una clínica pensada para todas las etapas de la vida',
+    aboutText: 'Psicampus nace para que ninguna persona tenga que elegir entre pagar la matrícula y cuidar su salud mental. Trabajamos con terapeutas acreditados, procesos clínicos rigurosos y una escala de aportes solidaria. Atendemos ansiedad, estrés académico, duelo, autoestima, relaciones, orientación vocacional y más.',
     aboutPoints: [
       'Terapeutas con título y supervisión clínica permanente',
       'Confidencialidad garantizada y consentimiento informado',
@@ -51,9 +51,9 @@ export const DEFAULT_SETTINGS = {
       { q: '¿Mis datos están protegidos?', a: 'Sí. La historia clínica y las notas de sesión son confidenciales y solo las ve tu terapeuta asignado. La administración accede únicamente a datos de agenda y facturación.' },
     ],
     testimonials: [
-      { name: 'Sofía M.', role: 'Estudiante de Arquitectura · 6.º semestre', text: 'Llegué con un cuadro de ansiedad fuerte por la tesis. Poder pagar 7 dólares por sesión me salvó el semestre. La atención es seria, no un experimento.' },
-      { name: 'Diego A.', role: 'Docente de Ingeniería', text: 'La agenda en línea y el comprobante digital me ahorran todo el trámite. En dos clics reservo y ya sé con quién y cuándo.' },
-      { name: 'Karla V.', role: 'Estudiante de Psicología · 4.º semestre', text: 'Me gustó poder elegir terapeuta mujer y ver su universidad y enfoque antes de agendar. Se siente transparente.' },
+      { name: 'Sofía M.', role: 'Profesional · 29 años', text: 'Llegué con un cuadro de ansiedad fuerte por la tesis. Poder pagar 7 dólares por sesión me salvó el semestre. La atención es seria, no un experimento.' },
+      { name: 'Diego A.', role: 'Docente · 42 años', text: 'La agenda en línea y el comprobante digital me ahorran todo el trámite. En dos clics reservo y ya sé con quién y cuándo.' },
+      { name: 'Karla V.', role: 'Profesional · 31 años', text: 'Me gustó poder elegir terapeuta mujer y ver su universidad y enfoque antes de agendar. Se siente transparente.' },
     ],
     marketingNote: '* La tarifa social es un aporte voluntario sugerido. Ninguna persona se queda sin atención por no poder pagar.',
   },
@@ -118,7 +118,7 @@ export const DEFAULT_TIERS = [
   { code: 'B', name: 'Solidaria', price: 7, min_score: 12, max_score: 23, color: '#2b8a68', description: 'Para estudiantes que dependen de un ingreso familiar ajustado.' },
   { code: 'C', name: 'Accesible', price: 10, min_score: 24, max_score: 35, color: '#40916c', description: 'Ingresos bajos o becas parciales.' },
   { code: 'D', name: 'Accesible', price: 15, min_score: 36, max_score: 47, color: '#52896b', description: 'Ingresos medios bajos con gastos de estudio.' },
-  { code: 'E', name: 'Comunitaria', price: 20, min_score: 48, max_score: 59, color: '#748c5f', description: 'Aporte base del programa para la mayoría de estudiantes.' },
+  { code: 'E', name: 'Comunitaria', price: 20, min_score: 48, max_score: 59, color: '#748c5f', description: 'Aporte base para la mayoría de personas.' },
   { code: 'F', name: 'Comunitaria', price: 25, min_score: 60, max_score: 71, color: '#96855a', description: 'Ingresos medios con trabajo parcial.' },
   { code: 'G', name: 'Estándar', price: 30, min_score: 72, max_score: 82, color: '#b07d4f', description: 'Profesionales y docentes con ingresos estables. Máximo para terapia individual.' },
   { code: 'H', name: 'Estándar', price: 35, min_score: 83, max_score: 91, color: '#c06b45', description: 'Ingresos medios altos o familias con capacidad de aporte. Disponible en terapia de pareja.' },

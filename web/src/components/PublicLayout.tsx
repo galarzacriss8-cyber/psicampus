@@ -120,7 +120,7 @@ export function PublicLayout({ children }: { children: ReactNode }) {
           </div>
           <div className="footer-bottom">
             <span>© {new Date().getFullYear()} Psyconova · Bienestar universitario. Todos los derechos reservados.</span>
-            <span>Hecho para la comunidad universitaria · Quito, Ecuador</span>
+            <span>Hecho para la toda la comunidad · Quito, Ecuador</span>
           </div>
         </div>
       </footer>
