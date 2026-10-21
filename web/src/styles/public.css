@@ -93,7 +93,7 @@ section.block.tight { padding: 64px 0; }
 .step .num { font-family: var(--serif); font-size: 15px; color: var(--clay); font-style: italic; }
 .step h3 { font-size: 17px; margin: 12px 0 8px; }
 .step p { font-size: 13.5px; color: var(--muted); line-height: 1.6; margin: 0; }
-.step .icon-chip { margin-top: 18px; background: transparent; border: 1px solid var(--line); width: 36px; height: 36px; border-radius: 50%; }
+.step .icon-chip { margin-top: 18px; background: transparent; border: 1px solid var(--line); width: 36px; height: 36px; border-radius: 50%; color: var(--ink); }
 
 .therapist-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 .therapist-marquee { overflow: hidden; position: relative; padding: 4px 0 10px; -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 4%, #000 96%, transparent 100%); mask-image: linear-gradient(90deg, transparent 0, #000 4%, #000 96%, transparent 100%); }
@@ -427,6 +427,7 @@ body.dark-mode .step p, body.dark-mode .section-head p { color:#a9bad0; }
 .reveal { opacity: 1 !important; transform: none !important; }
 .section-head h2, .section-head h3, .step h3, .step p, .program-copy h2, .program-copy h3 { opacity: 1 !important; color: var(--ink); }
 .step p { color: var(--muted); }
+body.dark-mode .step .icon-chip { color: #dde4ef; border-color: rgba(255,255,255,.25); }
 .program-copy h2 { color: var(--ink); }
 
 /* Modo oscuro: pequeños y auxiliares blancos/claros */
