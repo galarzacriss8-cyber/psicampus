@@ -1,23 +1,23 @@
 @import url('/fonts/fonts.css');
 
 :root {
-  --cream: #f6f1e6;
-  --cream-2: #efe8d8;
-  --paper: #fffdf8;
-  --ink: #14231f;
-  --ink-soft: #33443f;
-  --forest: #0f3b33;
-  --forest-2: #165247;
-  --forest-3: #1e6457;
-  --moss: #6f8b74;
-  --sage: #b9cbb5;
-  --sage-soft: #e3ebdd;
-  --sand: #e7dcc7;
-  --clay: #c0603c;
-  --clay-2: #a94f2f;
-  --clay-soft: #f4ddd1;
-  --gold: #b98a2f;
-  --muted: #64746f;
+  --cream: #f5f7fa;
+  --cream-2: #eef2f6;
+  --paper: #ffffff;
+  --ink: #12284a;
+  --ink-soft: #3a557f;
+  --forest: #1b4d80;
+  --forest-2: #2a6ba8;
+  --forest-3: #3b82c2;
+  --moss: #7aa3c7;
+  --sage: #c2dde8;
+  --sage-soft: #e2f0fa;
+  --sand: #c8d6e3;
+  --clay: #5a87ad;
+  --clay-2: #41709a;
+  --clay-soft: #dde8f0;
+  --gold: #c09a55;
+  --muted: #6a7b8c;
   --line: rgba(20, 35, 31, 0.12);
   --line-strong: rgba(20, 35, 31, 0.22);
   --danger: #a83a35;
@@ -250,10 +250,10 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 24px 0; }
   .panel-body { padding: 16px; }
 }
 /* Modo oscuro estético */
-body.dark-mode { --cream:#0b0c12; --cream-2:#121420; --paper:#161826; --ink:#edece3; --ink-soft:#b8b2a5; --forest:#163832; --forest-2:#2a5e4a; --forest-3:#366e5a; --moss:#7d9c82; --sage:#9fbfa5; --sage-soft:#c3d7c8; --sand:#7a6e58; --clay:#b8724a; --clay-2:#a05e38; --clay-soft:#5c3a27; --gold:#cfa855; --muted:#8a9588; --line:rgba(235,230,210,0.08); --line-strong:rgba(235,230,210,0.15); --shadow:0 24px 48px -30px rgba(0,0,0,0.7); --shadow-lg:0 40px 80px -40px rgba(0,0,0,0.7); background:var(--cream); color:var(--ink); }
+body.dark-mode { --cream:#0a1120; --cream-2:#121e3a; --paper:#152238; --ink:#dde4ef; --ink-soft:#aab2c4; --forest:#2a6ba8; --forest-2:#3b82c2; --forest-3:#4b9ad1; --moss:#7aa3c7; --sage:#c2dde8; --sage-soft:#dde8f0; --sand:#8896a8; --clay:#5a87ad; --clay-2:#41709a; --clay-soft:#dde8f0; --gold:#cfa855; --muted:#8899aa; --line:rgba(210,220,235,0.10); --line-strong:rgba(210,220,235,0.18); --shadow:0 24px 48px -30px rgba(10,17,32,0.7); --shadow-lg:0 40px 80px -40px rgba(10,17,32,0.7); background:var(--cream); color:var(--ink); }
 body.dark-mode .btn { --btn-bg:var(--forest-2); --btn-fg:var(--cream); --btn-bd:var(--forest-2); }
 body.dark-mode .btn-ghost { --btn-bg:transparent; --btn-fg:var(--sage); --btn-bd:rgba(235,230,210,0.15); }
-body.dark-mode .btn-soft { --btn-bg:#233a2a; --btn-fg:var(--sage); --btn-bd:transparent; }
+body.dark-mode .btn-soft { --btn-bg:#163a5c; --btn-fg:var(--sage); --btn-bd:transparent; }
 body.dark-mode .panel { background:var(--paper); border-color:rgba(235,230,210,0.08); }
 body.dark-mode .input { background:#181a22; color:var(--ink); border-color:#2e3542; }
 body.dark-mode h1,h2,h3,h4 { color:#f0ead6; }
