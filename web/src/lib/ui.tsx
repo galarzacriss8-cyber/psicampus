@@ -291,16 +291,11 @@ export function MonthNav({ date, onChange }: { date: Date; onChange: (d: Date) =
 
 export function Brand({ dark = false }: { dark?: boolean }) {
   return (
-    <span className="brand" style={dark ? { color: 'var(--paper)' } : undefined}>
-      <svg className="brand-mark" viewBox="0 0 48 48" fill="none" aria-hidden>
-        <rect width="48" height="48" rx="15" fill={dark ? '#F6F1E6' : '#0F3B33'} />
-        <path d="M24 12c4.2 3.2 6.3 6.9 6.3 11.2 0 5.6-2.8 9.4-6.3 12.8-3.5-3.4-6.3-7.2-6.3-12.8C17.7 18.9 19.8 15.2 24 12Z" fill={dark ? '#0F3B33' : '#F6F1E6'} />
-        <circle cx="24" cy="24" r="2.6" fill={dark ? '#F6F1E6' : '#0F3B33'} />
-        <circle cx="35" cy="14" r="2.2" fill="#C0603C" />
-      </svg>
-      <span>
+    <span className="brand" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, color: dark ? '#edece3' : 'var(--ink)' }}>
+      <img src="/img/logo-user.png" alt="Psyconova" style={{ height: 36, width: 36, borderRadius: '50%', objectFit: 'cover', boxShadow: '0 2px 6px rgba(27,77,128,0.18)' }} />
+      <span style={{ lineHeight: 1.15 }}>
         Psyconova
-        <small>Bienestar psicológico</small>
+        <small style={{ display: 'block', fontSize: 11, letterSpacing: 0.08em, color: dark ? '#c2dde8' : '#3a557f' }}>BIENESTAR PSICOLÓGICO</small>
       </span>
     </span>
   );
