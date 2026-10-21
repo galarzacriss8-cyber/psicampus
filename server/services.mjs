@@ -38,11 +38,11 @@ export function audit(user, action, entity, entityId, detail) {
 
 export function therapistPublic(row) {
   if (!row) return null;
-  return {
-    ...row,
-    approaches: safeArray(row.approaches),
-    age: row.birthdate ? Math.floor((Date.now() - new Date(row.birthdate).getTime()) / 31557600000) : null,
-  };
+  const out = { ...row, approaches: safeArray(row.approaches), age: row.birthdate ? Math.floor((Date.now() - new Date(row.birthdate).getTime()) / 31557600000) : null };
+  delete out.license;
+  delete out.registration;
+  delete out.senecyt;
+  return out;
 }
 
 export function safeArray(v) {

@@ -56,7 +56,7 @@ export function TherapistModal({ t, open, onClose, onBook }: { t: any | null; op
                 <div className="detail-row"><span>Universidad</span><strong>{t.university}</strong></div>
                 <div className="detail-row"><span>Formación</span><strong>{t.degree}</strong></div>
                 <div className="detail-row"><span>Experiencia</span><strong>{t.years} años</strong></div>
-                <div className="detail-row"><span>Registro profesional</span><strong>{t.license || '—'}</strong></div>
+
                 <div className="detail-row"><span>Idiomas</span><strong>{t.languages}</strong></div>
                 <div className="detail-row"><span>Enfoques</span><strong style={{ maxWidth: 240 }}>{t.approaches.join(' · ')}</strong></div>
               </div>
