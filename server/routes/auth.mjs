@@ -13,6 +13,7 @@ const wrap = (fn) => (req, res, next) => Promise.resolve(fn(req, res, next)).cat
 function profileFor(user) {
   if (user.role === 'paciente') {
     const p = get('SELECT * FROM patients WHERE user_id = ? OR lower(email) = lower(?) ORDER BY (user_id = ?) DESC LIMIT 1', user.id, user.email, user.id);
+    if (!p || p.status !== 'aprobado') return { patientId: null, therapistId: null, patient: null };
     return { patientId: p?.id || null, therapistId: null, patient: p || null };
   }
   if (user.role === 'terapeuta') {
@@ -56,7 +57,7 @@ authRouter.post('/register', wrap(async (req, res) => {
       id: pid, user_id: userId, name: String(name).trim(), email: normalized, phone: phone || null,
       gender: null, birthdate: null, university: university || null, career: career || null,
       semester: null, city: null, referred_by: 'Registro web', notes: null, tags: '[]',
-      tier_code: null, assigned_price: null, status: 'activo', risk: 'bajo', created_at: nowISO(),
+      tier_code: null, assigned_price: null, status: 'pendiente', risk: 'bajo', created_at: nowISO(),
     });
     patient = get('SELECT * FROM patients WHERE id = ?', pid);
   }

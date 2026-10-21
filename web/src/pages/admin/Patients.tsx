@@ -124,7 +124,7 @@ export function AdminPatients() {
         footer={detail && (
           <>
             <button className="btn btn-sm btn-ghost" onClick={() => setEdit({ ...detail.patient, tierCode: detail.patient.tier_code, assignedPrice: detail.patient.assigned_price })}><Pencil /> Editar</button>
-            <button className="btn btn-sm" onClick={() => save({ status: detail.patient.status === 'activo' ? 'inactivo' : 'activo' })}>{detail.patient.status === 'activo' ? 'Marcar inactivo' : 'Reactivar'}</button>
+            <button className="btn btn-sm" onClick={() => save({ status: detail.patient.status === 'aprobado' ? 'inactivo' : 'aprobado' })}>{detail.patient.status === 'aprobado' ? 'Marcar inactivo' : 'Aprobar'}</button>
           </>
         )}
       >
@@ -280,8 +280,8 @@ function PatientModal({ patient, tiers, onClose, onSave }: { patient: any; tiers
         </Field>
         <Field label="Aporte (USD)"><input className="input" type="number" value={form.assigned_price ?? ''} onChange={(e) => setForm({ ...form, assigned_price: e.target.value })} /></Field>
         <Field label="Estado">
-          <select className="select" value={form.status || 'activo'} onChange={(e) => setForm({ ...form, status: e.target.value })}>
-            <option value="activo">Activo</option><option value="inactivo">Inactivo</option>
+          <select className="select" value={form.status || 'pendiente'} onChange={(e) => setForm({ ...form, status: e.target.value })}>
+            <option value="pendiente">Pendiente</option><option value="aprobado">Aprobado</option><option value="inactivo">Inactivo</option>
           </select>
         </Field>
       </div>

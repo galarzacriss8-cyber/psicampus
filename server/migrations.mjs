@@ -93,7 +93,14 @@ export function applyMigrations() {
   }
   run(`UPDATE audit SET user_name = 'Psyconova' WHERE user_name = 'Andrea Salgado'`);
 
-  // 7) Cuenta de acceso de la terapeuta Amie Ibujes (requisito del usuario)
+  // 7) Portal solo aprobado: convertir pacientes activos existentes
+  const actives = all(`SELECT id FROM patients WHERE status = 'activo'`);
+  for (const a of actives || []) {
+    run(`UPDATE patients SET status = 'aprobado' WHERE id = ?`, a.id);
+    changes.push(`paciente ${a.id} aprobado`);
+  }
+
+  // 8) Cuenta de acceso de la terapeuta Amie Ibujes (requisito del usuario)
   const EMAIL_T = 'vamieicruz@gmail.com';
   const PASS_T = process.env.AMIE_LOGIN_PASSWORD || 'Amietequiero1';
   const th = get(`SELECT id FROM therapists WHERE name = 'Amie Ibujes' LIMIT 1`);

@@ -119,6 +119,7 @@ publicRouter.post('/bookings', wrap(async (req, res) => {
       birthdate: b.birthdate || null, university: b.university || null, career: b.career || null,
       semester: b.semester || null, city: b.city || null, referred_by: b.referredBy || 'Reserva en línea',
       notes: null, tags: JSON.stringify([]), tier_code: survey?.tier.code || 'E',
+      status: 'pendiente',
       assigned_price: survey?.tier.price || therapist.price_base, status: 'activo', risk: 'bajo',
       created_at: nowISO(),
     });

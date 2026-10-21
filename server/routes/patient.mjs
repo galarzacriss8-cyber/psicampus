@@ -14,6 +14,13 @@ function myPatient(req) {
   return get('SELECT * FROM patients WHERE user_id = ? OR lower(email) = lower(?) ORDER BY (user_id = ?) DESC LIMIT 1', req.user.id, req.user.email, req.user.id);
 }
 
+patientRouter.use(requireAuth('paciente'), wrap((req, res, next) => {
+  const p = myPatient(req);
+  if (!p || p.status !== 'aprobado') return res.status(403).json({ error: 'Perfil pendiente de aprobación. Contacta a tu terapeuta o administración para acceder al portal.' });
+  req.approvedPatient = p;
+  next();
+}));
+
 patientRouter.get('/overview', wrap((req, res) => {
   const p = myPatient(req);
   if (!p) return res.status(404).json({ error: 'Perfil de paciente no encontrado' });
