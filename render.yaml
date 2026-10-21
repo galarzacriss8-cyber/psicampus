@@ -17,6 +17,20 @@ services:
         value: production
       - key: SMTP_ENABLED
         value: true
+      - key: SMTP_HOST
+        value: smtp.gmail.com
+      - key: SMTP_PORT
+        value: 465
+      - key: SMTP_SECURE
+        value: true
+      - key: SMTP_USER
+        value: hola@psicampus.ec
+      - key: SMTP_FROM
+        value: hola@psicampus.ec
+      - key: SMTP_PASS
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
     disk:
       name: psicampus-data
       mountPath: /data
