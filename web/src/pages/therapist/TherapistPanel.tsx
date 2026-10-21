@@ -11,7 +11,7 @@ export function TherapistPanel() {
   const toast = useToast();
   const { data, loading, error, reload } = useFetch<any>(() => api('/therapist/overview'), []);
   const [tab, setTab] = useState('hoy');
-  const [profile, setProfile] = useState({ ...(t || {}), approaches: Array.isArray((t || {}).approaches) ? (t || {}).approaches.join(', ') : ((t || {}).approaches || '') });
+  const [profile, setProfile] = useState({ ...(data?.therapist || {}), approaches: Array.isArray((data?.therapist || {}).approaches) ? (data?.therapist || {}).approaches.join(', ') : ((data?.therapist || {}).approaches || '') });
   const [photo, setPhoto] = useState<string | null>(null);
   const [noteFor, setNoteFor] = useState<any>(null);
 
