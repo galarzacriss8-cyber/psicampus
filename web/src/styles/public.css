@@ -81,7 +81,7 @@ section.block { padding: 92px 0; }
 section.block.tight { padding: 64px 0; }
 .section-head { max-width: 660px; margin-bottom: 44px; }
 .section-head.center { margin-inline: auto; text-align: center; }
-.section-head h2 { font-size: clamp(32px, 3.6vw, 48px); margin: 14px 0 14px; }
+.section-head h2 { font-size: clamp(32px, 3.6vw, 48px); margin: 14px 0 14px; color: var(--ink); }
 .section-head p { color: var(--muted); font-size: 15.5px; max-width: 560px; }
 .section-head.center p { margin-inline: auto; }
 .section-head-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 40px; flex-wrap: wrap; }
