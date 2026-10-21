@@ -129,7 +129,7 @@ export function AuthPage({ mode }: { mode: 'login' | 'register' }) {
 
           <p className="small muted" style={{ marginTop: 16, textAlign: 'center' }}>
             {mode === 'login' ? (
-              <>¿No tienes cuenta? <Link to="/registro" style={{ color: 'var(--forest-2)', fontWeight: 700 }}>Regístrate</Link></>
+              <>¿No tienes cuenta? <Link to="/trabaja-con-nosotros" style={{ color: 'var(--forest-2)', fontWeight: 700 }}>Regístrate</Link></>
             ) : (
               <>¿Ya tienes cuenta? <Link to="/login" style={{ color: 'var(--forest-2)', fontWeight: 700 }}>Inicia sesión</Link></>
             )}
