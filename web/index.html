@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -20,8 +20,14 @@
     <link rel="preload" href="/fonts/fraunces-0.woff2" as="font" type="font/woff2" crossorigin />
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <link rel="preload" href="/fonts/manrope-3.woff2" as="font" type="font/woff2" crossorigin />
+    <style>
+      body.dark-mode { background:#111319; color:#eae6df; }
+      body.dark-mode .site-header, body.dark-mode .site-footer { background:#181b22; color:#eae6df; }
+      body.dark-mode .site-nav a, body.dark-mode .btn-ghost { color:#eae6df; }
+    </style>
   </head>
   <body>
+    <script>if(localStorage.getItem('dark')==='1'){document.body.classList.add('dark-mode');}</script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

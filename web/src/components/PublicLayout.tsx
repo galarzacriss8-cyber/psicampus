@@ -1,5 +1,5 @@
-﻿import { useEffect, useState, type ReactNode } from 'react';
-import { ArrowUpRight, Menu, X, AtSign, Mail, MapPin, Phone, Clock, ShieldCheck } from 'lucide-react';
+import { useEffect, useState, type ReactNode } from 'react';
+import { ArrowUpRight, Menu, X, AtSign, Mail, MapPin, Phone, Clock, ShieldCheck, Moon, Sun } from 'lucide-react';
 import { Link, useRouter } from '../lib/router';
 import { useSite } from '../lib/site';
 import { Brand } from '../lib/ui';
@@ -18,6 +18,7 @@ export function PublicLayout({ children }: { children: ReactNode }) {
   const contact = data?.settings?.contact || {};
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [dark, setDark] = useState(() => typeof window !== 'undefined' ? document.body.classList.contains('dark-mode') : false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -25,6 +26,13 @@ export function PublicLayout({ children }: { children: ReactNode }) {
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  const toggleDark = () => {
+    const d = !dark;
+    setDark(d);
+    document.body.classList.toggle('dark-mode', d);
+    if (typeof window !== 'undefined') localStorage.setItem('dark', d ? '1' : '0');
+  };
 
   const goSection = (key: string) => {
     setOpen(false);
@@ -58,6 +66,9 @@ export function PublicLayout({ children }: { children: ReactNode }) {
             <Link className="btn btn-sm" to="/agendar">
               Agendar cita <ArrowUpRight />
             </Link>
+            <button className="icon-btn" onClick={toggleDark} aria-label="Modo oscuro" title="Modo oscuro">
+              {dark ? <Sun style={{ width: 18, height: 18 }} /> : <Moon style={{ width: 18, height: 18 }} />}
+            </button>
             <button className="icon-btn menu-toggle" onClick={() => setOpen((v) => !v)} aria-label="MenÃº">
               {open ? <X /> : <Menu />}
             </button>
