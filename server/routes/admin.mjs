@@ -380,6 +380,7 @@ adminRouter.patch('/applications/:id', wrap(async (req, res) => {
       note: req.body?.note || 'Solicitud rechazada por administración',
     });
     audit(req.user, 'rechazar_profesional', 'application', app.id, app.name);
+    try { await sendMail({ to: app.email, from: 'psicoeducativobienestar@gmail.com', subject: 'Psyconova · Respuesta a tu solicitud', html: `<p>Hola <b>${app.name}</b>,</p><p>Lamentamos informarte que tu solicitud no fue aprobada esta vez.</p><p>Te agradecemos tu interés; te contactaremos si evaluamos tu perfil en el futuro.</p><p>— Equipo Psyconova</p>` }); } catch {}
     return res.json({ ok: true });
   }
 

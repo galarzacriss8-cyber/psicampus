@@ -234,7 +234,7 @@ publicRouter.post('/bookings/:code/receipt', wrap((req, res) => {
   res.json({ ok: true, receipt: url, message: 'Comprobante recibido. Administración lo validará en las próximas horas.' });
 }));
 
-publicRouter.post('/applications', wrap((req, res) => {
+publicRouter.post('/applications', wrap(async (req, res) => {
   const b = req.body || {};
   for (const k of ['name', 'email', 'phone', 'university', 'degree', 'description']) {
     if (!String(b[k] || '').trim()) return res.status(400).json({ error: 'Completa todos los campos obligatorios' });
@@ -265,6 +265,7 @@ publicRouter.post('/applications', wrap((req, res) => {
     userId: 'usr_admin', audience: 'admin', title: 'Nueva solicitud de profesional',
     body: `${b.name} · ${b.degree || ''} · ${b.university || ''}`, kind: 'info', link: '/admin/solicitudes',
   });
+  try { await sendMail({ to: email, from: 'psicoeducativobienestar@gmail.com', subject: 'Psyconova · Recibimos tu solicitud', html: `<p>Hola <b>${b.name}</b>,</p><p>Gracias por enviar tu perfil profesional a <b>Psyconova</b>.</p><p>Estamos revisando tu información y <b>nos contactaremos contigo</b> pronto por este correo o WhatsApp.</p><p>— Equipo Psyconova · Av. Universitaria, Campus Norte, Quito</p>` }); } catch {}
   res.status(201).json({ ok: true, message: 'Recibimos tu solicitud. El equipo revisará tu perfil y te contactará por correo o WhatsApp.' });
 }));
 
