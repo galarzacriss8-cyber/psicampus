@@ -55,8 +55,8 @@ export function Home() {
             <div className="hero-arch">
               <img src={c.heroImage || '/img/team/camila.jpg'} alt="Terapeuta de Psyconova" />
               <div className="hero-arch-caption">
-                <strong>Camila Herrera</strong>
-                <span>Psicóloga clínica · Universidad Central del Ecuador</span>
+                <strong>Amie Ibujes</strong>
+                <span>Psicóloga clínica · Universidad Católica del Ecuador</span>
               </div>
             </div>
             <div className="hero-float price">

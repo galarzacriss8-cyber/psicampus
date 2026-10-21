@@ -115,11 +115,11 @@ export function applyMigrations() {
   if (!u) {
     const userId = 'usr_amie_ibujes';
     run(`INSERT INTO users (id, email, password_hash, role, name, active, created_at) VALUES (?, ?, ?, 'terapeuta', 'Amie Ibujes', 1, ?)`, userId, EMAIL_T, hashPassword(PASS_T), new Date().toISOString());
-    run(`UPDATE therapists SET user_id = ? WHERE id = ?`, userId, thId);
+    run(`UPDATE therapists SET user_id = ?, university = 'Pontificia Universidad Católica del Ecuador', degree = 'Psicóloga Clínica', gender = 'femenino', active = 1 WHERE id = ?`, userId, thId);
     changes.push('cuenta Amie Ibujes creada');
   } else {
     run(`UPDATE users SET password_hash = ?, role = 'terapeuta', active = 1, name = 'Amie Ibujes' WHERE id = ?`, hashPassword(PASS_T), u.id);
-    run(`UPDATE therapists SET user_id = ? WHERE id = ?`, u.id, thId);
+    run(`UPDATE therapists SET user_id = ?, university = 'Pontificia Universidad Católica del Ecuador', degree = 'Psicóloga Clínica', gender = 'femenino', active = 1 WHERE id = ?`, u.id, thId);
     changes.push('cuenta Amie Ibujes actualizada');
   }
 
