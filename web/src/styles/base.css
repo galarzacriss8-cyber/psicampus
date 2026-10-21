@@ -1,23 +1,23 @@
 @import url('/fonts/fonts.css');
 
 :root {
-  --cream: #f5f7fa;
-  --cream-2: #eef2f6;
+  --cream: #f6f8fb;
+  --cream-2: #edf1f6;
   --paper: #ffffff;
-  --ink: #12284a;
-  --ink-soft: #3a557f;
-  --forest: #11161f;
-  --forest-2: #1c2531;
-  --forest-3: #2c3746;
-  --moss: #47566a;
-  --sage: #b9c6d4;
-  --sage-soft: #e6ecf3;
-  --sand: #c8d6e3;
-  --clay: #b56a2d;
-  --clay-2: #8b5020;
-  --clay-soft: #f5e6d3;
+  --ink: #171c24;
+  --ink-soft: #414a59;
+  --forest: #1b4d80;
+  --forest-2: #2a6ba8;
+  --forest-3: #3b82c2;
+  --moss: #4a86b8;
+  --sage: #bcd9ec;
+  --sage-soft: #e2eef7;
+  --sand: #c9d6e2;
+  --clay: #1e5c96;
+  --clay-2: #154c87;
+  --clay-soft: #dfeaf4;
   --gold: #c09a55;
-  --muted: #6a7b8c;
+  --muted: #5d6874;
   --line: rgba(20, 35, 31, 0.12);
   --line-strong: rgba(20, 35, 31, 0.22);
   --danger: #a83a35;
