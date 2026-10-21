@@ -177,6 +177,14 @@ publicRouter.post('/bookings', wrap(async (req, res) => {
     });
   } catch (e) { /* silencioso */ }
 
+  try {
+    await sendMail({
+      to: 'psicoeducativobienestar@gmail.com',
+      subject: `Psyconova · Nueva cita · ${String(patient.name || b.name || '')}`,
+      html: `<p><b>${String(patient.name || b.name || '')}</b> reservó con <b>${therapist.name}</b>.</p><p>Fecha: <b>${b.date} ${slot.start}</b> · Modalidad: <b>${modalityFinal}</b> · Código: <b>${code}</b></p><p>Correo: ${patient.email} · Teléfono: ${b.phone || '-'}</p>`
+    });
+  } catch (e) { /* silencioso */ }
+
   res.status(201).json({
     appointment: appointmentFull(id),
     code,
@@ -251,6 +259,7 @@ publicRouter.post('/applications', wrap(async (req, res) => {
     catch (e) { return res.status(400).json({ error: e.message }); }
   }
   const id = uid('app_');
+  if (!photo) return res.status(400).json({ error: 'Sube tu foto de perfil para completar la solicitud' });
   const approaches = Array.isArray(b.approaches)
     ? b.approaches
     : String(b.approaches || '').split(',').map((s) => s.trim()).filter(Boolean);
@@ -265,6 +274,7 @@ publicRouter.post('/applications', wrap(async (req, res) => {
     userId: 'usr_admin', audience: 'admin', title: 'Nueva solicitud de profesional',
     body: `${b.name} · ${b.degree || ''} · ${b.university || ''}`, kind: 'info', link: '/admin/solicitudes',
   });
+  try { await sendMail({ to: 'psicoeducativobienestar@gmail.com', from: 'psicoeducativobienestar@gmail.com', subject: 'Psyconova · Nueva solicitud profesional', html: `<p>Solicitante: <b>${b.name}</b> · <b>${email}</b></p><p>Universidad: ${b.university || '-'}</p><p>Título: ${b.degree || '-'}</p><p>Enfoques: ${approaches.join(', ')}</p>` }); } catch {}
   try { await sendMail({ to: email, from: 'psicoeducativobienestar@gmail.com', subject: 'Psyconova · Recibimos tu solicitud', html: `<p>Hola <b>${b.name}</b>,</p><p>Gracias por enviar tu perfil profesional a <b>Psyconova</b>.</p><p>Estamos revisando tu información y <b>nos contactaremos contigo</b> pronto por este correo o WhatsApp.</p><p>— Equipo Psyconova · Av. Universitaria, Campus Norte, Quito</p>` }); } catch {}
   res.status(201).json({ ok: true, message: 'Recibimos tu solicitud. El equipo revisará tu perfil y te contactará por correo o WhatsApp.' });
 }));

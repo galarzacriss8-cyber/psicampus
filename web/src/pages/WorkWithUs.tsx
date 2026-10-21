@@ -55,7 +55,7 @@ export function WorkWithUs() {
           <div>
             <span className="eyebrow">Trabaja con nosotros</span>
             <h1 className="display" style={{ fontSize: 'clamp(38px, 5vw, 60px)', marginTop: 12 }}>
-              Súmate al equipo que <em style={{ color: 'var(--clay)' }}>cuida el campus</em>
+              Súmate al equipo que <em style={{ color: 'var(--clay)' }}>cuida la comunidad</em>
             </h1>
             <p className="lead" style={{ maxWidth: 500 }}>
               Buscamos psicólogos y psicólogas con título profesional, vocación de servicio y ganas de acompañar a estudiantes y docentes. Nosotros ponemos la plataforma, la agenda y la tarifa social; tú pones la escucha.
@@ -100,7 +100,7 @@ export function WorkWithUs() {
                     <option value="virtual">Solo virtual</option>
                   </select>
                 </Field>
-                <Field label="Foto de perfil (opcional)">
+                <Field label="Foto de perfil (requerida)">
                   <label className="btn btn-sm btn-ghost" style={{ display: 'inline-flex' }}>
                     <Upload /> Subir foto
                     <input type="file" accept="image/*" hidden onChange={async (e) => {
