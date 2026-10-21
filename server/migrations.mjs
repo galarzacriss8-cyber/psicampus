@@ -83,11 +83,13 @@ export function applyMigrations() {
     changes.push(`contacto ${JSON.stringify(nextContact)}`);
   }
 
-  // 6) El usuario administrador se muestra como marca, no como persona
-  const adminUser = get(`SELECT id, name FROM users WHERE id = 'usr_admin'`);
-  if (adminUser && adminUser.name !== 'Psyconova') {
-    run(`UPDATE users SET name = 'Psyconova', phone = '983465028' WHERE id = 'usr_admin'`);
-    changes.push('nombre de administrador actualizado');
+  // 6) El usuario administrador se muestra como marca
+  const adminRows = all(`SELECT id, name FROM users WHERE role = 'admin'`);
+  for (const ad of adminRows || []) {
+    if (ad.name !== 'Psyconova') {
+      run(`UPDATE users SET name = 'Psyconova', phone = '983465028' WHERE id = ?`, ad.id);
+      changes.push(`admin ${ad.id} -> Psyconova`);
+    }
   }
   run(`UPDATE audit SET user_name = 'Psyconova' WHERE user_name = 'Andrea Salgado'`);
 

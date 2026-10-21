@@ -51,6 +51,7 @@ export function authFrom(req) {
   if (!payload) return null;
   const user = get('SELECT id, email, role, name, phone, avatar, active FROM users WHERE id = ?', payload.uid);
   if (!user || !user.active) return null;
+  if (user.role === 'admin') user.name = 'Psyconova';
   return user;
 }
 
