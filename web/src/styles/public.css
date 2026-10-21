@@ -96,8 +96,8 @@ section.block.tight { padding: 64px 0; }
 .step .icon-chip { margin-top: 18px; background: transparent; border: 1px solid var(--line); width: 36px; height: 36px; border-radius: 50%; }
 
 .therapist-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-.therapist-marquee { overflow: hidden; position: relative; }
-.therapist-marquee-track { display: flex; gap: 20px; animation: marqueeSlow 80s linear infinite; width: max-content; }
+.therapist-marquee { overflow: hidden; position: relative; padding: 4px 0 10px; -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 4%, #000 96%, transparent 100%); mask-image: linear-gradient(90deg, transparent 0, #000 4%, #000 96%, transparent 100%); }
+.therapist-marquee-track { display: flex; gap: 20px; animation: marqueeSlow 70s linear infinite; width: max-content; }
 .therapist-marquee:hover .therapist-marquee-track { animation-play-state: paused; }
 @keyframes marqueeSlow { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 .tm-item { flex: 0 0 300px; max-width: 320px; }

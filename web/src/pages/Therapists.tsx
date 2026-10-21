@@ -97,10 +97,12 @@ export function Therapists() {
           {list.length === 0 ? (
             <div className="card"><Empty title="No encontramos terapeutas con esos filtros" text="Prueba quitando algún filtro o escríbenos para orientarte." action={<Link className="btn btn-sm" to="/agendar">Agendar sin filtro</Link>} icon={<GraduationCap />} /></div>
           ) : (
-            <div className="therapist-grid">
-              {list.map((t: any, i: number) => (
-                <Reveal key={t.id} delay={i * 50}><TherapistCard t={t} onOpen={() => setSelected(t)} /></Reveal>
-              ))}
+            <div className="therapist-marquee">
+              <div className="therapist-marquee-track">
+                {[...list, ...list].map((t: any, i: number) => (
+                  <Reveal key={`${t.id}-${i}`} className="tm-item" delay={0}><TherapistCard t={t} onOpen={() => setSelected(t)} /></Reveal>
+                ))}
+              </div>
             </div>
           )}
 
