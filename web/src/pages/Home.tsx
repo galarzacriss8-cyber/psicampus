@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import {
   ArrowRight, ArrowUpRight, CalendarDays, Check, ClipboardList, HeartHandshake, ShieldCheck,
   Sparkles, Star, Upload, GraduationCap, Clock, Video, Wallet, Quote, Users,
@@ -61,7 +61,7 @@ export function Home() {
             </div>
             <div className="hero-float price">
               <span className="icon-chip clay"><Wallet /></span>
-              <div><strong>Desde {money(5)} por sesiÃ³n</strong><span>Tarifa social segÃºn tus ingresos</span></div>
+              <div><strong>Desde {money(settings?.pricing?.min || 7)} por sesiÃ³n</strong><span>Tarifa social segÃºn tus ingresos</span></div>
             </div>
             <div className="hero-float slot">
               <span className="icon-chip"><Clock /></span>
