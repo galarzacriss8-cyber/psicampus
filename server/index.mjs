@@ -4,6 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { adminRouter, therapistRouter } from './routes/admin.mjs';
 import { adminAdvancedRouter } from './routes/admin-advanced.mjs';
+import { reportsRouter } from './routes/reports.mjs';
 import { authRouter } from './routes/auth.mjs';
 import { patientRouter } from './routes/patient.mjs';
 import { publicRouter } from './routes/public.mjs';
@@ -45,6 +46,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/patient', patientRouter);
 app.use('/api/admin', adminRouter);
 app.use('/api/admin-advanced', adminAdvancedRouter);
+app.use('/api/admin/reports', reportsRouter);
 app.use('/api/therapist', therapistRouter);
 app.use('/uploads', express.static(UPLOAD_DIR, { maxAge: '7d' }));
 

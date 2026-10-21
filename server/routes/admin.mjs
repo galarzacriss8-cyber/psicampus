@@ -701,3 +701,14 @@ therapistRouter.get('/availability', wrap((req, res) => {
   const t = get('SELECT * FROM therapists WHERE user_id = ?', req.user.id);
   res.json(all('SELECT * FROM availability WHERE therapist_id = ? ORDER BY weekday, start', t.id));
 }));
+
+// Eliminar perfil de terapeuta solo admin
+adminRouter.delete('/therapists/:id', wrap(async (req, res) => {
+  const id = req.params.id;
+  const t = get('SELECT * FROM therapists WHERE id = ?', id);
+  if (!t) return res.status(404).json({ error: 'Terapeuta no encontrado' });
+  run('DELETE FROM therapists WHERE id = ?', id);
+  run('DELETE FROM availability WHERE therapist_id = ?', id);
+  audit(req.user, 'eliminar_terapeuta', 'therapist', id, `Eliminado ${t.name || id}`);
+  res.json({ ok: true });
+}));

@@ -8,10 +8,10 @@ export const DEFAULT_SETTINGS = {
   contact: {
     phone: '+593 99 120 4580',
     whatsapp: '593991204580',
-    email: 'hola@psicampus.ec',
-    address: 'Av. Universitaria 1240, Campus Norte · Quito',
+    email: 'psicoeducativobienestar@gmail.com',
+    address: 'Av. Universitaria, Campus Norte · Quito',
     city: 'Quito, Ecuador',
-    hours: 'Lun a Vie · 08:00 – 20:00 · Sáb 09:00 – 13:00',
+    hours: 'Lun a Vie 8:00 – 20:00 · Sáb 09:00 – 13:00',
     instagram: '@psicampus.ec',
   },
   content: {

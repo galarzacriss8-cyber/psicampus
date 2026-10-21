@@ -237,6 +237,7 @@ const AI_INTENTS = [
   { id: 'consult_policy_settings', keywords: ['configuracion', 'configuración', 'ajustes', 'politica', 'política'], perm: 'configuracion.ver', suggestion: 'Revisar la configuración de la plataforma' },
   { id: 'patient_history', keywords: ['historial', 'paciente', 'ficha', 'expediente'], perm: 'pacientes.ver', suggestion: 'Consultar la ficha de un paciente' },
   { id: 'generate_report', keywords: ['informe', 'reporte', 'estadistica', 'estadística', 'metricas', 'métricas'], perm: 'finanzas.ver', suggestion: 'Generar un informe operativo' },
+  { id: 'clinical_report', keywords: ['informe clinico', 'informe clínico', 'reporte paciente', 'sesiones asistidas', 'no asistidas', 'historia sesiones', 'registro sesion', 'pdf informe'], perm: 'pacientes.ver', suggestion: 'Generar informe clínico por paciente (asistidas / no asistidas)' },
   { id: 'roles_access', keywords: ['rol', 'roles', 'permiso', 'permisos', 'acceso'], perm: 'auditoria.ver', suggestion: 'Revisar roles y permisos' },
   { id: 'automation_run', keywords: ['automatizacion', 'automatización', 'regla', 'disparador'], perm: 'automatizaciones.editar', suggestion: 'Revisar o ejecutar automatizaciones' },
 ];
@@ -279,6 +280,46 @@ adminAdvancedRouter.post('/ai/assistant', wrap(async (req, res) => {
       answer.action = { type: 'patient_list', requiredFields: ['q'], hint: 'Indica el nombre o correo del paciente a consultar.' };
     } else if (intent === 'generate_report') {
       answer.action = { type: 'report_ready', requiredFields: ['from', 'to'], hint: 'Indica el rango de fechas del informe.' };
+    } else if (intent === 'clinical_report') {
+      const pid = req.body?.patientId;
+      if (pid) {
+        const p = get('SELECT * FROM patients WHERE id = ?', pid);
+        if (!p) {
+          answer.blocked = 'No se encontró ese paciente. Usa el buscador de pacientes para obtener su identificador.';
+        } else {
+          const rows = all(`SELECT a.*, t.name AS therapist_name FROM appointments a LEFT JOIN therapists t ON a.therapist_id = t.id WHERE a.patient_id = ? ORDER BY a.date DESC`, pid);
+          const lab = (st) => {
+            st = String(st || '').toLowerCase();
+            if (st.includes('asist') || st.includes('complet')) return 'Asistida';
+            if (st.includes('inasist') || st.includes('falta') || st.includes('cancel')) return 'No asistida';
+            return 'Pendiente';
+          };
+          const sessions = rows.map(r => ({
+            id: r.id, code: r.code, date: r.date, start: r.start, end: r.end,
+            modality: r.modality || 'presencial', status: r.status || 'pendiente',
+            attendance: lab(r.status), notes: r.notes || '', therapist: r.therapist_name || '—',
+          }));
+          answer.action = {
+            type: 'clinical_report',
+            patientId: pid,
+            patientName: p.name,
+            data: {
+              patient: { id: p.id, name: p.name, email: p.email },
+              sessions,
+              totals: {
+                attended: sessions.filter(x => x.attendance === 'Asistida').length,
+                missed: sessions.filter(x => x.attendance === 'No asistida').length,
+                pending: sessions.filter(x => x.attendance === 'Pendiente').length,
+              },
+            },
+            printUrl: `/api/admin/reports/patient/${pid}/print`,
+            hint: 'Informe con sesiones asistidas y no asistidas, listo para imprimir y firmar electrónicamente.',
+          };
+          answer.intentLabel = `Informe clínico de ${p.name}`;
+        }
+      } else {
+        answer.action = { type: 'clinical_report_input', requiredFields: ['patientId'], hint: 'Indica el paciente (por id o busca en Pacientes) para emitir el informe con sus sesiones asistidas y no asistidas.' };
+      }
     } else if (intent === 'roles_access') {
       answer.action = { type: 'roles_result', data: all('SELECT id, name, is_system FROM roles ORDER BY name') };
     } else if (intent === 'automation_run') {
