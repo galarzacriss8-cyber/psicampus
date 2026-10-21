@@ -23,9 +23,9 @@ export const DEFAULT_SETTINGS = {
     primaryCta: 'Agendar mi primera sesión',
     secondaryCta: 'Conocer al equipo',
     stats: [
-      { value: '1.480+', label: 'Sesiones acompañadas' },
-      { value: '94%', label: 'Pacientes que continúan' },
-      { value: '5 – 40 USD', label: 'Aporte por sesión' },
+      { value: '0', label: 'Sesiones acompañadas' },
+      { value: '0%', label: 'Pacientes que continúan' },
+      { value: '7 – 40 USD', label: 'Aporte por sesión' },
       { value: '48 h', label: 'Tiempo de respuesta' },
     ],
     steps: [

@@ -39,6 +39,16 @@ export function applyMigrations() {
     changes.push(`tier ${first.code}: ${first.price} -> ${min}`);
   }
 
+  // 4) Estadísticas públicas coherentes con el rango real de tarifas
+  const defContent = DEFAULT_SETTINGS.content || {};
+  if (Array.isArray(defContent.stats)) {
+    const curContent = settings().content || {};
+    if (JSON.stringify(curContent.stats) !== JSON.stringify(defContent.stats)) {
+      setSetting('content', { ...curContent, stats: defContent.stats });
+      changes.push('stats actualizadas');
+    }
+  }
+
   if (changes.length) console.log('[psicampus] migraciones aplicadas:', changes.join(' | '));
   return changes;
 }

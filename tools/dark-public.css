@@ -1,0 +1,13 @@
+/* Modo oscuro elegante */
+body.dark-mode .hero-float { background:rgba(235,230,210,0.06); border:1px solid rgba(235,230,210,0.10); color:#eae6df; }
+body.dark-mode .hero-float span { color:#b8b2a5; }
+body.dark-mode .hero-float .icon-chip { background:#2d4a3e; color:#c7dccf; }
+body.dark-mode .quote-card { background:#161826; border-color:#2e3542; color:#edece3; }
+body.dark-mode .quote-card p { color:#c8c4bb; }
+body.dark-mode .quote-card .who strong { color:#f0ead6; }
+body.dark-mode .quote-card .who span { color:#8a9588; }
+body.dark-mode .stats-band { border-top-color:#2e3542; border-bottom-color:#2e3542; }
+body.dark-mode .stat-item { border-right-color:#2e3542; }
+body.dark-mode .stat-item .v { color:#f0ead6; }
+body.dark-mode .stat-item .l { color:#8a9588; }
+body.dark-mode .badge { background:#2d4a3e; color:#c7dccf; border-color:#2a3e36; }
