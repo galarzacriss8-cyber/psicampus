@@ -249,3 +249,13 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 24px 0; }
   .card { padding: 18px; }
   .panel-body { padding: 16px; }
 }
+/* Modo oscuro estético */
+body.dark-mode { --cream:#0b0c12; --cream-2:#121420; --paper:#161826; --ink:#edece3; --ink-soft:#b8b2a5; --forest:#163832; --forest-2:#2a5e4a; --forest-3:#366e5a; --moss:#7d9c82; --sage:#9fbfa5; --sage-soft:#c3d7c8; --sand:#7a6e58; --clay:#b8724a; --clay-2:#a05e38; --clay-soft:#5c3a27; --gold:#cfa855; --muted:#8a9588; --line:rgba(235,230,210,0.08); --line-strong:rgba(235,230,210,0.15); --shadow:0 24px 48px -30px rgba(0,0,0,0.7); --shadow-lg:0 40px 80px -40px rgba(0,0,0,0.7); background:var(--cream); color:var(--ink); }
+body.dark-mode .btn { --btn-bg:var(--forest-2); --btn-fg:var(--cream); --btn-bd:var(--forest-2); }
+body.dark-mode .btn-ghost { --btn-bg:transparent; --btn-fg:var(--sage); --btn-bd:rgba(235,230,210,0.15); }
+body.dark-mode .btn-soft { --btn-bg:#233a2a; --btn-fg:var(--sage); --btn-bd:transparent; }
+body.dark-mode .panel { background:var(--paper); border-color:rgba(235,230,210,0.08); }
+body.dark-mode .input { background:#181a22; color:var(--ink); border-color:#2e3542; }
+body.dark-mode h1,h2,h3,h4 { color:#f0ead6; }
+body.dark-mode a { color:var(--sage); }
+body.dark-mode img { opacity:0.92; }
