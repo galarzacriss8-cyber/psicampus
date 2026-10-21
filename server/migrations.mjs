@@ -49,6 +49,47 @@ export function applyMigrations() {
     }
   }
 
+  // 5) Contenido público vigente (copy general + hero) y datos de contacto
+  const curSettings = settings();
+  const defContent2 = DEFAULT_SETTINGS.content || {};
+  const curContent2 = curSettings.content || {};
+  const forcedKeys = ['heroBadge', 'heroTitle', 'heroHighlight', 'heroSubtitle', 'aboutTitle', 'aboutText'];
+  const nextContent = { ...curContent2 };
+  let contentChanged = false;
+  for (const k of forcedKeys) {
+    if (defContent2[k] !== undefined && curContent2[k] !== defContent2[k]) {
+      nextContent[k] = defContent2[k];
+      contentChanged = true;
+    }
+  }
+  if (contentChanged) {
+    setSetting('content', nextContent);
+    changes.push('contenido público actualizado');
+  }
+
+  const defContact = DEFAULT_SETTINGS.contact || {};
+  const curContact = curSettings.contact || {};
+  const nextContact = { ...curContact };
+  let contactChanged = false;
+  for (const k of ['phone', 'whatsapp', 'email', 'address', 'hours']) {
+    if (defContact[k] !== undefined && curContact[k] !== defContact[k]) {
+      nextContact[k] = defContact[k];
+      contactChanged = true;
+    }
+  }
+  if (contactChanged) {
+    setSetting('contact', nextContact);
+    changes.push(`contacto ${JSON.stringify(nextContact)}`);
+  }
+
+  // 6) El usuario administrador se muestra como marca, no como persona
+  const adminUser = get(`SELECT id, name FROM users WHERE id = 'usr_admin'`);
+  if (adminUser && adminUser.name !== 'Psyconova') {
+    run(`UPDATE users SET name = 'Psyconova', phone = '983465028' WHERE id = 'usr_admin'`);
+    changes.push('nombre de administrador actualizado');
+  }
+  run(`UPDATE audit SET user_name = 'Psyconova' WHERE user_name = 'Andrea Salgado'`);
+
   if (changes.length) console.log('[psicampus] migraciones aplicadas:', changes.join(' | '));
   return changes;
 }
