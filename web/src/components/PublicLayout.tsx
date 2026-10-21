@@ -84,7 +84,7 @@ export function PublicLayout({ children }: { children: ReactNode }) {
             <div>
               <Brand dark />
               <p className="footer-note">
-                Consulta psicológica universitaria con tarifa social. Atención presencial en campus y virtual en todo el país.
+                Consulta psicológica con tarifa social. Atención presencial en Quito y virtual en todo el país.
               </p>
               <div className="hstack" style={{ marginTop: 16 }}>
                 <span className="badge badge-sage no-dot" style={{ background: 'rgba(255,255,255,.08)', color: '#dce8d6' }}>
@@ -113,14 +113,14 @@ export function PublicLayout({ children }: { children: ReactNode }) {
               <h4>Contacto</h4>
               <a href={`tel:${contact.phone || ''}`}><Phone style={{ width: 13, height: 13, display: 'inline', marginRight: 6 }} />{contact.phone}</a>
               <a href={`mailto:${contact.email || ''}`}><Mail style={{ width: 13, height: 13, display: 'inline', marginRight: 6 }} />{contact.email}</a>
-              <span style={{ display: 'flex', gap: 6, fontSize: 13, padding: '5px 0', opacity: 0.8 }}><MapPin style={{ width: 14, height: 14, flex: 'none' }} />{contact.address}</span>
-              <span style={{ display: 'flex', gap: 6, fontSize: 13, padding: '5px 0', opacity: 0.8 }}><Clock style={{ width: 14, height: 14, flex: 'none' }} />{contact.hours}</span>
+              <span style={{ display: 'flex', gap: 6, fontSize: 13, padding: '5px 0' }}><MapPin style={{ width: 14, height: 14, flex: 'none' }} />{contact.address}</span>
+              <span style={{ display: 'flex', gap: 6, fontSize: 13, padding: '5px 0' }}><Clock style={{ width: 14, height: 14, flex: 'none' }} />{contact.hours}</span>
               <a href={`https://instagram.com/${String(contact.instagram || '').replace('@', '')}`} target="_blank" rel="noreferrer"><AtSign style={{ width: 13, height: 13, display: 'inline', marginRight: 6 }} />{contact.instagram}</a>
             </div>
           </div>
           <div className="footer-bottom">
-            <span>© {new Date().getFullYear()} Psyconova · Bienestar universitario. Todos los derechos reservados.</span>
-            <span>Hecho para la toda la comunidad · Quito, Ecuador</span>
+            <span>© {new Date().getFullYear()} Psyconova · Bienestar psicológico. Todos los derechos reservados.</span>
+            <span>Hecho para toda la comunidad · Quito, Ecuador</span>
           </div>
         </div>
       </footer>

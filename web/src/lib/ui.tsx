@@ -300,7 +300,7 @@ export function Brand({ dark = false }: { dark?: boolean }) {
       </svg>
       <span>
         Psyconova
-        <small>Bienestar universitario</small>
+        <small>Bienestar psicológico</small>
       </span>
     </span>
   );

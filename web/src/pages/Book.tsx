@@ -137,7 +137,7 @@ export function Book() {
               {step === 0 && (
                 <>
                   <h2 className="serif">¿Con quién quieres empezar?</h2>
-                  <p className="sub">Puedes filtrar por género. Todos los terapeutas atienden estudiantes, docentes y personal universitario.</p>
+                  <p className="sub">Puedes filtrar por género. Todos los terapeutas atienden personas de todas las edades y profesiones.</p>
                   <div className="segmented" style={{ marginBottom: 16 }}>
                     {[['todos', 'Todos'], ['femenino', 'Mujeres'], ['masculino', 'Hombres']].map(([v, l]) => (
                       <button key={v} className={genderFilter === v ? 'on' : ''} onClick={() => setGenderFilter(v)}>{l}</button>

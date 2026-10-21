@@ -91,7 +91,7 @@ export function Therapists() {
 
           <div className="row-between" style={{ marginBottom: 16 }}>
             <span className="small muted">{list.length} profesional{list.length === 1 ? '' : 'es'} disponible{list.length === 1 ? '' : 's'}</span>
-            <span className="tiny muted"><Users style={{ width: 13, height: 13, display: 'inline', marginRight: 4 }} />Atención para estudiantes, docentes y personal universitario</span>
+            <span className="tiny muted"><Users style={{ width: 13, height: 13, display: 'inline', marginRight: 4 }} />Atención para personas de todas las edades y profesiones</span>
           </div>
 
           {list.length === 0 ? (

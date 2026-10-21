@@ -62,7 +62,7 @@ export function WorkWithUs() {
             </p>
             <div className="point-list">
               <div className="point"><ShieldCheck /> Supervisión clínica y respaldo del programa</div>
-              <div className="point"><HeartHandshake /> Pacientes que llegan por convenio universitario</div>
+              <div className="point"><HeartHandshake /> Personas que llegan por convenio con instituciones</div>
               <div className="point"><Sparkles /> Agenda y pagos gestionados por la plataforma</div>
               <div className="point"><GraduationCap /> Formación continua y comunidad profesional</div>
             </div>
