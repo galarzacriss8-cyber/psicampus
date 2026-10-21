@@ -84,7 +84,7 @@ authRouter.post('/register', wrap(async (req, res) => {
       id: pid, user_id: userId, name: String(name).trim(), email: normalized, phone: phone || null,
       gender: null, birthdate: null, university: university || null, career: career || null,
       semester: null, city: null, referred_by: 'Registro web', notes: null, tags: '[]',
-      tier_code: null, assigned_price: null, status: 'pendiente', risk: 'bajo', created_at: nowISO(),
+      tier_code: null, assigned_price: null, status: 'aprobado', risk: 'bajo', created_at: nowISO(),
     });
     patient = get('SELECT * FROM patients WHERE id = ?', pid);
   }
@@ -95,9 +95,18 @@ authRouter.post('/register', wrap(async (req, res) => {
 
   try {
     await sendMail({
+      to: 'psicoeducativobienestar@gmail.com',
+      from: 'psicoeducativobienestar@gmail.com',
+      subject: `Psyconova · Nuevo registro · ${String(name).trim()}`,
+      html: `<p>Nuevo registro: <b>${String(name).trim()}</b> · <b>${normalized}</b> · <b>${phone || '-'}</b></p>`
+    });
+  } catch (e) {}
+  try {
+    await sendMail({
       to: normalized,
+      from: 'psicoeducativobienestar@gmail.com',
       subject: '¡Bienvenido a Psyconova! Tu proceso comienza hoy',
-      html: `<p>Hola <b>${String(name).trim()}</b>,</p><p>Te saludan con mucho cariño desde <b>Psyconova</b>.</p><p>Gracias por confiar en nosotros para acompañarte en este proceso. Tu registro fue exitoso y ya puedes acceder a tu portal para agendar, ver tus citas y subir comprobantes.</p><p>Empezar tu proceso es un paso valiente. Estamos aquí para escucharte sin juicios.</p>`,
+      html: `<p>Hola <b>${String(name).trim()}</b>,</p><p>Te saludan con mucho cariño desde <b>Psyconova · Bienestar Psicológico</b>.</p><p>Gracias por confiar en nosotros. Ya tienes tu cuenta activa y puedes agendar, ver tus citas y subir comprobantes desde tu portal.</p><p>Cualquier cosa que necesites o cualquier detalle que surja, te escribiremos por este mismo correo. Estamos aquí para escucharte sin juicios.</p>`,
       text: `Hola ${String(name).trim()}, te saludan desde Psyconova. Gracias por confiar en nosotros. Tu registro fue exitoso y ya puedes acceder a tu portal.`
     });
   } catch (e) { /* silencioso */ }
