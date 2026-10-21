@@ -1,0 +1,13 @@
+.env
+node_modules/
+web/dist/
+server/data/
+server/uploads/*
+!server/uploads/.gitkeep
+_capturas/
+*.log
+.DS_Store
+android/.gradle/
+android/app/build/
+ios/App/Pods/
+ios/App/DerivedData/

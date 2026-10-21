@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="620" height="840" viewBox="0 0 620 840">
+  <rect width="620" height="840" fill="#F1ECE0"/>
+  <g transform="rotate(-8 310 420)" opacity="0.05">
+    <text x="310" y="430" font-family="Georgia, serif" font-size="88" text-anchor="middle" fill="#0F3B33">PSICAMPUS</text>
+  </g>
+  <rect x="60" y="40" width="500" height="760" rx="10" fill="#FFFFFF" stroke="#D9D2C3"/>
+  <rect x="60" y="40" width="500" height="96" rx="10" fill="#0F3B33"/>
+  <rect x="60" y="110" width="500" height="26" fill="#0F3B33"/>
+  <text x="92" y="92" font-family="Georgia, serif" font-size="26" fill="#F6F1E6">Banco Pichincha</text>
+  <text x="92" y="120" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#CFE0D6" letter-spacing="2">COMPROBANTE DE TRANSFERENCIA</text>
+  <text x="92" y="196" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#8A948F" letter-spacing="1.6">MONTO TRANSFERIDO</text>
+  <text x="92" y="252" font-family="Georgia, serif" font-size="54" fill="#0F3B33">$ 20,00</text>
+  <line x1="92" y1="286" x2="528" y2="286" stroke="#E3DDD0" stroke-dasharray="4 5"/>
+  <g font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#3A4642">
+    <text x="92" y="326">Beneficiario</text><text x="528" y="326" text-anchor="end" font-weight="bold">Psicampus Bienestar S.A.S.</text>
+    <text x="92" y="360">Cuenta</text><text x="528" y="360" text-anchor="end" font-weight="bold">2204587610 · Ahorros</text>
+    <text x="92" y="394">Concepto</text><text x="528" y="394" text-anchor="end" font-weight="bold">PC-DEMO01</text>
+    <text x="92" y="428">Fecha</text><text x="528" y="428" text-anchor="end" font-weight="bold">15/10/2026 19:42</text>
+    <text x="92" y="462">Referencia</text><text x="528" y="462" text-anchor="end" font-weight="bold">TRF-884512</text>
+  </g>
+  <g transform="translate(310 620)">
+    <circle r="72" fill="none" stroke="#C0603C" stroke-width="3" opacity="0.7"/>
+    <circle r="60" fill="none" stroke="#C0603C" stroke-width="1" opacity="0.5"/>
+    <text y="-4" font-family="Helvetica, Arial, sans-serif" font-size="15" letter-spacing="3" fill="#C0603C" text-anchor="middle" opacity="0.8">RECIBIDO</text>
+    <text y="20" font-family="Helvetica, Arial, sans-serif" font-size="10" letter-spacing="1" fill="#C0603C" text-anchor="middle" opacity="0.7">15 OCT 2026</text>
+  </g>
+  <text x="310" y="770" font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#A8AFA9" text-anchor="middle">Documento de demostración · Psicampus · hola@psicampus.ec</text>
+</svg>

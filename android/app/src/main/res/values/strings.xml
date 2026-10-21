@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Psicampus</string>
+    <string name="title_activity_main">Psicampus</string>
+    <string name="package_name">ec.psicampus.app</string>
+    <string name="custom_url_scheme">ec.psicampus.app</string>
+</resources>

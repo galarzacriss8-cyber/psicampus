@@ -1,0 +1,36 @@
+{
+  "name": "psicampus",
+  "private": true,
+  "version": "1.0.0",
+  "dependencies": {
+    "@capacitor/android": "^8.5.3",
+    "@capacitor/core": "^8.5.3",
+    "@capacitor/ios": "^8.5.3",
+    "express": "^5.3.0",
+    "lucide-react": "^1.59.0",
+    "nodemailer": "^10.1.2",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.5.3",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "puppeteer-core": "^25.14.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4"
+  },
+  "scripts": {
+    "dev": "node server/index.mjs",
+    "dev:web": "vite --config web/vite.config.ts",
+    "build": "vite build --config web/vite.config.ts",
+    "start": "node server/index.mjs",
+    "seed": "node server/seed.mjs --force",
+    "test": "node scripts/smoke.mjs",
+    "cap:sync": "vite build --config web/vite.config.ts && cap sync",
+    "cap:android": "vite build --config web/vite.config.ts && cap sync android && cap open android",
+    "cap:ios": "vite build --config web/vite.config.ts && cap sync ios && cap open ios"
+  },
+  "type": "module"
+}

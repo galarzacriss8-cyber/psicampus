@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: psicampus
+    runtime: docker
+    plan: free
+    region: oregon
+    autoDeploy: true
+    healthCheckPath: /api/health
+    envVars:
+      - key: AUTH_SECRET
+        generateValue: true
+      - key: PORT
+        value: 4321
+      - key: DATA_DIR
+        value: /data
+      - key: NODE_ENV
+        value: production
+      - key: SMTP_ENABLED
+        value: true
+    disk:
+      name: psicampus-data
+      mountPath: /data
+      sizeGB: 1

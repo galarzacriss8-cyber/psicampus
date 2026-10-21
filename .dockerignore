@@ -1,0 +1,9 @@
+.env
+node_modules
+web/dist
+android
+ios
+tools
+_capturas
+.git
+*.log
