@@ -15,7 +15,7 @@ export function Home() {
   const { navigate } = useRouter();
   const [selected, setSelected] = useState<any>(null);
 
-  if (loading) return <Loader label="Preparando el campusâ€¦" />;
+  if (loading) return <Loader label="Preparando el campus…" />;
   if (error || !data) return <ErrorState message={error || 'No se pudo cargar el sitio'} onRetry={reload} />;
 
   const { settings, tiers, therapists, stats } = data;
@@ -45,8 +45,8 @@ export function Home() {
                 {therapists.slice(0, 4).map((t: any) => <Avatar key={t.id} src={t.photo} name={t.name} size="sm" />)}
               </div>
               <div>
-                <div className="rating"><span className="stars">â˜…â˜…â˜…â˜…â˜…</span> {stats.rating} Â· {stats.sessions} sesiones acompaÃ±adas</div>
-                <div className="tiny muted">Equipo acreditado Â· Confidencialidad garantizada</div>
+                <div className="rating"><span className="stars">★★★★★</span> {stats.rating} · {stats.sessions} sesiones acompañadas</div>
+                <div className="tiny muted">Equipo acreditado · Confidencialidad garantizada</div>
               </div>
             </div>
           </div>
@@ -56,12 +56,12 @@ export function Home() {
               <img src={c.heroImage || '/img/team/camila.jpg'} alt="Terapeuta de Psyconova" />
               <div className="hero-arch-caption">
                 <strong>Camila Herrera</strong>
-                <span>PsicÃ³loga clÃ­nica Â· Universidad Central del Ecuador</span>
+                <span>Psicóloga clínica · Universidad Central del Ecuador</span>
               </div>
             </div>
             <div className="hero-float price">
               <span className="icon-chip clay"><Wallet /></span>
-              <div><strong>Desde {money(settings?.pricing?.min || 7)} por sesiÃ³n</strong><span>Tarifa social segÃºn tus ingresos</span></div>
+              <div><strong>Desde $7 por sesión</strong><span>Tarifa social según tus ingresos</span></div>
             </div>
             <div className="hero-float slot">
               <span className="icon-chip"><Clock /></span>
@@ -69,7 +69,7 @@ export function Home() {
             </div>
             <div className="hero-float verified">
               <span className="icon-chip forest"><ShieldCheck /></span>
-              <div><strong>Pago por transferencia</strong><span>Sube tu comprobante en lÃ­nea</span></div>
+              <div><strong>Pago por transferencia</strong><span>Sube tu comprobante en línea</span></div>
             </div>
           </div>
         </div>
@@ -88,9 +88,9 @@ export function Home() {
 
       <div className="container" style={{ marginTop: 6 }}>
         <div style={{ display: 'flex', gap: 10, alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', padding: '10px 0', background: 'rgba(15,59,51,.06)', borderRadius: 10 }}>
-          <span className="badge no-dot" style={{ background: '#1a7e5c', color: '#fff' }}><ShieldCheck style={{ width: 12, height: 12 }} /> Plataforma en lÃ­nea</span>
+          <span className="badge no-dot" style={{ background: '#1a7e5c', color: '#fff' }}><ShieldCheck style={{ width: 12, height: 12 }} /> Plataforma en línea</span>
           <span className="badge no-dot"><Users style={{ width: 12, height: 12 }} /> {therapists.length} terapeutas acreditados</span>
-          <span className="badge no-dot"><Clock style={{ width: 12, height: 12 }} /> {stats.sessions || '0'} sesiones acompaÃ±adas</span>
+          <span className="badge no-dot"><Clock style={{ width: 12, height: 12 }} /> {stats.sessions || '0'} sesiones acompañadas</span>
           <span className="badge no-dot" style={{ color: '#c0603c' }}><Sparkles style={{ width: 12, height: 12 }} /> Pronto: cupos disponibles para esta semana</span>
         </div>
       </div>
@@ -98,9 +98,9 @@ export function Home() {
       <section className="block" id="programa">
         <div className="container">
           <div className="section-head">
-            <span className="eyebrow">CÃ³mo funciona</span>
+            <span className="eyebrow">Cómo funciona</span>
             <h2 className="display">Agendar es tan simple como pedir ayuda</h2>
-            <p>Cuatro pasos, sin llamadas ni filas. Todo desde tu celular y con acompaÃ±amiento del equipo cuando lo necesites.</p>
+            <p>Cuatro pasos, sin llamadas ni filas. Todo desde tu celular y con acompañamiento del equipo cuando lo necesites.</p>
           </div>
           <div className="steps-grid">
             {c.steps.map((s: any, i: number) => {
@@ -126,7 +126,7 @@ export function Home() {
             <div className="section-head" style={{ marginBottom: 0 }}>
               <span className="eyebrow">Nuestro equipo</span>
               <h2 className="display">Terapeutas que hablan tu idioma</h2>
-              <p>Elige por enfoque, gÃ©nero o modalidad. Todos nuestros profesionales estÃ¡n titulados, acreditados y en supervisiÃ³n clÃ­nica continua.</p>
+              <p>Elige por enfoque, género o modalidad. Todos nuestros profesionales están titulados, acreditados y en supervisión clínica continua.</p>
             </div>
             <Link className="btn btn-ghost" to="/terapeutas">Ver los {therapists.length} terapeutas <ArrowRight /></Link>
           </div>
@@ -146,7 +146,7 @@ export function Home() {
                 <span className="eyebrow" style={{ color: 'var(--sage)' }}>Tarifa social</span>
                 <h2 className="display">Una escala de {money(5)} a {money(40)} que se adapta a ti</h2>
                 <p className="lead" style={{ marginTop: 14 }}>
-                  No creemos en un precio Ãºnico. Respondes una encuesta econÃ³mica de 9 preguntas y te proponemos un aporte justo segÃºn tus ingresos, dependientes y situaciÃ³n actual.
+                  No creemos en un precio único. Respondes una encuesta económica de 9 preguntas y te proponemos un aporte justo según tus ingresos, dependientes y situación actual.
                 </p>
               </div>
               <Link className="btn btn-cream btn-lg" to="/encuesta">Calcular mi aporte <ArrowRight /></Link>
@@ -161,11 +161,11 @@ export function Home() {
             </div>
             <div className="scale-foot">
               <p className="note">
-                El aporte se destina a sostener el programa: honorarios de terapeutas, supervisiÃ³n clÃ­nica y cupos solidarios.
-                Ninguna persona se queda sin atenciÃ³n por no poder pagar. {c.marketingNote}
+                El aporte se destina a sostener el programa: honorarios de terapeutas, supervisión clínica y cupos solidarios.
+                Ninguna persona se queda sin atención por no poder pagar. {c.marketingNote}
               </p>
               <div className="hstack">
-                <Badge tone="sage" dot={false}><ShieldCheck style={{ width: 12, height: 12 }} /> Sin costo de inscripciÃ³n</Badge>
+                <Badge tone="sage" dot={false}><ShieldCheck style={{ width: 12, height: 12 }} /> Sin costo de inscripción</Badge>
                 <Badge tone="sage" dot={false}><Check style={{ width: 12, height: 12 }} /> Cambia cuando lo necesites</Badge>
               </div>
             </div>
@@ -178,8 +178,8 @@ export function Home() {
           <Reveal>
             <div className="split-media">
               <div className="img-main"><img src="/img/team/mateo.jpg" alt="Terapeuta en consulta" /></div>
-              <div className="img-small"><img src="/img/team/camila.jpg" alt="PsicÃ³loga" /></div>
-              <div className="badge-float"><ShieldCheck style={{ width: 18, height: 18, color: 'var(--forest-2)' }} /> SupervisiÃ³n clÃ­nica permanente</div>
+              <div className="img-small"><img src="/img/team/camila.jpg" alt="Psicóloga" /></div>
+              <div className="badge-float"><ShieldCheck style={{ width: 18, height: 18, color: 'var(--forest-2)' }} /> Supervisión clínica permanente</div>
             </div>
           </Reveal>
           <Reveal delay={100}>
@@ -211,12 +211,12 @@ export function Home() {
             {c.testimonials.map((t: any, i: number) => (
               <Reveal key={t.name} delay={i * 80}>
                 <div className="quote-card">
-                  <span className="mark">â€œ</span>
+                  <span className="mark">“</span>
                   <p>{t.text}</p>
                   <div className="who">
                     <Avatar name={t.name} size="sm" />
                     <div><strong>{t.name}</strong><span>{t.role}</span></div>
-                    <span className="stars" style={{ marginLeft: 'auto', color: 'var(--gold)', fontSize: 11 }}>â˜…â˜…â˜…â˜…â˜…</span>
+                    <span className="stars" style={{ marginLeft: 'auto', color: 'var(--gold)', fontSize: 11 }}>★★★★★</span>
                   </div>
                 </div>
               </Reveal>
@@ -246,10 +246,10 @@ export function Home() {
         <div className="container">
           <div className="cta-band">
             <span className="eyebrow" style={{ color: 'rgba(255,255,255,.75)' }}>Empieza hoy</span>
-            <h2 className="display">Dar el primer paso tambiÃ©n es cuidarte</h2>
-            <p>Reserva tu primera sesiÃ³n en menos de 3 minutos. Elige terapeuta, horario y modalidad. Nosotros nos encargamos del resto.</p>
+            <h2 className="display">Dar el primer paso también es cuidarte</h2>
+            <p>Reserva tu primera sesión en menos de 3 minutos. Elige terapeuta, horario y modalidad. Nosotros nos encargamos del resto.</p>
             <div className="hstack" style={{ marginTop: 22 }}>
-              <Link className="btn btn-cream btn-lg" to="/agendar">Agendar mi sesiÃ³n <ArrowUpRight /></Link>
+              <Link className="btn btn-cream btn-lg" to="/agendar">Agendar mi sesión <ArrowUpRight /></Link>
               <Link className="btn btn-lg" to="/encuesta" style={{ background: 'transparent', borderColor: 'rgba(255,255,255,.35)' }}>Primero ver mi tarifa</Link>
             </div>
           </div>
@@ -265,4 +265,3 @@ export function Home() {
     </>
   );
 }
-

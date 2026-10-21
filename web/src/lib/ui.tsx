@@ -1,4 +1,4 @@
-﻿import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from 'react';
+import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from 'react';
 import { AlertCircle, CheckCircle2, ChevronLeft, ChevronRight, Info, Loader2, Search, X, Sparkles, Inbox } from 'lucide-react';
 import { initials, money, STATUS, PAY_STATUS, FREQ } from './format';
 
@@ -73,7 +73,7 @@ export function Field({ label, hint, children, className = '' }: { label?: strin
   );
 }
 
-export function SearchInput({ value, onChange, placeholder = 'Buscarâ€¦' }: { value: string; onChange: (v: string) => void; placeholder?: string }) {
+export function SearchInput({ value, onChange, placeholder = 'Buscar…' }: { value: string; onChange: (v: string) => void; placeholder?: string }) {
   return (
     <div className="search">
       <Search />
@@ -137,7 +137,7 @@ export function Loader({ label }: { label?: string }) {
     <div className="loading-screen">
       <div className="center">
         <Loader2 className="spinner dark" style={{ width: 26, height: 26, margin: '0 auto 10px' }} />
-        <div className="small muted">{label || 'Cargandoâ€¦'}</div>
+        <div className="small muted">{label || 'Cargando…'}</div>
       </div>
     </div>
   );
@@ -158,7 +158,7 @@ export function ErrorState({ message, onRetry }: { message: string; onRetry?: ()
   return (
     <div className="empty">
       <AlertCircle />
-      <h4>Algo saliÃ³ mal</h4>
+      <h4>Algo salió mal</h4>
       <p>{message}</p>
       {onRetry && <button className="btn btn-sm btn-ghost" style={{ marginTop: 14 }} onClick={onRetry}>Reintentar</button>}
     </div>
@@ -179,7 +179,7 @@ export function useFetch<T = any>(fn: () => Promise<T>, deps: any[] = []) {
     setError(null);
     ref.current()
       .then((d) => { if (alive) setData(d); })
-      .catch((e) => { if (alive) setError(e?.message || 'Error de conexiÃ³n'); })
+      .catch((e) => { if (alive) setError(e?.message || 'Error de conexión'); })
       .finally(() => { if (alive) setLoading(false); });
     return () => { alive = false; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -269,7 +269,7 @@ export function Steps({ current, steps }: { current: number; steps: string[] }) 
       {steps.map((s, i) => (
         <div key={s} style={{ display: 'flex', alignItems: 'center' }}>
           <div className={`st ${i === current ? 'on' : ''} ${i < current ? 'done' : ''}`}>
-            <span className="n">{i < current ? 'âœ“' : i + 1}</span>
+            <span className="n">{i < current ? '✓' : i + 1}</span>
             <span className="label">{s}</span>
           </div>
           {i < steps.length - 1 && <div className="bar" />}
@@ -309,4 +309,3 @@ export function Brand({ dark = false }: { dark?: boolean }) {
 export function IconSpark() {
   return <Sparkles style={{ width: 15, height: 15 }} />;
 }
-

@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { ArrowRight, CheckCircle2, GraduationCap, HeartHandshake, ShieldCheck, Sparkles, Upload, UserPlus } from 'lucide-react';
 import { api, fileToDataUrl } from '../lib/api';
 import { Field, useToast } from '../lib/ui';
@@ -20,7 +20,7 @@ export function WorkWithUs() {
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.consent) return toast.error('Debes aceptar la polÃ­tica de tratamiento de datos');
+    if (!form.consent) return toast.error('Debes aceptar la política de tratamiento de datos');
     setBusy(true);
     try {
       await api('/public/applications', { method: 'POST', body: { ...form, photo } });
@@ -39,7 +39,7 @@ export function WorkWithUs() {
             <div className="icon-chip lg forest" style={{ margin: '0 auto 16px' }}><CheckCircle2 /></div>
             <h1 className="display" style={{ fontSize: 38 }}>Recibimos tu solicitud</h1>
             <p className="muted" style={{ maxWidth: 460, margin: '10px auto 22px' }}>
-              El equipo de Psyconova revisarÃ¡ tu perfil y se pondrÃ¡ en contacto contigo por correo o WhatsApp. Si tu perfil encaja con lo que buscamos, te crearemos el acceso y la agenda.
+              El equipo de Psyconova revisará tu perfil y se pondrá en contacto contigo por correo o WhatsApp. Si tu perfil encaja con lo que buscamos, te crearemos el acceso y la agenda.
             </p>
             <Link className="btn" to="/">Volver al inicio <ArrowRight /></Link>
           </div>
@@ -55,20 +55,20 @@ export function WorkWithUs() {
           <div>
             <span className="eyebrow">Trabaja con nosotros</span>
             <h1 className="display" style={{ fontSize: 'clamp(38px, 5vw, 60px)', marginTop: 12 }}>
-              SÃºmate al equipo que <em style={{ color: 'var(--clay)' }}>cuida el campus</em>
+              Súmate al equipo que <em style={{ color: 'var(--clay)' }}>cuida el campus</em>
             </h1>
             <p className="lead" style={{ maxWidth: 500 }}>
-              Buscamos psicÃ³logos y psicÃ³logas con tÃ­tulo profesional, vocaciÃ³n de servicio y ganas de acompaÃ±ar a estudiantes y docentes. Nosotros ponemos la plataforma, la agenda y la tarifa social; tÃº pones la escucha.
+              Buscamos psicólogos y psicólogas con título profesional, vocación de servicio y ganas de acompañar a estudiantes y docentes. Nosotros ponemos la plataforma, la agenda y la tarifa social; tú pones la escucha.
             </p>
             <div className="point-list">
-              <div className="point"><ShieldCheck /> SupervisiÃ³n clÃ­nica y respaldo del programa</div>
+              <div className="point"><ShieldCheck /> Supervisión clínica y respaldo del programa</div>
               <div className="point"><HeartHandshake /> Pacientes que llegan por convenio universitario</div>
               <div className="point"><Sparkles /> Agenda y pagos gestionados por la plataforma</div>
-              <div className="point"><GraduationCap /> FormaciÃ³n continua y comunidad profesional</div>
+              <div className="point"><GraduationCap /> Formación continua y comunidad profesional</div>
             </div>
             <div className="notice" style={{ marginTop: 20, maxWidth: 480 }}>
               <ShieldCheck />
-              <span>No aceptamos a todos los postulantes: revisamos tÃ­tulo, registro profesional y enfoque. Tu perfil se publica solo si es aprobado.</span>
+              <span>No aceptamos a todos los postulantes: revisamos título, registro profesional y enfoque. Tu perfil se publica solo si es aprobado.</span>
             </div>
           </div>
 
@@ -80,18 +80,18 @@ export function WorkWithUs() {
             <form onSubmit={submit} className="stack" style={{ marginTop: 16 }}>
               <div className="form-grid">
                 <Field label="Nombre completo" className="span-2"><input className="input" required value={form.name} onChange={(e) => set('name', e.target.value)} /></Field>
-                <Field label="Correo electrÃ³nico"><input className="input" type="email" required value={form.email} onChange={(e) => set('email', e.target.value)} /></Field>
-                <Field label="TelÃ©fono / WhatsApp"><input className="input" required value={form.phone} onChange={(e) => set('phone', e.target.value)} /></Field>
-                <Field label="GÃ©nero">
+                <Field label="Correo electrónico"><input className="input" type="email" required value={form.email} onChange={(e) => set('email', e.target.value)} /></Field>
+                <Field label="Teléfono / WhatsApp"><input className="input" required value={form.phone} onChange={(e) => set('phone', e.target.value)} /></Field>
+                <Field label="Género">
                   <select className="select" value={form.gender} onChange={(e) => set('gender', e.target.value)}>
                     <option value="femenino">Femenino</option><option value="masculino">Masculino</option>
                   </select>
                 </Field>
                 <Field label="Fecha de nacimiento"><input className="input" type="date" value={form.birthdate} onChange={(e) => set('birthdate', e.target.value)} /></Field>
-                <Field label="Universidad de graduaciÃ³n" className="span-2"><input className="input" required value={form.university} onChange={(e) => set('university', e.target.value)} /></Field>
-                <Field label="TÃ­tulo / formaciÃ³n" className="span-2"><input className="input" required value={form.degree} onChange={(e) => set('degree', e.target.value)} placeholder="Mgs. en PsicologÃ­a ClÃ­nica" /></Field>
+                <Field label="Universidad de graduación" className="span-2"><input className="input" required value={form.university} onChange={(e) => set('university', e.target.value)} /></Field>
+                <Field label="Título / formación" className="span-2"><input className="input" required value={form.degree} onChange={(e) => set('degree', e.target.value)} placeholder="Mgs. en Psicología Clínica" /></Field>
                 <Field label="Registro profesional"><input className="input" value={form.license} onChange={(e) => set('license', e.target.value)} placeholder="MSP-00000" /></Field>
-                <Field label="AÃ±os de experiencia"><input className="input" type="number" min="0" value={form.years} onChange={(e) => set('years', e.target.value)} /></Field>
+                <Field label="Años de experiencia"><input className="input" type="number" min="0" value={form.years} onChange={(e) => set('years', e.target.value)} /></Field>
                 <Field label="Enfoques (separados por coma)" className="span-2"><input className="input" required value={form.approaches} onChange={(e) => set('approaches', e.target.value)} placeholder="Terapia cognitivo-conductual, ACT, EMDR" /></Field>
                 <Field label="Modalidad">
                   <select className="select" value={form.modality} onChange={(e) => set('modality', e.target.value)}>
@@ -110,16 +110,16 @@ export function WorkWithUs() {
                     }} />
                   </label>
                 </Field>
-                <Field label="CuÃ©ntanos de tu trabajo" className="span-2">
-                  <textarea className="textarea" required value={form.description} onChange={(e) => set('description', e.target.value)} placeholder="Experiencia, poblaciones con las que trabajas y por quÃ© quieres sumarte a Psyconova." />
+                <Field label="Cuéntanos de tu trabajo" className="span-2">
+                  <textarea className="textarea" required value={form.description} onChange={(e) => set('description', e.target.value)} placeholder="Experiencia, poblaciones con las que trabajas y por qué quieres sumarte a Psyconova." />
                 </Field>
               </div>
               <label className="check">
                 <input type="checkbox" checked={form.consent} onChange={(e) => set('consent', e.target.checked)} />
-                <span>Acepto la polÃ­tica de tratamiento de datos y autorizo la revisiÃ³n de mi perfil profesional.</span>
+                <span>Acepto la política de tratamiento de datos y autorizo la revisión de mi perfil profesional.</span>
               </label>
-              <button className="btn btn-block" disabled={busy}>{busy ? 'Enviandoâ€¦' : 'Enviar mi solicitud'} <ArrowRight /></button>
-              <p className="tiny muted" style={{ margin: 0 }}>La administraciÃ³n revisa cada solicitud y decide a quiÃ©n aceptar. No hay costo por postular.</p>
+              <button className="btn btn-block" disabled={busy}>{busy ? 'Enviando…' : 'Enviar mi solicitud'} <ArrowRight /></button>
+              <p className="tiny muted" style={{ margin: 0 }}>La administración revisa cada solicitud y decide a quién aceptar. No hay costo por postular.</p>
             </form>
           </div>
         </div>
@@ -129,8 +129,8 @@ export function WorkWithUs() {
         <div className="container">
           <div className="card card-forest" style={{ padding: 30, display: 'flex', justifyContent: 'space-between', gap: 20, alignItems: 'center', flexWrap: 'wrap' }}>
             <div>
-              <h3 className="display" style={{ color: '#fff', fontSize: 26, marginBottom: 4 }}>Â¿Buscas atenciÃ³n como paciente?</h3>
-              <p className="small" style={{ margin: 0, opacity: 0.7 }}>Agenda tu primera sesiÃ³n con el profesional que elijas.</p>
+              <h3 className="display" style={{ color: '#fff', fontSize: 26, marginBottom: 4 }}>¿Buscas atención como paciente?</h3>
+              <p className="small" style={{ margin: 0, opacity: 0.7 }}>Agenda tu primera sesión con el profesional que elijas.</p>
             </div>
             <Link className="btn btn-cream" to="/agendar">Agendar cita <ArrowRight /></Link>
           </div>
@@ -139,4 +139,3 @@ export function WorkWithUs() {
     </>
   );
 }
-

@@ -69,7 +69,7 @@ export function PublicLayout({ children }: { children: ReactNode }) {
             <button className="icon-btn" onClick={toggleDark} aria-label="Modo oscuro" title="Modo oscuro">
               {dark ? <Sun style={{ width: 18, height: 18 }} /> : <Moon style={{ width: 18, height: 18 }} />}
             </button>
-            <button className="icon-btn menu-toggle" onClick={() => setOpen((v) => !v)} aria-label="MenÃº">
+            <button className="icon-btn menu-toggle" onClick={() => setOpen((v) => !v)} aria-label="Menú">
               {open ? <X /> : <Menu />}
             </button>
           </div>
@@ -84,7 +84,7 @@ export function PublicLayout({ children }: { children: ReactNode }) {
             <div>
               <Brand dark />
               <p className="footer-note">
-                Consulta psicolÃ³gica universitaria con tarifa social. AtenciÃ³n presencial en campus y virtual en todo el paÃ­s.
+                Consulta psicológica universitaria con tarifa social. Atención presencial en campus y virtual en todo el país.
               </p>
               <div className="hstack" style={{ marginTop: 16 }}>
                 <span className="badge badge-sage no-dot" style={{ background: 'rgba(255,255,255,.08)', color: '#dce8d6' }}>
@@ -104,7 +104,7 @@ export function PublicLayout({ children }: { children: ReactNode }) {
               <h4>Programa</h4>
               <a href="#tarifas" onClick={(e) => { e.preventDefault(); goSection('tarifas'); }}>Tarifa social</a>
               <a href="#faq" onClick={(e) => { e.preventDefault(); goSection('faq'); }}>Preguntas frecuentes</a>
-              <a href="#programa" onClick={(e) => { e.preventDefault(); goSection('programa'); }}>CÃ³mo funciona</a>
+              <a href="#programa" onClick={(e) => { e.preventDefault(); goSection('programa'); }}>Cómo funciona</a>
               <Link to="/trabaja-con-nosotros">Trabaja con nosotros</Link>
               <Link to="/login">Acceso terapeutas</Link>
               <a href={`https://wa.me/${contact.whatsapp || ''}`} target="_blank" rel="noreferrer">WhatsApp</a>
@@ -119,14 +119,13 @@ export function PublicLayout({ children }: { children: ReactNode }) {
             </div>
           </div>
           <div className="footer-bottom">
-            <span>Â© {new Date().getFullYear()} Psyconova Â· Bienestar universitario. Todos los derechos reservados.</span>
-            <span>Hecho para la comunidad universitaria Â· Quito, Ecuador</span>
+            <span>© {new Date().getFullYear()} Psyconova · Bienestar universitario. Todos los derechos reservados.</span>
+            <span>Hecho para la comunidad universitaria · Quito, Ecuador</span>
           </div>
         </div>
       </footer>
     </>
   );
 }
-
 
 
