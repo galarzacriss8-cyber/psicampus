@@ -78,10 +78,10 @@ export function AdminLayout({ children }: { children: ReactNode }) {
         <button className="close-btn sidebar-close" onClick={() => setOpen(false)}><X /></button>
         <Link to="/admin" onClick={() => setOpen(false)}>
           <span className="brand">
-            <svg className="brand-mark" viewBox="0 0 48 48" fill="none" aria-hidden>
-              <rect width="48" height="48" rx="15" fill="#F6F1E6" />
-              <path d="M24 12c4.2 3.2 6.3 6.9 6.3 11.2 0 5.6-2.8 9.4-6.3 12.8-3.5-3.4-6.3-7.2-6.3-12.8C17.7 18.9 19.8 15.2 24 12Z" fill="#0F3B33" />
-              <circle cx="24" cy="24" r="2.6" fill="#F6F1E6" />
+            <svg className="brand-mark" viewBox="0 0 48 48" fill="none" aria-hidden style={{ filter: 'none' }}>
+              <rect width="48" height="48" rx="15" fill="#0F3B33" />
+              <path d="M24 12c4.2 3.2 6.3 6.9 6.3 11.2 0 5.6-2.8 9.4-6.3 12.8-3.5-3.4-6.3-7.2-6.3-12.8C17.7 18.9 19.8 15.2 24 12Z" fill="#F6F1E6" />
+              <circle cx="24" cy="24" r="2.6" fill="#0F3B33" />
               <circle cx="35" cy="14" r="2.2" fill="#C0603C" />
             </svg>
             <span>Psyconova<small>Panel administrativo</small></span>
