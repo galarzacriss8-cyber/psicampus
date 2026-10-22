@@ -700,8 +700,6 @@ therapistRouter.post('/notes', wrap((req, res) => {
   const t = get('SELECT * FROM therapists WHERE user_id = ?', req.user.id);
   const { patientId, appointmentId, content, mood } = req.body || {};
   if (!patientId || !content) return res.status(400).json({ error: 'Paciente y contenido son obligatorios' });
-  const linked = get('SELECT id FROM appointments WHERE patient_id = ? AND therapist_id = ? LIMIT 1', patientId, t.id);
-  if (!linked) return res.status(403).json({ error: 'No tienes citas con este paciente' });
   const id = uid('not_');
   insert('session_notes', {
     id, appointment_id: appointmentId || null, patient_id: patientId, therapist_id: t.id,

@@ -14,6 +14,9 @@ export function TherapistPanel() {
   const [profile, setProfile] = useState({ ...(data?.therapist || {}), approaches: Array.isArray((data?.therapist || {}).approaches) ? (data?.therapist || {}).approaches.join(', ') : ((data?.therapist || {}).approaches || '') });
   const [photo, setPhoto] = useState<string | null>(null);
   const [noteFor, setNoteFor] = useState<any>(null);
+  const [newNoteForm, setNewNoteForm] = useState({ patientId: '', content: '', mood: 'estable' });
+  const [showNoteForm, setShowNoteForm] = useState(false);
+  const [savingNote, setSavingNote] = useState(false);
 
   if (loading && !data) return <Loader />;
   if (error) return <ErrorState message={error} onRetry={reload} />;
@@ -22,6 +25,19 @@ export function TherapistPanel() {
   const setStatus = async (appt: any, status: string) => {
     try { await api(`/therapist/appointments/${appt.id}/status`, { method: 'POST', body: { status } }); toast.success('Asistencia registrada'); reload(); }
     catch (e: any) { toast.error(e.message); }
+  };
+
+  const saveNote = async () => {
+    if (!newNoteForm.patientId) return toast.error('Elige un paciente');
+    if (!newNoteForm.content.trim()) return toast.error('Escribe el contenido de la nota');
+    setSavingNote(true);
+    try {
+      await api('/therapist/notes', { method: 'POST', body: { patientId: newNoteForm.patientId, content: newNoteForm.content.trim(), mood: newNoteForm.mood } });
+      toast.success('Nota guardada');
+      setNewNoteForm({ patientId: '', content: '', mood: 'estable' });
+      setShowNoteForm(false);
+      reload();
+    } catch (e: any) { toast.error(e.message); } finally { setSavingNote(false); }
   };
 
   return (
@@ -196,8 +212,31 @@ export function TherapistPanel() {
 
         {tab === 'notas' && (
           <div className="panel">
-            <div className="panel-head"><h3>Notas recientes</h3><span className="tiny muted">Confidencial · solo visible para ti</span></div>
+            <div className="panel-head"><h3>Notas de sesión</h3><span className="tiny muted">Confidencial · solo visible para ti</span><button className="btn btn-sm btn-ghost" style={{ marginLeft: 10 }} onClick={() => setShowNoteForm(!showNoteForm)}>{showNoteForm ? 'Cerrar' : '+ Nueva nota'}</button></div>
             <div className="panel-body">
+              {showNoteForm && (
+                <div className="card" style={{ padding: 16, marginBottom: 16, background: 'var(--cream)', borderRadius: 12 }}>
+                  <Field label="Paciente">
+                    <select className="select" value={newNoteForm.patientId} onChange={e => setNewNoteForm({ ...newNoteForm, patientId: e.target.value })}>
+                      <option value="">— Elige paciente —</option>
+                      {data.patients.map((p: any) => <option key={p.id} value={p.id}>{p.name}</option>)}
+                    </select>
+                  </Field>
+                  <div style={{ height: 8 }} />
+                  <Field label="Estado emocional">
+                    <select className="select" value={newNoteForm.mood} onChange={e => setNewNoteForm({ ...newNoteForm, mood: e.target.value })}>
+                      {['mejor', 'estable', 'sensible', 'ansioso', 'motivado', 'en riesgo'].map((m) => <option key={m}>{m}</option>)}
+                    </select>
+                  </Field>
+                  <div style={{ height: 8 }} />
+                  <Field label="Nota clínica" hint="Se guarda con fecha y hora, y queda asociada a ese paciente.">
+                    <textarea className="textarea" style={{ minHeight: 110 }} value={newNoteForm.content} onChange={e => setNewNoteForm({ ...newNoteForm, content: e.target.value })} placeholder="Temas trabajados, evolución, acuerdos y tareas…" />
+                  </Field>
+                  <button className="btn btn-sm btn-block" style={{ marginTop: 10 }} onClick={saveNote} disabled={savingNote}>
+                    {savingNote ? 'Guardando…' : 'Guardar nota'}
+                  </button>
+                </div>
+              )}
               {data.notes.length === 0 && <Empty title="Aún no hay notas" text="Registra notas después de cada sesión para dar seguimiento clínico." icon={<FileText />} />}
               <div className="stack-sm">
                 {data.notes.map((n: any) => (
