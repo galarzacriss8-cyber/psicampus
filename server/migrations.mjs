@@ -123,10 +123,12 @@ export function applyMigrations() {
     changes.push('cuenta Amie Ibujes actualizada');
   }
 
-  // 9) Dejar solo Amie Ibujes; eliminar/desactivar todos los demás terapeutas de demostración
+  // 9) Dejar solo Amie Ibujes; eliminar/desactivar solo los terapeutas de demostración originales
+  const demoNames = new Set(['Daniela Paredes', 'Andrés Molina', 'Valentina Ríos', 'Sebastián Cruz', 'Camila Herrera', 'Mateo Salazar']);
   const allTherapists = all(`SELECT id, name FROM therapists`);
   for (const row of allTherapists) {
     if (row.name === 'Amie Ibujes') continue;
+    if (!demoNames.has(row.name)) continue; // no tocar terapeutas nuevos registrados
     const used = get(`SELECT COUNT(*) AS c FROM appointments WHERE therapist_id = ?`, row.id)?.c || 0;
     if (used) {
       run(`UPDATE therapists SET active = 0, featured = 0 WHERE id = ?`, row.id);
