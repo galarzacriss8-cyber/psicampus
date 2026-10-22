@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   ArrowRight, CalendarDays, CheckCircle2, Clock, Copy, FileUp, MapPin, Search, ShieldCheck, Upload, Video, Wallet,
 } from 'lucide-react';
@@ -53,7 +53,7 @@ export function Track() {
       <div className="center" style={{ marginBottom: 26 }}>
         <span className="eyebrow" style={{ justifyContent: 'center' }}>Seguimiento</span>
         <h1 className="display" style={{ fontSize: 'clamp(34px,4vw,48px)', marginTop: 12 }}>Estado de mi reserva</h1>
-        <p className="muted" style={{ maxWidth: 480, margin: '8px auto 0' }}>Ingresa el cÃ³digo de 6 caracteres que recibiste al agendar. TambiÃ©n puedes consultar y subir tu comprobante desde tu portal.</p>
+        <p className="muted" style={{ maxWidth: 480, margin: '8px auto 0' }}>Ingresa el código de 6 caracteres que recibiste al agendar. También puedes consultar y subir tu comprobante desde tu portal.</p>
       </div>
 
       <div className="card" style={{ padding: 18, marginBottom: 22 }}>
@@ -69,7 +69,7 @@ export function Track() {
               style={{ textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700 }}
             />
           </div>
-          <button className="btn" onClick={() => search()} disabled={loading}>{loading ? 'Buscandoâ€¦' : 'Consultar'} <ArrowRight /></button>
+          <button className="btn" onClick={() => search()} disabled={loading}>{loading ? 'Buscando…' : 'Consultar'} <ArrowRight /></button>
         </div>
         {error && <p className="small" style={{ color: 'var(--danger)', margin: '10px 0 0' }}>{error}</p>}
       </div>
@@ -78,7 +78,7 @@ export function Track() {
         <div className="track-result animate-up">
           <div className="track-head">
             <div>
-              <div className="tiny" style={{ opacity: 0.6, letterSpacing: '0.14em', textTransform: 'uppercase' }}>CÃ³digo de cita</div>
+              <div className="tiny" style={{ opacity: 0.6, letterSpacing: '0.14em', textTransform: 'uppercase' }}>Código de cita</div>
               <div className="code">{a.code}</div>
               <div className="small" style={{ opacity: 0.75, marginTop: 4 }}>{a.therapist_name} Â· {a.patient_name}</div>
             </div>
