@@ -193,7 +193,7 @@ section.block.tight { padding: 64px 0; }
 .survey-card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 40px; box-shadow: var(--shadow-sm); }
 .q-block { padding: 26px 0; border-top: 1px solid var(--line); }
 .q-block:first-of-type { border-top: 0; padding-top: 0; }
-.q-block h3 { font-size: 17px; font-weight: 600; margin-bottom: 4px; display: flex; gap: 10px; align-items: baseline; }
+.q-block h3 { font-size: 17px; font-weight: 600; margin-bottom: 4px; display: flex; gap: 10px; align-items: baseline; color: var(--ink) !important; }
 .q-block h3 .idx { font-family: var(--serif); font-size: 13px; color: var(--clay); font-style: italic; }
 .q-block .hint { font-size: 12.5px; color: var(--muted); margin-bottom: 14px; }
 .option-pills { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -224,7 +224,7 @@ section.block.tight { padding: 64px 0; }
 .stepper .bar { width: 42px; height: 1px; background: var(--line-strong); margin: 0 12px; }
 .booking-main { min-height: 420px; }
 .booking-card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 32px; }
-.booking-card h2 { font-size: 27px; margin-bottom: 6px; }
+.booking-card h2 { font-size: 27px; margin-bottom: 6px; color: var(--ink) !important; }
 .booking-card .sub { color: var(--muted); font-size: 13.5px; margin-bottom: 24px; }
 .booking-nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 26px; }
 .summary-card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 24px; position: sticky; top: 100px; }
