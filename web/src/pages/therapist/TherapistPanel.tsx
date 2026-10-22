@@ -64,7 +64,6 @@ export function TherapistPanel() {
           <div className="kpi dark"><div className="label"><CalendarDays /> Sesiones hoy</div><div className="value">{data.today.length}</div><div className="delta" style={{ color: '#a7d8bd' }}>{data.upcoming.length} próximas</div></div>
           <div className="kpi"><div className="label"><Users /> Pacientes activos</div><div className="value">{data.patients.length}</div><div className="delta"><span>En tu cartera</span></div></div>
           <div className="kpi"><div className="label"><CheckCircle2 /> Completadas este mes</div><div className="value">{data.month.completed}</div><div className="delta"><span>Sesiones cerradas</span></div></div>
-          <div className="kpi"><div className="label"><Wallet /> Ingresos del mes</div><div className="value">{money(data.month.income)}</div><div className="delta"><span>Pagos verificados</span></div></div>
         </div>
 
         <div className="tabs-line" style={{ marginTop: 20 }}>
