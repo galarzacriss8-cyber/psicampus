@@ -11,24 +11,17 @@ export function TherapistPanel() {
   const toast = useToast();
   const { data, loading, error, reload } = useFetch<any>(() => api('/therapist/overview'), []);
   const [tab, setTab] = useState('hoy');
-  const [profile, setProfile] = useState<any>({ ...(data?.therapist || {}), approaches: Array.isArray((data?.therapist || {}).approaches) ? (data?.therapist || {}).approaches.join(', ') : ((data?.therapist || {}).approaches || '') });
+  const serverTherapist = data?.therapist || {};
+  const profileData = {
+    ...serverTherapist,
+    approaches: Array.isArray(serverTherapist.approaches) ? serverTherapist.approaches.join(', ') : (serverTherapist.approaches || ''),
+  };
+  const [profile, setProfile] = useState<any>(profileData);
   const [photo, setPhoto] = useState<string | null>(null);
   const [noteFor, setNoteFor] = useState<any>(null);
   const [newNoteForm, setNewNoteForm] = useState({ patientId: '', content: '', mood: 'estable' });
   const [showNoteForm, setShowNoteForm] = useState(false);
   const [savingNote, setSavingNote] = useState(false);
-  const syncedRef = useRef(false);
-
-  // Carga los datos del perfil cuando llegan del servidor (una sola vez por carga)
-  useEffect(() => {
-    const th = data?.therapist;
-    if (!th || syncedRef.current) return;
-    syncedRef.current = true;
-    setProfile({
-      ...th,
-      approaches: Array.isArray(th.approaches) ? th.approaches.join(', ') : (th.approaches || ''),
-    });
-  }, [data]);
 
   if (loading && !data) return <Loader />;
   if (error) return <ErrorState message={error} onRetry={reload} />;
