@@ -115,7 +115,7 @@ export function PublicLayout({ children }: { children: ReactNode }) {
               <a href={`mailto:${contact.email || ''}`}><Mail style={{ width: 13, height: 13, display: 'inline', marginRight: 6 }} />{contact.email}</a>
               <span style={{ display: 'flex', gap: 6, fontSize: 13, padding: '5px 0' }}><MapPin style={{ width: 14, height: 14, flex: 'none' }} />{contact.address}</span>
               <span style={{ display: 'flex', gap: 6, fontSize: 13, padding: '5px 0' }}><Clock style={{ width: 14, height: 14, flex: 'none' }} />{contact.hours}</span>
-              <a href={`https://instagram.com/${String(contact.instagram || '').replace('@', '')}`} target="_blank" rel="noreferrer"><AtSign style={{ width: 13, height: 13, display: 'inline', marginRight: 6 }} />{contact.instagram}</a>
+              <a href="https://www.instagram.com/psyconova.ec" target="_blank" rel="noreferrer"><AtSign style={{ width: 13, height: 13, display: 'inline', marginRight: 6 }} />@psyconova.ec</a>
             </div>
           </div>
           <div className="footer-bottom">
