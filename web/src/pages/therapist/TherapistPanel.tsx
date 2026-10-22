@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CalendarDays, CheckCircle2, Clock, FileText, LogOut, Plus, Users, Video, Wallet, XCircle } from 'lucide-react';
+import { CalendarDays, CheckCircle2, Clock, FileText, LogOut, Plus, Trash2, Users, Video, Wallet, XCircle } from 'lucide-react';
 import { api, fileToDataUrl } from '../../lib/api';
 import { useAuth } from '../../lib/auth';
 import { Link } from '../../lib/router';
@@ -98,17 +98,9 @@ export function TherapistPanel() {
             </div>
             <div className="stack">
               <div className="panel">
-                <div className="panel-head"><h3>Tu disponibilidad</h3><Badge tone="sage" dot={false}>Semanal</Badge></div>
+                <div className="panel-head"><h3>Tu disponibilidad</h3><Badge tone="sage" dot={false}>Semanal · edita</Badge></div>
                 <div className="panel-body">
-                  <div className="stack-xs">
-                    {['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'].map((d, i) => (
-                      <div key={d} className="row-between" style={{ fontSize: 12, padding: '4px 0', borderBottom: '1px solid var(--line)' }}>
-                        <span className="muted">{d}</span>
-                        <span className="strong">08:00–12:00 · 14:00–18:30</span>
-                      </div>
-                    ))}
-                  </div>
-                  <p className="tiny muted" style={{ marginTop: 10 }}>La administración gestiona tus bloqueos y vacaciones. Escríbeles para cambios.</p>
+                  <AvailabilityEditor />
                 </div>
               </div>
               <div className="card card-forest">
@@ -214,6 +206,80 @@ export function TherapistPanel() {
 
 function PayBadgeMini({ status }: { status: string }) {
   return <span className={`badge ${status === 'pagado' ? 'badge-success' : 'badge-warning'} no-dot`} style={{ fontSize: 9.5 }}>{status === 'pagado' ? 'pagado' : 'pendiente'}</span>;
+}
+
+const DIAS = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+
+function AvailabilityEditor() {
+  const toast = useToast();
+  const { data, loading, reload } = useFetch<any[]>(() => api('/therapist/availability'), []);
+  const [form, setForm] = useState<any>({ weekday: 0, start: '08:00', end: '12:00', slotMinutes: 50, modality: 'ambas' });
+  const [busy, setBusy] = useState(false);
+  const rows = data || [];
+
+  const add = async () => {
+    setBusy(true);
+    try {
+      await api('/therapist/availability', { method: 'POST', body: { ...form, weekday: Number(form.weekday) } });
+      toast.success('Horario agregado');
+      reload();
+    } catch (e: any) { toast.error(e.message); } finally { setBusy(false); }
+  };
+
+  const remove = async (id: string) => {
+    try { await api(`/therapist/availability/${id}`, { method: 'DELETE' }); toast.success('Horario eliminado'); reload(); }
+    catch (e: any) { toast.error(e.message); }
+  };
+
+  const update = async (id: string, patch: any) => {
+    try { await api(`/therapist/availability/${id}`, { method: 'PATCH', body: patch }); toast.success('Horario actualizado'); reload(); }
+    catch (e: any) { toast.error(e.message); }
+  };
+
+  return (
+    <div className="stack-sm">
+      {loading && !data && <Loader />}
+      {!loading && rows.length === 0 && (
+        <p className="tiny muted">No tienes bloques configurados. Agrégalos abajo para que los pacientes puedan agendarte.</p>
+      )}
+      <div className="stack-xs">
+        {rows.map((r: any) => (
+          <div key={r.id} className="row-between" style={{ fontSize: 12, padding: '6px 0', borderBottom: '1px solid var(--line)', gap: 8 }}>
+            <span className="muted" style={{ minWidth: 78 }}>{DIAS[r.weekday] || `Día ${r.weekday}`}</span>
+            <span className="hstack" style={{ gap: 6 }}>
+              <input className="input" style={{ width: 92, padding: '4px 8px', fontSize: 12 }} type="time" value={r.start} onChange={(e) => setForm({ ...form })} onBlur={(e) => e.target.value !== r.start && update(r.id, { start: e.target.value })} />
+              <span className="muted">–</span>
+              <input className="input" style={{ width: 92, padding: '4px 8px', fontSize: 12 }} type="time" value={r.end} onChange={(e) => setForm({ ...form })} onBlur={(e) => e.target.value !== r.end && update(r.id, { end: e.target.value })} />
+              <span className="tiny muted">{r.slot_minutes}′</span>
+            </span>
+            <button className="icon-btn" title="Eliminar" onClick={() => remove(r.id)}><Trash2 style={{ width: 15, height: 15 }} /></button>
+          </div>
+        ))}
+      </div>
+
+      <div style={{ borderTop: '1px solid var(--line)', paddingTop: 10, marginTop: 4 }}>
+        <p className="tiny muted" style={{ margin: '0 0 8px' }}>Agregar bloque horario</p>
+        <div className="form-grid">
+          <Field label="Día">
+            <select className="select" value={form.weekday} onChange={e => setForm({ ...form, weekday: e.target.value })}>
+              {DIAS.map((d, i) => <option key={i} value={i}>{d}</option>)}
+            </select>
+          </Field>
+          <Field label="Modalidad">
+            <select className="select" value={form.modality} onChange={e => setForm({ ...form, modality: e.target.value })}>
+              <option value="ambas">Ambas</option>
+              <option value="presencial">Presencial</option>
+              <option value="virtual">Virtual</option>
+            </select>
+          </Field>
+          <Field label="Desde"><input className="input" type="time" value={form.start} onChange={e => setForm({ ...form, start: e.target.value })} /></Field>
+          <Field label="Hasta"><input className="input" type="time" value={form.end} onChange={e => setForm({ ...form, end: e.target.value })} /></Field>
+          <Field label="Duración (min)"><input className="input" type="number" min="20" step="5" value={form.slotMinutes} onChange={e => setForm({ ...form, slotMinutes: Number(e.target.value) })} /></Field>
+        </div>
+        <button className="btn btn-sm btn-block" style={{ marginTop: 10 }} onClick={add} disabled={busy}>{busy ? 'Guardando…' : 'Agregar horario'}</button>
+      </div>
+    </div>
+  );
 }
 
 function NoteModal({ target, onClose, onSaved }: { target: any; onClose: () => void; onSaved: () => void }) {
