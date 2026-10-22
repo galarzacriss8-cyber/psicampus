@@ -187,6 +187,7 @@ section.block.tight { padding: 64px 0; }
 
 /* -------------------------------- survey ----------------------------------- */
 .survey-wrap { max-width: 840px; margin: 0 auto; }
+.survey-wrap h2, .survey-wrap h3, .survey-card h2, .survey-card h3, .survey-result h3, .booking-card h2, .booking-card h3 { color: #171c24 !important; }
 .survey-top { text-align: center; margin-bottom: 30px; }
 .survey-progress { height: 5px; background: var(--cream-2); border-radius: 4px; overflow: hidden; margin: 22px 0 8px; }
 .survey-progress i { display: block; height: 100%; background: linear-gradient(90deg, var(--forest-2), var(--moss)); transition: width 0.4s var(--ease); }
