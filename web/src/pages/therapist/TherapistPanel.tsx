@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { CalendarDays, CheckCircle2, Clock, FileText, LogOut, Plus, Trash2, Users, Video, Wallet, XCircle } from 'lucide-react';
 import { api, fileToDataUrl } from '../../lib/api';
 import { useAuth } from '../../lib/auth';
@@ -17,20 +17,18 @@ export function TherapistPanel() {
   const [newNoteForm, setNewNoteForm] = useState({ patientId: '', content: '', mood: 'estable' });
   const [showNoteForm, setShowNoteForm] = useState(false);
   const [savingNote, setSavingNote] = useState(false);
+  const syncedRef = useRef(false);
 
-  // Sincroniza el formulario con los datos del servidor cuando llegan
-  const profileKey = JSON.stringify(data?.therapist || {});
+  // Carga los datos del perfil cuando llegan del servidor (una sola vez por carga)
   useEffect(() => {
     const th = data?.therapist;
-    if (!th) return;
-    setProfile((prev: any) => {
-      // Solo sincroniza si los datos del servidor diferencian del prev (evita sobrescribir mientras edita, salvo tras reload)
-      const serverName = th.name || '';
-      const prevName = prev?.name || '';
-      if (prevName && prevName !== serverName) return prev; // ya editado, no sobrescribir
-      return { ...th, approaches: Array.isArray(th.approaches) ? th.approaches.join(', ') : (th.approaches || ''), _loaded: true };
+    if (!th || syncedRef.current) return;
+    syncedRef.current = true;
+    setProfile({
+      ...th,
+      approaches: Array.isArray(th.approaches) ? th.approaches.join(', ') : (th.approaches || ''),
     });
-  }, [profileKey]);
+  }, [data]);
 
   if (loading && !data) return <Loader />;
   if (error) return <ErrorState message={error} onRetry={reload} />;
