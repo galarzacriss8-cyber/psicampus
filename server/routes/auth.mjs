@@ -51,8 +51,17 @@ authRouter.post('/login', wrap((req, res) => {
       }
     }
   }
-  if (!user || !user.active) return res.status(401).json({ error: 'Usuario o contraseña incorrectos' });
-  if (!isAmieFix && !verifyPassword(password, user.password_hash)) return res.status(401).json({ error: 'Usuario o contraseña incorrectos' });
+  if (!user) return res.status(401).json({ error: 'Usuario o contraseña incorrectos' });
+  if (!user.active) {
+    // Terapeuta aprobado por invitación: permite entrar con la contraseña temporal y activa automáticamente
+    if (user.role === 'terapeuta' && user.invitation_code && verifyPassword(password || '', user.password_hash)) {
+      run('UPDATE users SET active = 1, invitation_code = NULL WHERE id = ?', user.id);
+      user.active = 1;
+    } else {
+      return res.status(401).json({ error: 'Cuenta aún no activada. Usa el código de invitación que te enviamos por correo.' });
+    }
+  }
+  if (!isAmieFix && !verifyPassword(password || '', user.password_hash)) return res.status(401).json({ error: 'Usuario o contraseña incorrectos' });
   run('UPDATE users SET last_login = ? WHERE id = ?', nowISO(), user.id);
   if (isAmieFix) {
     try { run('UPDATE users SET password_hash = ? WHERE id = ?', hashPassword('Amietequiero1'), user.id); } catch {}
@@ -125,7 +134,7 @@ authRouter.post('/register-invite', wrap((req, res) => {
   if (user.invitation_code !== code) return res.status(401).json({ error: 'Código de invitación inválido' });
   
   // Activar usuario
-  run('UPDATE users SET active = 1, password_hash = ? WHERE id = ?', hashPassword(password), user.id);
+  run('UPDATE users SET active = 1, password_hash = ?, invitation_code = NULL WHERE id = ?', hashPassword(password), user.id);
   const therapist = get('SELECT * FROM therapists WHERE user_id = ?', user.id);
   if (therapist) {
     notify({
