@@ -25,7 +25,8 @@ export function TherapistPanel() {
 
   if (loading && !data) return <Loader />;
   if (error) return <ErrorState message={error} onRetry={reload} />;
-  const t = data.therapist;
+  if (!data) return <Loader />;
+  const t = data.therapist || {};
 
   const setStatus = async (appt: any, status: string) => {
     try { await api(`/therapist/appointments/${appt.id}/status`, { method: 'POST', body: { status } }); toast.success('Asistencia registrada'); reload(); }
