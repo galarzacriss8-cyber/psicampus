@@ -657,7 +657,7 @@ therapistRouter.get('/overview', wrap((req, res) => {
     `SELECT COALESCE(SUM(pay.amount),0) AS s FROM payments pay JOIN appointments a ON a.id = pay.appointment_id
       WHERE pay.status = 'verificado' AND a.therapist_id = ? AND a.date BETWEEN ? AND ?`, t.id, monthStart, monthEnd)?.s || 0;
   const notes = all(`SELECT n.*, p.name AS patient_name FROM session_notes n JOIN patients p ON p.id = n.patient_id WHERE n.therapist_id = ? ORDER BY n.created_at DESC LIMIT 20`, t.id);
-  res.json({ therapist: therapistPublic(t), today: appts.filter((a) => a.date === today), upcoming, patients, month: { completed }, notes });
+  res.json({ therapist: t, today: appts.filter((a) => a.date === today), upcoming, patients, month: { completed }, notes });
 }));
 
 therapistRouter.patch('/profile', wrap((req, res) => {

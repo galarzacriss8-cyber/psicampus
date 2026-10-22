@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CalendarDays, CheckCircle2, Clock, FileText, LogOut, Plus, Trash2, Users, Video, Wallet, XCircle } from 'lucide-react';
 import { api, fileToDataUrl } from '../../lib/api';
 import { useAuth } from '../../lib/auth';
@@ -11,12 +11,26 @@ export function TherapistPanel() {
   const toast = useToast();
   const { data, loading, error, reload } = useFetch<any>(() => api('/therapist/overview'), []);
   const [tab, setTab] = useState('hoy');
-  const [profile, setProfile] = useState({ ...(data?.therapist || {}), approaches: Array.isArray((data?.therapist || {}).approaches) ? (data?.therapist || {}).approaches.join(', ') : ((data?.therapist || {}).approaches || '') });
+  const [profile, setProfile] = useState<any>({ ...(data?.therapist || {}), approaches: Array.isArray((data?.therapist || {}).approaches) ? (data?.therapist || {}).approaches.join(', ') : ((data?.therapist || {}).approaches || '') });
   const [photo, setPhoto] = useState<string | null>(null);
   const [noteFor, setNoteFor] = useState<any>(null);
   const [newNoteForm, setNewNoteForm] = useState({ patientId: '', content: '', mood: 'estable' });
   const [showNoteForm, setShowNoteForm] = useState(false);
   const [savingNote, setSavingNote] = useState(false);
+
+  // Sincroniza el formulario con los datos del servidor cuando llegan
+  const profileKey = JSON.stringify(data?.therapist || {});
+  useEffect(() => {
+    const th = data?.therapist;
+    if (!th) return;
+    setProfile((prev: any) => {
+      // Solo sincroniza si los datos del servidor diferencian del prev (evita sobrescribir mientras edita, salvo tras reload)
+      const serverName = th.name || '';
+      const prevName = prev?.name || '';
+      if (prevName && prevName !== serverName) return prev; // ya editado, no sobrescribir
+      return { ...th, approaches: Array.isArray(th.approaches) ? th.approaches.join(', ') : (th.approaches || ''), _loaded: true };
+    });
+  }, [profileKey]);
 
   if (loading && !data) return <Loader />;
   if (error) return <ErrorState message={error} onRetry={reload} />;
