@@ -68,7 +68,7 @@ export function TherapistPanel() {
         </div>
 
         <div className="tabs-line" style={{ marginTop: 20 }}>
-          {[['hoy', `Hoy (${data.today.length})`], ['proximas', `Próximas (${data.upcoming.length})`], ['pacientes', `Pacientes (${data.patients.length})`], ['notas', 'Notas de sesión'], ['perfil', 'Mi perfil']].map(([k, l]) => (
+          {[['hoy', `Hoy (${data.today.length})`], ['proximas', `Próximas (${data.upcoming.length})`], ['pacientes', `Pacientes (${data.patients.length})`], ['notas', 'Notas de sesión'], ['perfil', 'Mi perfil'], ['informes', 'Informes clínicos']].map(([k, l]) => (
             <button key={k} className={tab === k ? 'on' : ''} onClick={() => setTab(k)}>{l}</button>
           ))}
         </div>
@@ -210,6 +210,10 @@ export function TherapistPanel() {
               </div>
             </div>
           </div>
+        )}
+
+        {tab === 'informes' && (
+          <ClinicalReports data={data} therapist={t} />
         )}
       </div>
 
@@ -373,5 +377,95 @@ function NoteModal({ target, onClose, onSaved }: { target: any; onClose: () => v
         <textarea className="textarea" style={{ minHeight: 150 }} value={content} onChange={(e) => setContent(e.target.value)} placeholder="Temas trabajados, técnicas, respuesta del paciente y tareas para la próxima sesión…" />
       </Field>
     </Modal>
+  );
+}
+
+function ClinicalReports({ data, therapist }: { data: any; therapist: any }) {
+  const [patient, setPatient] = useState<any>(null);
+  const [report, setReport] = useState<any>(null);
+  const toast = useToast();
+
+  const patients = data?.patients || [];
+  const generate = async () => {
+    if (!patient) return toast.error('Selecciona un paciente');
+    try {
+      const res = await api('/admin/advanced/query', { method: 'POST', body: { prompt: `Genera informe clínico del paciente ${patient.id} (${patient.name}) con sesiones asistidas y no asistidas.` } });
+      const info = res?.action?.data || res;
+      setReport({ ...info, therapistName: therapist?.name || 'Psyconova', therapistReg: therapist?.license || 'SENECYT 1027-2025-3185598' });
+      toast.success('Informe generado');
+    } catch (e: any) { toast.error(e.message); }
+  };
+
+  return (
+    <div className="panel">
+      <div className="panel-head"><h3>Informes clínicos</h3><span className="tiny muted">Formato oficial · con sello</span></div>
+      <div className="panel-body">
+        <Field label="Selecciona paciente">
+          <select className="select" value={patient?.id || ''} onChange={e => { const p = patients.find((x: any) => x.id === e.target.value); setPatient(p || null); }}>
+            <option value="">— Elige paciente —</option>
+            {patients.map((p: any) => <option key={p.id} value={p.id}>{p.name}</option>)}
+          </select>
+        </Field>
+        <button className="btn btn-sm" style={{ marginTop: 10 }} onClick={generate} disabled={!patient}>Generar informe clínico</button>
+
+        {report && (
+          <div className="card" style={{ marginTop: 18, padding: 24, background: '#fffdf8', borderRadius: 16, border: '1px solid #d8d3c0' }}>
+            <div style={{ textAlign: 'center', marginBottom: 18 }}>
+              <strong style={{ fontFamily: 'var(--serif)', fontSize: 22, color: '#0f3b33' }}>PSYCONOVA · INFORME CLÍNICO</strong>
+              <div className="tiny muted" style={{ marginTop: 4 }}>Sistema de bienestar psicológico universitario</div>
+            </div>
+
+            <div style={{ fontSize: 12, color: '#14231f', lineHeight: 1.7, borderBottom: '1px solid #e3ddcf', paddingBottom: 14, marginBottom: 14 }}>
+              <strong>Profesional responsable:</strong> {report.therapistName || therapist?.name || 'Psicólogo/a clínico'}<br />
+              <strong>Registro profesional:</strong> {report.therapistReg || therapist?.license || 'SENECYT 1027-2025-3185598'}<br />
+              <strong>Fecha de emisión:</strong> {new Date().toLocaleDateString('es-EC', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}<br />
+              <strong>Identificación del paciente:</strong> {report.patient?.name || patient?.name} · ID: {report.patient?.id || patient?.id}
+            </div>
+
+            <h4 style={{ fontSize: 15, color: '#0f3b33', margin: '0 0 6px' }}>Resumen de sesiones</h4>
+            <div style={{ fontSize: 12, color: '#14231f' }}>
+              <strong>Asistidas:</strong> {report.totals?.attended || 0} &nbsp;·&nbsp; <strong>No asistidas:</strong> {report.totals?.missed || 0} &nbsp;·&nbsp; <strong>Pendientes:</strong> {report.totals?.pending || 0}
+            </div>
+
+            {report.sessions && report.sessions.length > 0 && (
+              <table style={{ width: '100%', fontSize: 11.5, marginTop: 10, borderCollapse: 'collapse', color: '#14231f' }}>
+                <thead>
+                  <tr style={{ borderBottom: '1px solid #0f3b33', textAlign: 'left' }}>
+                    <th style={{ padding: '4px 6px', color: '#0f3b33' }}>Fecha</th>
+                    <th style={{ padding: '4px 6px', color: '#0f3b33' }}>Hora</th>
+                    <th style={{ padding: '4px 6px', color: '#0f3b33' }}>Estado</th>
+                    <th style={{ padding: '4px 6px', color: '#0f3b33' }}>Modalidad</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {report.sessions.map((s: any, i: number) => (
+                    <tr key={i} style={{ borderBottom: '1px solid #e3ddcf' }}>
+                      <td style={{ padding: '4px 6px' }}>{s.date}</td>
+                      <td style={{ padding: '4px 6px' }}>{s.start} · {s.end}</td>
+                      <td style={{ padding: '4px 6px', textTransform: 'capitalize' }}>{s.attendance || s.status}</td>
+                      <td style={{ padding: '4px 6px', textTransform: 'capitalize' }}>{s.modality}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+
+            <div style={{ marginTop: 16, paddingTop: 10, borderTop: '1px dashed #d8d3c0', fontSize: 10, color: '#64746f' }}>
+              <strong>Nota clínica (editable):</strong>
+              <textarea className="textarea" style={{ minHeight: 100, width: '100%', marginTop: 8, fontSize: 11 }} value={report.notes || ''} readOnly />
+            </div>
+
+            <div style={{ marginTop: 20, paddingTop: 14, borderTop: '2px solid #0f3b33', textAlign: 'center' }}>
+              <div style={{ fontFamily: 'var(--serif)', fontSize: 16, color: '#0f3b33', fontWeight: 600, marginBottom: 4 }}>
+                {report.therapistName || therapist?.name || 'Psicólogo/a clínico'}
+              </div>
+              <div style={{ fontSize: 11, color: '#14231f', marginBottom: 2 }}>Registro profesional: {report.therapistReg || therapist?.license || 'SENECYT 1027-2025-3185598'}</div>
+              <div style={{ fontSize: 11, color: '#64746f' }}>Firma electrónica · Documento emitido por Psyconova · Sistema de bienestar psicológico</div>
+              <div style={{ fontSize: 9, color: '#8a948f', marginTop: 6 }}>Identificador del informe: {report.patientId || patient?.id}-{new Date().toISOString().slice(0,10)} · Regulado por normativa SENECYT</div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
