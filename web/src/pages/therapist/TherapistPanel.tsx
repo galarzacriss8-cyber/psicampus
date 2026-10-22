@@ -227,15 +227,23 @@ const DIAS = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', '
 function AvailabilityEditor() {
   const toast = useToast();
   const { data, loading, reload } = useFetch<any[]>(() => api('/therapist/availability'), []);
-  const [form, setForm] = useState<any>({ weekday: 0, start: '08:00', end: '12:00', slotMinutes: 50, modality: 'ambas' });
+  const [form, setForm] = useState<any>({ days: [0, 1, 2, 3, 4], start: '08:00', end: '12:00', slotMinutes: 50, modality: 'ambas' });
   const [busy, setBusy] = useState(false);
   const rows = data || [];
 
+  const toggleDay = (d: number) => {
+    const days: number[] = form.days.includes(d) ? form.days.filter((x: number) => x !== d) : [...form.days, d].sort();
+    setForm({ ...form, days });
+  };
+
   const add = async () => {
+    if (!form.days.length) return toast.error('Elige al menos un día');
     setBusy(true);
     try {
-      await api('/therapist/availability', { method: 'POST', body: { ...form, weekday: Number(form.weekday) } });
-      toast.success('Horario agregado');
+      for (const d of form.days) {
+        await api('/therapist/availability', { method: 'POST', body: { weekday: d, start: form.start, end: form.end, slotMinutes: Number(form.slotMinutes), modality: form.modality } });
+      }
+      toast.success(form.days.length > 1 ? `Horario agregado para ${form.days.length} días` : 'Horario agregado');
       reload();
     } catch (e: any) { toast.error(e.message); } finally { setBusy(false); }
   };
@@ -250,6 +258,25 @@ function AvailabilityEditor() {
     catch (e: any) { toast.error(e.message); }
   };
 
+  // Agrupa filas por mismo rango para mostrar "Lunes a Viernes · 08:00–12:00"
+  const groups: any[] = [];
+  for (const r of rows) {
+    const key = `${r.start}|${r.end}|${r.slot_minutes}|${r.modality}`;
+    let g = groups.find((x) => x.key === key);
+    if (!g) { g = { key, start: r.start, end: r.end, slot_minutes: r.slot_minutes, modality: r.modality, days: [], rows: [] }; groups.push(g); }
+    g.days.push(Number(r.weekday));
+    g.rows.push(r);
+  }
+  for (const g of groups) g.days.sort((a: number, b: number) => a - b);
+
+  const label = (g: any) => {
+    const d = g.days;
+    if (d.length === 1) return DIAS[d[0]];
+    if (d.length === 7) return 'Todos los días';
+    const cont = d.every((x: number, i: number) => i === 0 || x === d[i - 1] + 1);
+    return cont ? `${DIAS[d[0]]} a ${DIAS[d[d.length - 1]]}` : d.map((x: number) => DIAS[x].slice(0, 3)).join(', ');
+  };
+
   return (
     <div className="stack-sm">
       {loading && !data && <Loader />}
@@ -257,28 +284,50 @@ function AvailabilityEditor() {
         <p className="tiny muted">No tienes bloques configurados. Agrégalos abajo para que los pacientes puedan agendarte.</p>
       )}
       <div className="stack-xs">
-        {rows.map((r: any) => (
-          <div key={r.id} className="row-between" style={{ fontSize: 12, padding: '6px 0', borderBottom: '1px solid var(--line)', gap: 8 }}>
-            <span className="muted" style={{ minWidth: 78 }}>{DIAS[r.weekday] || `Día ${r.weekday}`}</span>
-            <span className="hstack" style={{ gap: 6 }}>
-              <input className="input" style={{ width: 92, padding: '4px 8px', fontSize: 12 }} type="time" value={r.start} onChange={(e) => setForm({ ...form })} onBlur={(e) => e.target.value !== r.start && update(r.id, { start: e.target.value })} />
-              <span className="muted">–</span>
-              <input className="input" style={{ width: 92, padding: '4px 8px', fontSize: 12 }} type="time" value={r.end} onChange={(e) => setForm({ ...form })} onBlur={(e) => e.target.value !== r.end && update(r.id, { end: e.target.value })} />
-              <span className="tiny muted">{r.slot_minutes}′</span>
-            </span>
-            <button className="icon-btn" title="Eliminar" onClick={() => remove(r.id)}><Trash2 style={{ width: 15, height: 15 }} /></button>
+        {groups.map((g: any) => (
+          <div key={g.key} style={{ fontSize: 12, padding: '8px 0', borderBottom: '1px solid var(--line)' }}>
+            <div className="row-between" style={{ gap: 8 }}>
+              <span className="strong" style={{ minWidth: 120 }}>{label(g)}</span>
+              <span className="hstack" style={{ gap: 6 }}>
+                <input className="input" style={{ width: 96, padding: '4px 8px', fontSize: 12 }} type="time" value={g.start} onChange={(e) => setForm({ ...form })} onBlur={(e) => e.target.value !== g.start && g.rows.forEach((r: any) => update(r.id, { start: e.target.value }))} />
+                <span className="muted">–</span>
+                <input className="input" style={{ width: 96, padding: '4px 8px', fontSize: 12 }} type="time" value={g.end} onChange={(e) => setForm({ ...form })} onBlur={(e) => e.target.value !== g.end && g.rows.forEach((r: any) => update(r.id, { end: e.target.value }))} />
+                <span className="tiny muted">{g.slot_minutes}′</span>
+              </span>
+            </div>
+            <div className="row-between" style={{ marginTop: 4, gap: 8 }}>
+              <span className="tiny muted">{g.modality === 'ambas' ? 'Presencial y virtual' : g.modality === 'virtual' ? 'Solo virtual' : 'Solo presencial'}</span>
+              <span className="hstack" style={{ gap: 4 }}>
+                <button className="btn btn-sm btn-ghost" onClick={() => g.rows.forEach((r: any) => remove(r.id))}>Quitar días</button>
+                <button className="icon-btn" title="Eliminar todo" onClick={() => g.rows.forEach((r: any) => remove(r.id))}><Trash2 style={{ width: 15, height: 15 }} /></button>
+              </span>
+            </div>
           </div>
         ))}
       </div>
 
       <div style={{ borderTop: '1px solid var(--line)', paddingTop: 10, marginTop: 4 }}>
         <p className="tiny muted" style={{ margin: '0 0 8px' }}>Agregar bloque horario</p>
-        <div className="form-grid">
-          <Field label="Día">
-            <select className="select" value={form.weekday} onChange={e => setForm({ ...form, weekday: e.target.value })}>
-              {DIAS.map((d, i) => <option key={i} value={i}>{d}</option>)}
-            </select>
-          </Field>
+        <Field label="Días">
+          <div className="hstack" style={{ flexWrap: 'wrap', gap: 6 }}>
+            {DIAS.map((d, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => toggleDay(i)}
+                style={{
+                  padding: '5px 10px', borderRadius: 999, fontSize: 12, fontWeight: 600,
+                  border: `1px solid ${form.days.includes(i) ? 'var(--forest)' : 'var(--line)'}`,
+                  background: form.days.includes(i) ? 'var(--forest)' : 'transparent',
+                  color: form.days.includes(i) ? '#fff' : 'var(--ink-soft)',
+                }}
+              >{d.slice(0, 3)}</button>
+            ))}
+          </div>
+        </Field>
+        <div className="form-grid" style={{ marginTop: 8 }}>
+          <Field label="Desde"><input className="input" type="time" value={form.start} onChange={e => setForm({ ...form, start: e.target.value })} /></Field>
+          <Field label="Hasta"><input className="input" type="time" value={form.end} onChange={e => setForm({ ...form, end: e.target.value })} /></Field>
           <Field label="Modalidad">
             <select className="select" value={form.modality} onChange={e => setForm({ ...form, modality: e.target.value })}>
               <option value="ambas">Ambas</option>
@@ -286,11 +335,12 @@ function AvailabilityEditor() {
               <option value="virtual">Virtual</option>
             </select>
           </Field>
-          <Field label="Desde"><input className="input" type="time" value={form.start} onChange={e => setForm({ ...form, start: e.target.value })} /></Field>
-          <Field label="Hasta"><input className="input" type="time" value={form.end} onChange={e => setForm({ ...form, end: e.target.value })} /></Field>
           <Field label="Duración (min)"><input className="input" type="number" min="20" step="5" value={form.slotMinutes} onChange={e => setForm({ ...form, slotMinutes: Number(e.target.value) })} /></Field>
         </div>
-        <button className="btn btn-sm btn-block" style={{ marginTop: 10 }} onClick={add} disabled={busy}>{busy ? 'Guardando…' : 'Agregar horario'}</button>
+        <button className="btn btn-sm btn-block" style={{ marginTop: 10 }} onClick={add} disabled={busy}>
+          {busy ? 'Guardando…' : `Agregar horario${form.days.length > 1 ? ` (${form.days.length} días)` : ''}`}
+        </button>
+        <p className="tiny muted" style={{ marginTop: 8 }}>Ejemplo: elige L–V, 08:00–12:00 y 14:00–18:30 para两块 de mañana y tarde.</p>
       </div>
     </div>
   );
