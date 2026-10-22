@@ -29,6 +29,10 @@ services:
         value: galarzacriss8@gmail.com
       - key: SMTP_PASS
         sync: false
+      - key: DEEPSEEK_API_KEY
+        sync: false
+      - key: DEEPSEEK_BASE_URL
+        value: https://api.deepseek.com
       - key: GOOGLE_CLIENT_ID
         sync: false
     disk:
