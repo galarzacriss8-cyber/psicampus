@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { LogOut, Plus, FileText, Clock, Trash2 } from 'lucide-react';
-import { api } from '../../lib/api';
+import { api, fileToDataUrl } from '../../lib/api';
 import { useAuth } from '../../lib/auth';
 import { Loader, useFetch, useToast } from '../../lib/ui';
 import { dateMed, dateShort } from '../../lib/format';
@@ -62,19 +62,9 @@ export function TherapistPanel() {
         )}
 
         {tab === 'perfil' && (
-          <form onSubmit={e => { e.preventDefault(); toast.success('Perfil actualizado'); }}>
+          <form onSubmit={async (e) => { e.preventDefault(); try { await api('/therapist/profile', { method: 'PATCH', body: profileState }); toast.success('Perfil actualizado'); reload(); } catch (err: any) { toast.error(err.message); } }}>
             <h2 style={{ marginTop: 0, fontFamily: 'Georgia, serif' }}>Perfil profesional</h2>
-            <div style={{ display: 'grid', gap: 12, gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}>
-              <label style={{ display: 'block' }}>Nombre completo<input defaultValue={t.name || ''} style={{ width: '100%', padding: 8, borderRadius: 6, border: '1px solid #ccc', marginTop: 4 }} /></label>
-              <label style={{ display: 'block' }}>Universidad<input defaultValue={t.university || ''} style={{ width: '100%', padding: 8, borderRadius: 6, border: '1px solid #ccc', marginTop: 4 }} /></label>
-              <label style={{ display: 'block' }}>Título / Grado<input defaultValue={t.degree || ''} style={{ width: '100%', padding: 8, borderRadius: 6, border: '1px solid #ccc', marginTop: 4 }} /></label>
-              <label style={{ display: 'block' }}>Modalidad<input defaultValue={t.modality || 'presencial'} disabled style={{ width: '100%', padding: 8, borderRadius: 6, border: '1px solid #ccc', background: '#eee', marginTop: 4 }} /></label>
-              <label style={{ display: 'block' }}>Idiomas<input defaultValue={t.languages || ''} style={{ width: '100%', padding: 8, borderRadius: 6, border: '1px solid #ccc', marginTop: 4 }} /></label>
-              <label style={{ display: 'block' }}>Licencia<input defaultValue={t.license || ''} disabled style={{ width: '100%', padding: 8, borderRadius: 6, border: '1px solid #ccc', background: '#eee', marginTop: 4 }} /></label>
-              <label style={{ display: 'block' }}>Años de experiencia<input defaultValue={t.years || ''} style={{ width: '100%', padding: 8, borderRadius: 6, border: '1px solid #ccc', marginTop: 4 }} /></label>
-              <label style={{ display: 'block' }}>Enfoques (separados por coma)<input defaultValue={Array.isArray(t.approaches) ? t.approaches.join(', ') : (t.approaches || '')} style={{ width: '100%', padding: 8, borderRadius: 6, border: '1px solid #ccc', marginTop: 4 }} /></label>
-            </div>
-            <button type="submit" style={{ marginTop: 16, padding: '10px 24px', background: '#0F3B33', color: '#fff', border: 'none', borderRadius: 8, cursor: 'pointer', fontWeight: 600 }}>Guardar cambios</button>
+            <ProfileForm t={t} />
           </form>
         )}
 
@@ -138,6 +128,35 @@ export function TherapistPanel() {
           </div>
         )}
       </section>
+    </div>
+  );
+}
+
+function ProfileForm({ t }: { t: any }) {
+  const [photoData, setPhotoData] = useState<string | null>(t.photo || null);
+  const [saving, setSaving] = useState(false);
+  const toast = useToast();
+  const handleSave = async () => {
+    setSaving(true);
+    try { await api('/therapist/profile', { method: 'PATCH', body: { photo: photoData || undefined } }); toast.success('Foto guardada'); } catch (e: any) { toast.error(e.message); }
+    setSaving(false);
+  };
+  return (
+    <div>
+      <div style={{ display: 'grid', gap: 12, gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}>
+        <label style={{ display: 'block' }}>Nombre completo<input defaultValue={t.name || ''} disabled style={{ width: '100%', padding: 8, borderRadius: 6, border: '1px solid #ccc', marginTop: 4 }} /></label>
+        <label style={{ display: 'block' }}>Universidad<input defaultValue={t.university || ''} disabled style={{ width: '100%', padding: 8, borderRadius: 6, border: '1px solid #ccc', marginTop: 4 }} /></label>
+        <label style={{ display: 'block' }}>Título<input defaultValue={t.degree || ''} disabled style={{ width: '100%', padding: 8, borderRadius: 6, border: '1px solid #ccc', marginTop: 4 }} /></label>
+        <label style={{ display: 'block' }}>Modalidad<input defaultValue={t.modality || 'presencial'} disabled style={{ width: '100%', padding: 8, borderRadius: 6, border: '1px solid #ccc', background: '#eee', marginTop: 4 }} /></label>
+        <label style={{ display: 'block' }}>Idiomas<input defaultValue={t.languages || ''} disabled style={{ width: '100%', padding: 8, borderRadius: 6, border: '1px solid #ccc', marginTop: 4 }} /></label>
+        <label style={{ display: 'block' }}>Años<input defaultValue={t.years || ''} disabled style={{ width: '100%', padding: 8, borderRadius: 6, border: '1px solid #ccc', marginTop: 4 }} /></label>
+      </div>
+      <div style={{ marginTop: 12 }}>
+        <label>Foto de perfil</label><br />
+        <input type="file" accept="image/*" onChange={async (e) => { const f = e.target.files?.[0]; if (f) { try { const d = await fileToDataUrl(f); setPhotoData(d); } catch (err) { console.error(err); } } }} style={{ marginTop: 4 }} />
+        {photoData ? <div style={{ marginTop: 8 }}><img src={photoData} alt="perfil" style={{ maxWidth: 120, maxHeight: 120, borderRadius: 8, border: '1px solid #ccc' }} /></div> : null}
+      </div>
+      <button type="button" onClick={handleSave} disabled={saving} style={{ marginTop: 16, padding: '10px 24px', background: '#0F3B33', color: '#fff', border: 'none', borderRadius: 8, cursor: 'pointer', fontWeight: 600 }}>{saving ? 'Guardando...' : 'Guardar foto / cambios'}</button>
     </div>
   );
 }
