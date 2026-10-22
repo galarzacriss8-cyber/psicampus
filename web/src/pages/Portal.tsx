@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   ArrowRight, CalendarDays, CheckCircle2, Clock, CreditCard, FileUp, HeartHandshake, MapPin,
   RefreshCw, ShieldCheck, Upload, Video, Wallet, XCircle, User, Lock, Sparkles, ClipboardList, Download,

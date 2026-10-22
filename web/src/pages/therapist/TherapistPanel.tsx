@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { LogOut, Plus, FileText } from 'lucide-react';
 import { api, fileToDataUrl } from '../../lib/api';
 import { useAuth } from '../../lib/auth';
