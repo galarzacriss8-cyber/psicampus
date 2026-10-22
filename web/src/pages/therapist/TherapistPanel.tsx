@@ -1,30 +1,75 @@
+
 import { useState } from "react";
-import { useAuth } from "../lib/auth";
-import { useFetch, Loader, ErrorState } from "../lib/ui";
-import { api } from "../lib/api";
+import { LogOut, Plus, FileText, CheckCircle2 } from "lucide-react";
+import { api, fileToDataUrl } from "../../lib/api";
+import { useAuth } from "../../lib/auth";
+import { Link } from "../../lib/router";
+import { Loader, ErrorState, Field, useFetch, useToast } from "../../lib/ui";
+import { dateMed, dateShort } from "../../lib/format";
 export function TherapistPanel() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth(); const toast = useToast();
   const { data, loading, error, reload } = useFetch<any>(() => api("/therapist/overview"), []);
   const [tab, setTab] = useState("hoy");
   if (loading && !data) return <Loader />;
-  if (error || !data) return <ErrorState message={error?.message || ""} onRetry={reload} />;
-  const t = data.therapist || {};
+  if (error || !data) return <Loader />;
+  const t = data.therapist || {}; const todayAppts = data.today || []; const patients = data.patients || [];
+  const [profile, setProfile] = useState({ ...t, approaches: Array.isArray(t.approaches) ? t.approaches.join(", ") : (t.approaches || "") });
+  const [photo, setPhoto] = useState<string | null>(t.photo || null);
+  const [newNoteForm, setNewNoteForm] = useState({ patientId: "", content: "", mood: "estable" });
+  const [showNoteForm, setShowNoteForm] = useState(false);
+  const [savingNote, setSavingNote] = useState(false);
+  const saveProfile = async () => { try { await api("/therapist/profile", { method: "PATCH", body: { ...profile, photo: photo || undefined, approaches: profile.approaches ? profile.approaches.split(",").map(s=>s.trim()).filter(Boolean) : [] } }); toast.success("Perfil actualizado"); reload(); } catch (e:any) { toast.error(e.message); } };
+  const saveNote = async () => { if (!newNoteForm.patientId) return toast.error("Elige un paciente"); if (!newNoteForm.content.trim()) return toast.error("Contenido vacío"); setSavingNote(true); try { await api("/therapist/notes", { method: "POST", body: newNoteForm }); toast.success("Nota guardada"); setNewNoteForm({ patientId: "", content: "", mood: "estable" }); setShowNoteForm(false); reload(); } catch (e:any) { toast.error(e.message); } setSavingNote(false); };
   return (
-    <div style={{ minHeight: "100vh", background: "var(--cream)", padding: 24 }}>
-      <h1 style={{ color: "var(--ink)", fontFamily: "var(--serif)", fontSize: 28 }}>Panel del terapeuta</h1>
-      <p style={{ color: "var(--ink-soft)", marginTop: 4 }}>{t.name || user?.name || "Terapeuta"} · {t.university || "—"}</p>
-      <div style={{ marginTop: 20, display: "flex", gap: 8 }}>
-        <button onClick={() => setTab("hoy")} style={{ padding: 8, background: tab === "hoy" ? "#0F3B33" : "#fff", color: tab === "hoy" ? "#fff" : "#0F3B33", border: "1px solid #0F3B33" }}>Hoy</button>
-        <button onClick={() => setTab("perfil")} style={{ padding: 8, background: tab === "perfil" ? "#0F3B33" : "#fff", color: tab === "perfil" ? "#fff" : "#0F3B33", border: "1px solid #0F3B33" }}>Mi perfil</button>
-        <button onClick={() => setTab("notas")} style={{ padding: 8, background: tab === "notas" ? "#0F3B33" : "#fff", color: tab === "notas" ? "#fff" : "#0F3B33", border: "1px solid #0F3B33" }}>Notas</button>
-        <button onClick={() => setTab("informes")} style={{ padding: 8, background: tab === "informes" ? "#0F3B33" : "#fff", color: tab === "informes" ? "#fff" : "#0F3B33", border: "1px solid #0F3B33" }}>Informes</button>
-      </div>
-      <div style={{ marginTop: 20, background: "#fff", borderRadius: 16, padding: 20, boxShadow: "0 2px 12px rgba(15,59,51,0.05)" }}>
-        {tab === "hoy" && <div><strong>Sesiones hoy:</strong> {(data.today || []).length}</div>}
-        {tab === "perfil" && <div><strong>Perfil cargado.</strong> Datos: {t.name || "—"}, activo: {t.active === 1 ? "Sí" : "No"}, registro: {t.license || t.registration || "MSP-00000"}.</div>}
-        {tab === "notas" && <div><strong>Notas recientes disponibles.</strong> Puedes agregar desde tu panel.</div>}
-        {tab === "informes" && <div><strong>Informes clínicos disponibles.</strong> Selecciona paciente y genera.</div>}
-      </div>
+    <div style={{ minHeight: "100vh", background: "#f4f1e8", padding: 24 }}>
+      <header style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
+        <div><h1 style={{ fontFamily: "var(--serif)", fontSize: 26, color: "#171c24", margin: 0 }}>Panel del terapeuta</h1><p style={{ margin: 4 }}>{t.name || user?.name || "—"} · {t.university || "—"}</p></div>
+        <button onClick={() => logout()} style={{ background: "transparent", border: "1px solid #171c24", padding: "6px 14px", borderRadius: 8, cursor: "pointer" }}><LogOut size={14} /> Salir</button>
+      </header>
+      <nav style={{ display: "flex", gap: 8, marginBottom: 20 }}>
+        {["hoy","perfil","notas","informes"].map(s => <button key={s} onClick={() => setTab(s)} style={{ padding: "8px 16px", borderRadius: 20, border: "1px solid #171c24", background: tab === s ? "#171c24" : "#fff", color: tab === s ? "#fff" : "#171c24", cursor: "pointer" }}>{s === "hoy" ? "Hoy" : s === "perfil" ? "Mi perfil" : s === "notas" ? "Notas" : "Informes"}</button>)}
+      </nav>
+      <section style={{ background: "#fff", borderRadius: 14, padding: 24, boxShadow: "0 2px 12px rgba(15,59,51,0.05)" }}>
+        {tab === "hoy" && (
+          <div>
+            <h2 style={{ marginTop: 0, fontFamily: "var(--serif)" }}>Sesiones de hoy</h2>
+            {todayAppts.length === 0 ? <p>No hay sesiones hoy.</p> : <ul style={{ listStyle: "none", padding: 0 }}>{todayAppts.map((a:any) => <li key={a.id} style={{ padding: "10px 0", borderBottom: "1px solid #eee", display: "flex", justifyContent: "space-between" }}><span><strong>{a.time}</strong> — {a.patient_name || "Paciente"}</span><span style={{ color: "#0F3B33", fontWeight: 600 }}>{a.status}</span></li>)}</ul>}
+            <h3 style={{ marginTop: 24, fontFamily: "var(--serif)" }}>Próximas</h3>
+            {(data.upcoming || []).slice(0, 3).map((a:any) => <div key={a.id} style={{ padding: 8, background: "#f6f1e8", borderRadius: 8, marginBottom: 6 }}><strong>{dateShort(a.date)} {a.time}</strong> — {a.patient_name || "—"}</div>)}
+          </div>
+        )}
+        {tab === "perfil" && (
+          <form onSubmit={e => { e.preventDefault(); saveProfile(); }}>
+            <h2 style={{ marginTop: 0, fontFamily: "var(--serif)" }}>Perfil profesional</h2>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+              <Field label="Nombre completo" value={profile.name || ""} onChange={v => setProfile(p => ({ ...p, name: v }))} />
+              <Field label="Universidad" value={profile.university || ""} onChange={v => setProfile(p => ({ ...p, university: v }))} />
+              <Field label="Título" value={profile.degree || ""} onChange={v => setProfile(p => ({ ...p, degree: v }))} />
+              <Field label="Idiomas" value={profile.languages || ""} onChange={v => setProfile(p => ({ ...p, languages: v }))} />
+              <Field label="Años de experiencia" value={profile.years || ""} onChange={v => setProfile(p => ({ ...p, years: v }))} />
+              <Field label="Enfoques (separados por coma)" value={profile.approaches || ""} onChange={v => setProfile(p => ({ ...p, approaches: v }))} />
+            </div>
+            <div style={{ marginTop: 8 }}><label>Foto de perfil</label><input type="file" accept="image/*" onChange={e => { const f = e.target.files?.[0]; if (f) fileToDataUrl(f).then(setPhoto); }} /></div>
+            <button type="submit" style={{ marginTop: 16, padding: "10px 24px", background: "#0F3B33", color: "#fff", border: "none", borderRadius: 8, cursor: "pointer" }}>Guardar cambios</button>
+          </form>
+        )}
+        {tab === "notas" && (
+          <div>
+            <h2 style={{ marginTop: 0, fontFamily: "var(--serif)" }}>Notas clínicas</h2>
+            <button onClick={() => setShowNoteForm(s => !s)} style={{ marginBottom: 16, padding: "6px 14px", border: "1px solid #171c24", borderRadius: 8, background: "#fff", cursor: "pointer" }}><Plus size={14} /> Nueva nota</button>
+            {showNoteForm && <div style={{ background: "#f6f1e8", padding: 16, borderRadius: 12, marginBottom: 16 }}><Field label="Paciente" value={newNoteForm.patientId} onChange={v => setNewNoteForm(f => ({ ...f, patientId: v }))} /><Field label="Contenido" value={newNoteForm.content} onChange={v => setNewNoteForm(f => ({ ...f, content: v }))} /><button onClick={saveNote} disabled={savingNote} style={{ padding: "8px 20px", background: "#0F3B33", color: "#fff", border: "none", borderRadius: 8 }}>{savingNote ? "Guardando..." : "Guardar nota"}</button></div>}
+            {(data.notes || []).map((n: any) => <div key={n.id} style={{ padding: 14, borderBottom: "1px solid #eee" }}><div style={{ display: "flex", justifyContent: "space-between" }}><strong style={{ fontSize: 14 }}>{n.patient_name || "—"}</strong><span style={{ fontSize: 12, color: "#777" }}>{dateMed(n.created_at)}</span></div><p style={{ margin: 8 }}>{n.content}</p></div>)}
+          </div>
+        )}
+        {tab === "informes" && (
+          <div>
+            <h2 style={{ marginTop: 0, fontFamily: "var(--serif)" }}>Informes clínicos</h2>
+            <p>Selecciona paciente para generar informe predeterminado.</p>
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>{(patients || []).map((p: any) => <button key={p.id} onClick={() => alert("Informe clínico: " + p.name)} style={{ padding: "8px 14px", borderRadius: 8, border: "1px solid #171c24", background: "#fff", cursor: "pointer" }}><FileText size={14} /> {p.name}</button>)}</div>
+          </div>
+        )}
+      </section>
     </div>
   );
 }
+
