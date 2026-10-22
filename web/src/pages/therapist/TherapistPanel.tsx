@@ -177,6 +177,20 @@ export function TherapistPanel() {
                 <Field label="Descripción"><textarea className="textarea" rows={3} value={profile.description || ''} onChange={e => setProfile({ ...profile, description: e.target.value })} placeholder="Sobre tu práctica..." /></Field>
               </div>
               <button className="btn btn-block" style={{ marginTop: 14 }} onClick={async () => { try { const body: any = { ...profile, approaches: profile.approaches ? profile.approaches.split(',').map((s: string) => s.trim()).filter(Boolean) : [] }; if (photo) body.photo = photo; await api('/therapist/profile', { method: 'PATCH', body }); toast.success('Perfil actualizado'); reload(); } catch (e: any) { toast.error(e.message); } }}>Guardar cambios</button>
+
+              <div style={{ marginTop: 24, borderTop: '1px solid var(--line)', paddingTop: 16 }}>
+                <h4 style={{ margin: '0 0 10px' }}>Configuración</h4>
+                <div className="stack-sm">
+                  <Field label="Contraseña actual"><input className="input" type="password" placeholder="Contraseña actual" onChange={e => setProfile({ ...profile, _current: e.target.value })} /></Field>
+                  <Field label="Nueva contraseña"><input className="input" type="password" placeholder="Nueva contraseña" onChange={e => setProfile({ ...profile, _next: e.target.value })} /></Field>
+                  <button className="btn btn-sm btn-ghost" style={{ marginTop: 6 }} onClick={async () => {
+                    try {
+                      await api('/auth/change-password', { method: 'POST', body: { current: profile._current || '', next: profile._next || '' } });
+                      toast.success('Contraseña actualizada'); setProfile({ ...profile, _current: '', _next: '' });
+                    } catch (e: any) { toast.error(e.message); }
+                  }}>Cambiar contraseña</button>
+                </div>
+              </div>
             </div>
           </div>
         )}

@@ -196,7 +196,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 24px 0; }
 .card-hover:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: transparent; }
 .panel { background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; }
 .panel-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 22px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
-.panel-head h3 { margin: 0; font-size: 15.5px; }
+.panel-head h3 { margin: 0; font-size: 15.5px; color: var(--ink); }
 .panel-body { padding: 22px; }
 .panel-foot { padding: 14px 22px; border-top: 1px solid var(--line); background: rgba(20,35,31,.02); }
 
