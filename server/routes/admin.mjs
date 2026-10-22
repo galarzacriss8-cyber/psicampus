@@ -715,6 +715,43 @@ therapistRouter.get('/availability', wrap((req, res) => {
   res.json(all('SELECT * FROM availability WHERE therapist_id = ? ORDER BY weekday, start', t.id));
 }));
 
+therapistRouter.post('/availability', wrap((req, res) => {
+  const t = get('SELECT * FROM therapists WHERE user_id = ?', req.user.id);
+  if (!t) return res.status(404).json({ error: 'Terapeuta no encontrado' });
+  const b = req.body || {};
+  if (b.weekday === undefined || !b.start || !b.end) return res.status(400).json({ error: 'Completa día y rango de horas' });
+  if (minutes(b.end) <= minutes(b.start)) return res.status(400).json({ error: 'La hora final debe ser mayor a la inicial' });
+  const clash = all('SELECT * FROM availability WHERE therapist_id = ? AND weekday = ? AND active = 1', t.id, String(b.weekday))
+    .some((r) => minutes(b.start) < minutes(r.end) && minutes(r.start) < minutes(b.end));
+  if (clash) return res.status(409).json({ error: 'Ese rango se cruza con otro horario existente' });
+  const id = uid('avl_');
+  insert('availability', {
+    id, therapist_id: t.id, weekday: Number(b.weekday), start: b.start, end: b.end,
+    slot_minutes: Number(b.slotMinutes || 50), modality: b.modality || 'ambas', room: b.room || null, active: 1,
+  });
+  res.status(201).json(get('SELECT * FROM availability WHERE id = ?', id));
+}));
+
+therapistRouter.patch('/availability/:id', wrap((req, res) => {
+  const t = get('SELECT * FROM therapists WHERE user_id = ?', req.user.id);
+  if (!t) return res.status(404).json({ error: 'Terapeuta no encontrado' });
+  const row = get('SELECT * FROM availability WHERE id = ? AND therapist_id = ?', req.params.id, t.id);
+  if (!row) return res.status(404).json({ error: 'Horario no encontrado' });
+  const patch = {};
+  for (const f of ['start', 'end', 'slot_minutes', 'modality', 'room', 'active']) if (req.body?.[f] !== undefined) patch[f] = req.body[f];
+  update('availability', row.id, patch);
+  res.json(get('SELECT * FROM availability WHERE id = ?', row.id));
+}));
+
+therapistRouter.delete('/availability/:id', wrap((req, res) => {
+  const t = get('SELECT * FROM therapists WHERE user_id = ?', req.user.id);
+  if (!t) return res.status(404).json({ error: 'Terapeuta no encontrado' });
+  const row = get('SELECT * FROM availability WHERE id = ? AND therapist_id = ?', req.params.id, t.id);
+  if (!row) return res.status(404).json({ error: 'Horario no encontrado' });
+  run('DELETE FROM availability WHERE id = ?', req.params.id);
+  res.json({ ok: true });
+}));
+
 // Eliminar perfil de terapeuta solo admin
 adminRouter.delete('/therapists/:id', wrap(async (req, res) => {
   const id = req.params.id;
