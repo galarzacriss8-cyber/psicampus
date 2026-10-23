@@ -582,7 +582,7 @@ adminRouter.get('/users', wrap((req, res) => {
   // Solo muestra terapeutas activos; los borrados o inactivos no aparecen
   const allUsers = all(`SELECT id, email, role, name, phone, active, last_login, created_at FROM users ORDER BY role, name`);
   const activeTherapistIds = new Set((all(`SELECT user_id FROM therapists WHERE active = 1`) || []).map(r => r.user_id));
-  const visible = allUsers.filter((u: any) => u.role === 'admin' || (u.role === 'terapeuta' && activeTherapistIds.has(u.id)) || u.role !== 'terapeuta');
+  const visible = allUsers.filter((u) => u.role === 'admin' || (u.role === 'terapeuta' && activeTherapistIds.has(u.id)) || u.role !== 'terapeuta');
   res.json(visible);
 }));
 
