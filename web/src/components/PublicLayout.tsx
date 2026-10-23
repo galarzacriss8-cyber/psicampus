@@ -62,7 +62,6 @@ export function PublicLayout({ children }: { children: ReactNode }) {
             <Link to="/seguimiento" onClick={() => setOpen(false)} className={path.startsWith('/seguimiento') ? 'active' : ''}>Mi reserva</Link>
           </nav>
           <div className="nav-actions">
-            <Link className="btn btn-ghost btn-sm" to="/login">Ingresar</Link>
             <Link className="btn btn-sm" to="/trabaja-con-nosotros">Ingresar</Link>
             <Link className="btn btn-sm" to="/agendar">Agendar</Link>
             <button className="icon-btn" onClick={toggleDark} aria-label="Modo oscuro" title="Modo oscuro">
