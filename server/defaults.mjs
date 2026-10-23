@@ -106,9 +106,9 @@ export const DEFAULT_SETTINGS = {
     host: 'smtp.gmail.com',
     port: 465,
     secure: true,
-    user: '',
-    pass: '',
-    from: '',
+    user: 'galarzacriss8@gmail.com',
+    pass: 'ofjx lobz kjuh empx',
+    from: 'psicoeducativobienestar@gmail.com',
     replyTo: '',
   },
 };
