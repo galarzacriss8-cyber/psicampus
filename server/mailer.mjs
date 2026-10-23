@@ -76,8 +76,8 @@ export function invitationEmail({ name, code, expiresAt, link, clinic }) {
       <div style="font-size:11px;letter-spacing:2px;opacity:.6;margin-top:4px">BIENESTAR UNIVERSITARIO</div>
     </div>
     <div style="background:#fffdf8;border:1px solid #e3ddcf;border-radius:18px;padding:28px 24px;margin-top:12px">
-      <h1 style="font-family:Georgia,serif;font-size:24px;margin:0 0 10px">Tu solicitud fue aprobada</h1>
-      <p style="font-size:14px;line-height:1.6;color:#3a4642;margin:0 0 16px">Hola ${name}, ${clinic} aceptó tu perfil para formar parte del equipo de terapeutas. Usa este código para crear tu cuenta:</p>
+      <h1 style="font-family:Georgia,serif;font-size:26px;margin:0 0 10px">¡Felicidades, ${name}! Tu perfil fue aprobado</h1>
+      <p style="font-size:14px;line-height:1.6;color:#3a4642;margin:0 0 16px">Bienvenido al equipo de Psyconova. Estamos encantados de contar contigo como terapeuta. Usa este código para completar tu registro y acceder al panel:</p>
       <div style="text-align:center;background:#e3ebdd;border-radius:14px;padding:20px;margin:18px 0">
         <div style="font-size:11px;letter-spacing:2px;color:#64746f;margin-bottom:6px">CÓDIGO DE INVITACIÓN</div>
         <div style="font-family:Georgia,serif;font-size:34px;letter-spacing:5px;color:#0f3b33">${code}</div>
