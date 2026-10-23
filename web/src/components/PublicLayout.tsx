@@ -63,9 +63,8 @@ export function PublicLayout({ children }: { children: ReactNode }) {
           </nav>
           <div className="nav-actions">
             <Link className="btn btn-ghost btn-sm" to="/login">Ingresar</Link>
-            <Link className="btn btn-sm" to="/agendar">
-              Agendar cita <ArrowUpRight />
-            </Link>
+            <Link className="btn btn-sm" to="/trabaja-con-nosotros">Ingresar</Link>
+            <Link className="btn btn-sm" to="/agendar">Agendar</Link>
             <button className="icon-btn" onClick={toggleDark} aria-label="Modo oscuro" title="Modo oscuro">
               {dark ? <Sun style={{ width: 18, height: 18 }} /> : <Moon style={{ width: 18, height: 18 }} />}
             </button>
